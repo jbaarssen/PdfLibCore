@@ -1,0 +1,11 @@
+language: csharp
+solution: PdfLibCore.sln
+mono: none
+dotnet: 3.1.200
+os:
+  - linux
+  - osx
+script:
+ - cd src
+ - dotnet restore
+ - dotnet build -c Release
