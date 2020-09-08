@@ -11,18 +11,47 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1701;1702;1591;0649</NoWarn>
         <Copyright>MIT</Copyright>
-        <PackageLicenseUrl>https://github.com/jbaarssen/PdfLibCore/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
         <PackageProjectUrl>https://github.com/jbaarssen/PdfLibCore</PackageProjectUrl>
         <RepositoryUrl>https://github.com/jbaarssen/PdfLibCore</RepositoryUrl>
         <PackageTags>PDF; Reader; netstandard; PDFium; JPEG; JPG</PackageTags>
-        <PackageIconUrl>https://raw.githubusercontent.com/jbaarssen/PdfLibCore/master/assets/icon.png</PackageIconUrl>
+        <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>
         <Content Include="runtimes/**" />
+        <None Include="..\..\assets\icon.png"/>
+        <None Include="..\..\LICENSE.txt" />
+        <None Update="Types\FPDF_TypeDef.tt">
+          <Generator>TextTemplatingFileGenerator</Generator>
+          <LastGenOutput>FPDF_TypeDef.cs</LastGenOutput>
+        </None>
+        <None Update="Pdfium.tt">
+          <Generator>TextTemplatingFileGenerator</Generator>
+          <LastGenOutput>Pdfium.g.cs</LastGenOutput>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Types\FPDF_TypeDef.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>FPDF_TypeDef.tt</DependentUpon>
+      </Compile>
+      <Compile Update="PDFium.g.cs">
+        <DependentUpon>PDFium.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Pdfium.cs">
+        <DependentUpon>Pdfium.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Pdfium.g.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>Pdfium.tt</DependentUpon>
+      </Compile>
     </ItemGroup>
 </Project>
