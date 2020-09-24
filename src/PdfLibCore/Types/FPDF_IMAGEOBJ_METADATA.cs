@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 namespace PdfLibCore.Types
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct FpdfImageObjMetadata
+    public struct FPDF_IMAGEOBJ_METADATA
     {
         // The image width in pixels.
         public uint Width { get; }
@@ -27,7 +27,7 @@ namespace PdfLibCore.Types
         // A value of -1 indicates no ID.
         public int MarkedContentId { get; }
 
-        public FpdfImageObjMetadata(uint width, uint height, float horizontalDpi, float verticalDpi, uint bitsPerPixel, int colorspace, int markedContentId)
+        public FPDF_IMAGEOBJ_METADATA(uint width, uint height, float horizontalDpi, float verticalDpi, uint bitsPerPixel, int colorspace, int markedContentId)
         {
             Width = width;
             Height = height;

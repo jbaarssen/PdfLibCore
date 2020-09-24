@@ -16,12 +16,10 @@
         <RepositoryUrl>https://github.com/jbaarssen/PdfLibCore</RepositoryUrl>
         <PackageTags>PDF; Reader; netstandard; PDFium; JPEG; JPG</PackageTags>
         <PackageIcon>icon.png</PackageIcon>
+        <PackageVersion>1.1.9</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="runtimes/**" />
-        <None Include="..\..\assets\icon.png"/>
-        <None Include="..\..\LICENSE.txt" />
         <None Update="Types\FPDF_TypeDef.tt">
           <Generator>TextTemplatingFileGenerator</Generator>
           <LastGenOutput>FPDF_TypeDef.cs</LastGenOutput>
@@ -30,6 +28,23 @@
           <Generator>TextTemplatingFileGenerator</Generator>
           <LastGenOutput>Pdfium.g.cs</LastGenOutput>
         </None>
+        <Content Include="..\..\LICENSE.txt">
+            <PackagePath>LICENSE.txt</PackagePath>
+          <Link>LICENSE.txt</Link>
+        </Content>
+        <Content Include="..\..\assets\icon.png">
+            <PackagePath>icon.png</PackagePath>
+            <Link>icon.png</Link>
+        </Content>
+        <Content Include="runtimes/linux-x64/native/pdfium.so">
+            <PackagePath>runtimes/linux-x64/native/</PackagePath>
+        </Content>
+        <Content Include="runtimes/osx-x64/native/pdfium.dylib">
+            <PackagePath>runtimes/osx-x64/native/</PackagePath>
+        </Content>
+        <Content Include="runtimes/win-x64/native/pdfium.dll">
+            <PackagePath>runtimes/win-x64/native/pdfium.dll</PackagePath>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
@@ -41,12 +56,6 @@
         <AutoGen>True</AutoGen>
         <DesignTime>True</DesignTime>
         <DependentUpon>FPDF_TypeDef.tt</DependentUpon>
-      </Compile>
-      <Compile Update="PDFium.g.cs">
-        <DependentUpon>PDFium.tt</DependentUpon>
-      </Compile>
-      <Compile Update="Pdfium.cs">
-        <DependentUpon>Pdfium.tt</DependentUpon>
       </Compile>
       <Compile Update="Pdfium.g.cs">
         <AutoGen>True</AutoGen>

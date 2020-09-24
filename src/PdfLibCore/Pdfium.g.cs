@@ -10,6 +10,7 @@ License: Microsoft Reciprocal License (MS-RL)
 // DO NOT MODIFY
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.ExceptionServices;
 using System.Security;
 using PdfLibCore.Types;
 using PdfLibCore.Enums;
@@ -25,14 +26,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_InitLibrary")]
+			[DllImport("pdfium", EntryPoint = "FPDF_InitLibrary", SetLastError = true)]
 			internal static extern void FPDF_InitLibrary();
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_InitLibrary/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_InitLibrary()
 		{
-			lock(_lock) { PlatformInvoke.FPDF_InitLibrary(); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_InitLibrary(); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -42,14 +54,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_InitLibraryWithConfig")]
+			[DllImport("pdfium", EntryPoint = "FPDF_InitLibraryWithConfig", SetLastError = true)]
 			internal static extern void FPDF_InitLibraryWithConfig(ref FPDF_LIBRARY_CONFIG config);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_InitLibraryWithConfig/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_InitLibraryWithConfig(ref FPDF_LIBRARY_CONFIG config)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_InitLibraryWithConfig(ref config); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_InitLibraryWithConfig(ref config); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -59,14 +82,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_DestroyLibrary")]
+			[DllImport("pdfium", EntryPoint = "FPDF_DestroyLibrary", SetLastError = true)]
 			internal static extern void FPDF_DestroyLibrary();
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_DestroyLibrary/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_DestroyLibrary()
 		{
-			lock(_lock) { PlatformInvoke.FPDF_DestroyLibrary(); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_DestroyLibrary(); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -76,14 +110,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_SetSandBoxPolicy")]
+			[DllImport("pdfium", EntryPoint = "FPDF_SetSandBoxPolicy", SetLastError = true)]
 			internal static extern void FPDF_SetSandBoxPolicy(int policy, bool enable);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_SetSandBoxPolicy/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_SetSandBoxPolicy(int policy, bool enable)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_SetSandBoxPolicy(policy, enable); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_SetSandBoxPolicy(policy, enable); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -93,14 +138,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_SetPrintTextWithGDI")]
+			[DllImport("pdfium", EntryPoint = "FPDF_SetPrintTextWithGDI", SetLastError = true)]
 			internal static extern void FPDF_SetPrintTextWithGDI(bool use_gdi);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_SetPrintTextWithGDI/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_SetPrintTextWithGDI(bool use_gdi)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_SetPrintTextWithGDI(use_gdi); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_SetPrintTextWithGDI(use_gdi); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -110,14 +166,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_SetPrintMode")]
+			[DllImport("pdfium", EntryPoint = "FPDF_SetPrintMode", SetLastError = true)]
 			internal static extern bool FPDF_SetPrintMode(int mode);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_SetPrintMode/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_SetPrintMode(int mode)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_SetPrintMode(mode); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_SetPrintMode(mode); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -127,15 +194,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_LoadDocument")]
+			[DllImport("pdfium", EntryPoint = "FPDF_LoadDocument", SetLastError = true)]
 			internal static extern FPDF_DOCUMENT FPDF_LoadDocument([MarshalAs(UnmanagedType.LPStr)] string file_path, [MarshalAs(UnmanagedType.LPStr)] string password);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_LoadDocument/*'/>
 		/// <seealso cref='PdfDocument.PdfDocument(string, string)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DOCUMENT FPDF_LoadDocument([MarshalAs(UnmanagedType.LPStr)] string file_path, [MarshalAs(UnmanagedType.LPStr)] string password)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_LoadDocument(file_path, password); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_LoadDocument(file_path, password); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -145,15 +223,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_LoadMemDocument")]
+			[DllImport("pdfium", EntryPoint = "FPDF_LoadMemDocument", SetLastError = true)]
 			internal static extern FPDF_DOCUMENT FPDF_LoadMemDocument(ref byte data_buf, int size, [MarshalAs(UnmanagedType.LPStr)] string password);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_LoadMemDocument/*'/>
 		/// <seealso cref='PdfDocument.PdfDocument(byte[], int, int, string)'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static FPDF_DOCUMENT FPDF_LoadMemDocument(ref byte data_buf, int size, [MarshalAs(UnmanagedType.LPStr)] string password)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_LoadMemDocument(ref data_buf, size, password); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_LoadMemDocument(ref data_buf, size, password); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -163,15 +252,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_LoadCustomDocument")]
+			[DllImport("pdfium", EntryPoint = "FPDF_LoadCustomDocument", SetLastError = true)]
 			internal static extern FPDF_DOCUMENT FPDF_LoadCustomDocument(FPDF_FILEREAD fileRead, [MarshalAs(UnmanagedType.LPStr)] string password);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_LoadCustomDocument/*'/>
 		/// <seealso cref='PdfDocument.PdfDocument(System.IO.Stream, int, string)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DOCUMENT FPDF_LoadCustomDocument(FPDF_FILEREAD fileRead, [MarshalAs(UnmanagedType.LPStr)] string password)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_LoadCustomDocument(fileRead, password); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_LoadCustomDocument(fileRead, password); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -181,15 +281,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetFileVersion")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetFileVersion", SetLastError = true)]
 			internal static extern bool FPDF_GetFileVersion(FPDF_DOCUMENT doc, out int fileVersion);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetFileVersion/*'/>
 		/// <seealso cref='PdfDocument.FileVersion'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_GetFileVersion(FPDF_DOCUMENT doc, out int fileVersion)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetFileVersion(doc, out fileVersion); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetFileVersion(doc, out fileVersion); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -199,14 +310,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetLastError")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetLastError", SetLastError = true)]
 			internal static extern FPDF_ERR FPDF_GetLastError();
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetLastError/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_ERR FPDF_GetLastError()
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetLastError(); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetLastError(); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -216,14 +338,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_DocumentHasValidCrossReferenceTable")]
+			[DllImport("pdfium", EntryPoint = "FPDF_DocumentHasValidCrossReferenceTable", SetLastError = true)]
 			internal static extern bool FPDF_DocumentHasValidCrossReferenceTable(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_DocumentHasValidCrossReferenceTable/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_DocumentHasValidCrossReferenceTable(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_DocumentHasValidCrossReferenceTable(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_DocumentHasValidCrossReferenceTable(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -233,15 +366,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetDocPermissions")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetDocPermissions", SetLastError = true)]
 			internal static extern DocumentPermissions FPDF_GetDocPermissions(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetDocPermissions/*'/>
 		/// <seealso cref='PdfDocument.Permissions'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static DocumentPermissions FPDF_GetDocPermissions(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetDocPermissions(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetDocPermissions(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -251,15 +395,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetSecurityHandlerRevision")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetSecurityHandlerRevision", SetLastError = true)]
 			internal static extern int FPDF_GetSecurityHandlerRevision(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetSecurityHandlerRevision/*'/>
 		/// <seealso cref='PdfDocument.SecurityHandlerRevision'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDF_GetSecurityHandlerRevision(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetSecurityHandlerRevision(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetSecurityHandlerRevision(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -269,16 +424,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageCount")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageCount", SetLastError = true)]
 			internal static extern int FPDF_GetPageCount(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageCount/*'/>
 		/// <seealso cref='PdfPageCollection.Count'/>
 		/// <seealso cref='PdfDocument.Pages'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDF_GetPageCount(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageCount(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageCount(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -288,16 +454,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_LoadPage")]
+			[DllImport("pdfium", EntryPoint = "FPDF_LoadPage", SetLastError = true)]
 			internal static extern FPDF_PAGE FPDF_LoadPage(FPDF_DOCUMENT document, int page_index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_LoadPage/*'/>
 		/// <seealso cref='PdfPageCollection[int]'/>
 		/// <seealso cref='PdfDocument.Pages'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGE FPDF_LoadPage(FPDF_DOCUMENT document, int page_index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_LoadPage(document, page_index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_LoadPage(document, page_index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -307,14 +484,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageWidthF")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageWidthF", SetLastError = true)]
 			internal static extern float FPDF_GetPageWidthF(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageWidthF/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static float FPDF_GetPageWidthF(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageWidthF(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageWidthF(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -324,15 +512,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageWidth")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageWidth", SetLastError = true)]
 			internal static extern double FPDF_GetPageWidth(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageWidth/*'/>
 		/// <seealso cref='PdfPage.Width'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static double FPDF_GetPageWidth(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageWidth(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageWidth(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -342,14 +541,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageHeightF")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageHeightF", SetLastError = true)]
 			internal static extern float FPDF_GetPageHeightF(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageHeightF/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static float FPDF_GetPageHeightF(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageHeightF(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageHeightF(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -359,15 +569,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageHeight")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageHeight", SetLastError = true)]
 			internal static extern double FPDF_GetPageHeight(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageHeight/*'/>
 		/// <seealso cref='PdfPage.Height'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static double FPDF_GetPageHeight(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageHeight(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageHeight(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -377,14 +598,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageBoundingBox")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageBoundingBox", SetLastError = true)]
 			internal static extern bool FPDF_GetPageBoundingBox(FPDF_PAGE page, FS_RECTF rect);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageBoundingBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_GetPageBoundingBox(FPDF_PAGE page, FS_RECTF rect)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageBoundingBox(page, rect); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageBoundingBox(page, rect); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -394,14 +626,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageSizeByIndexF")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageSizeByIndexF", SetLastError = true)]
 			internal static extern bool FPDF_GetPageSizeByIndexF(FPDF_DOCUMENT document, int page_index, FS_SIZEF size);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageSizeByIndexF/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_GetPageSizeByIndexF(FPDF_DOCUMENT document, int page_index, FS_SIZEF size)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageSizeByIndexF(document, page_index, size); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageSizeByIndexF(document, page_index, size); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -411,15 +654,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageSizeByIndex")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageSizeByIndex", SetLastError = true)]
 			internal static extern bool FPDF_GetPageSizeByIndex(FPDF_DOCUMENT document, int page_index, out double width, out double height);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageSizeByIndex/*'/>
 		/// <seealso cref='PdfPage.Size'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_GetPageSizeByIndex(FPDF_DOCUMENT document, int page_index, out double width, out double height)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageSizeByIndex(document, page_index, out width, out height); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageSizeByIndex(document, page_index, out width, out height); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -429,15 +683,55 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_RenderPageBitmap")]
+			[DllImport("pdfium", EntryPoint = "FPDF_RenderPageBitmap", SetLastError = true)]
 			internal static extern void FPDF_RenderPageBitmap(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotation, RenderingFlags flags);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_RenderPageBitmap/*'/>
 		/// <seealso cref='PdfPage.Render'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_RenderPageBitmap(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotation, RenderingFlags flags)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_RenderPageBitmap(bitmap, page, start_x, start_y, size_x, size_y, rotation, flags); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_RenderPageBitmap(bitmap, page, start_x, start_y, size_x, size_y, rotation, flags); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
+		}
+
+		#endregion
+
+		#region FPDF_RenderPage
+
+		static partial class PlatformInvoke
+		{
+            [SuppressUnmanagedCodeSecurity]
+			[DllImport("pdfium", EntryPoint = "FPDF_RenderPage", SetLastError = true)]
+			internal static extern void FPDF_RenderPage(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotation, RenderingFlags flags);
+		}
+
+		/// <include file='PDFium.xml' path='Documentation/FPDF_RenderPage/*'/>
+		/// <seealso cref='PdfPage.Render'/>
+        [HandleProcessCorruptedStateExceptions]
+		public static void FPDF_RenderPage(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotation, RenderingFlags flags)
+		{
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_RenderPage(bitmap, page, start_x, start_y, size_x, size_y, rotation, flags); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -447,14 +741,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_RenderPageBitmapWithMatrix")]
+			[DllImport("pdfium", EntryPoint = "FPDF_RenderPageBitmapWithMatrix", SetLastError = true)]
 			internal static extern void FPDF_RenderPageBitmapWithMatrix(FPDF_BITMAP bitmap, FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipping, RenderingFlags flags);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_RenderPageBitmapWithMatrix/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_RenderPageBitmapWithMatrix(FPDF_BITMAP bitmap, FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipping, RenderingFlags flags)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_RenderPageBitmapWithMatrix(bitmap, page, matrix, clipping, flags); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_RenderPageBitmapWithMatrix(bitmap, page, matrix, clipping, flags); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -464,14 +769,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_RenderPageSkp")]
+			[DllImport("pdfium", EntryPoint = "FPDF_RenderPageSkp", SetLastError = true)]
 			internal static extern FPDF_RECORDER FPDF_RenderPageSkp(FPDF_PAGE page, int size_x, int size_y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_RenderPageSkp/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_RECORDER FPDF_RenderPageSkp(FPDF_PAGE page, int size_x, int size_y)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_RenderPageSkp(page, size_x, size_y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_RenderPageSkp(page, size_x, size_y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -481,15 +797,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_ClosePage")]
+			[DllImport("pdfium", EntryPoint = "FPDF_ClosePage", SetLastError = true)]
 			internal static extern void FPDF_ClosePage(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_ClosePage/*'/>
 		/// <seealso cref='PdfDocument.Close'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_ClosePage(FPDF_PAGE page)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_ClosePage(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_ClosePage(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -499,15 +826,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_CloseDocument")]
+			[DllImport("pdfium", EntryPoint = "FPDF_CloseDocument", SetLastError = true)]
 			internal static extern void FPDF_CloseDocument(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_CloseDocument/*'/>
 		/// <seealso cref='PdfDocument.Close'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_CloseDocument(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_CloseDocument(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_CloseDocument(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -517,15 +855,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_DeviceToPage")]
+			[DllImport("pdfium", EntryPoint = "FPDF_DeviceToPage", SetLastError = true)]
 			internal static extern void FPDF_DeviceToPage(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, int device_x, int device_y, out double page_x, out double page_y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_DeviceToPage/*'/>
 		/// <seealso cref='PdfPage.DeviceToPage((int left, int top, int width, int height), int, int, PageOrientations)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_DeviceToPage(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, int device_x, int device_y, out double page_x, out double page_y)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_DeviceToPage(page, start_x, start_y, size_x, size_y, rotate, device_x, device_y, out page_x, out page_y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_DeviceToPage(page, start_x, start_y, size_x, size_y, rotate, device_x, device_y, out page_x, out page_y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -535,15 +884,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_PageToDevice")]
+			[DllImport("pdfium", EntryPoint = "FPDF_PageToDevice", SetLastError = true)]
 			internal static extern void FPDF_PageToDevice(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, double page_x, double page_y, out int device_x, out int device_y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_PageToDevice/*'/>
 		/// <seealso cref='PdfPage.PageToDevice((int left, int top, int width, int height), double, double, PageOrientations)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_PageToDevice(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, double page_x, double page_y, out int device_x, out int device_y)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_PageToDevice(page, start_x, start_y, size_x, size_y, rotate, page_x, page_y, out device_x, out device_y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_PageToDevice(page, start_x, start_y, size_x, size_y, rotate, page_x, page_y, out device_x, out device_y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -553,15 +913,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_Create")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_Create", SetLastError = true)]
 			internal static extern FPDF_BITMAP FPDFBitmap_Create(int width, int height, bool hasAlpha);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_Create/*'/>
 		/// <seealso cref='PDFiumBitmap.PDFiumBitmap(int, int, bool)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_BITMAP FPDFBitmap_Create(int width, int height, bool hasAlpha)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBitmap_Create(width, height, hasAlpha); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBitmap_Create(width, height, hasAlpha); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -571,15 +942,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_CreateEx")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_CreateEx", SetLastError = true)]
 			internal static extern FPDF_BITMAP FPDFBitmap_CreateEx(int width, int height, BitmapFormats format, IntPtr first_scan, int stride);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_CreateEx/*'/>
 		/// <seealso cref='PDFiumBitmap.PDFiumBitmap(int, int, BitmapFormats, IntPtr, int)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_BITMAP FPDFBitmap_CreateEx(int width, int height, BitmapFormats format, IntPtr first_scan, int stride)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBitmap_CreateEx(width, height, format, first_scan, stride); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBitmap_CreateEx(width, height, format, first_scan, stride); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -589,14 +971,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_GetFormat")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_GetFormat", SetLastError = true)]
 			internal static extern BitmapFormats FPDFBitmap_GetFormat(FPDF_BITMAP bitmap);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_GetFormat/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static BitmapFormats FPDFBitmap_GetFormat(FPDF_BITMAP bitmap)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBitmap_GetFormat(bitmap); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBitmap_GetFormat(bitmap); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -606,16 +999,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_FillRect")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_FillRect", SetLastError = true)]
 			internal static extern void FPDFBitmap_FillRect(FPDF_BITMAP bitmap, int left, int top, int width, int height, FPDF_COLOR color);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_FillRect/*'/>
 		/// <seealso cref='PDFiumBitmap.FillRectangle(int, int, int, int, FPDF_COLOR)'/>
 		/// <seealso cref='PDFiumBitmap.Fill(FPDF_COLOR)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFBitmap_FillRect(FPDF_BITMAP bitmap, int left, int top, int width, int height, FPDF_COLOR color)
 		{
-			lock(_lock) { PlatformInvoke.FPDFBitmap_FillRect(bitmap, left, top, width, height, color); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFBitmap_FillRect(bitmap, left, top, width, height, color); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -625,15 +1029,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_GetBuffer")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_GetBuffer", SetLastError = true)]
 			internal static extern IntPtr FPDFBitmap_GetBuffer(FPDF_BITMAP bitmap);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_GetBuffer/*'/>
 		/// <seealso cref='PDFiumBitmap.Scan0'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static IntPtr FPDFBitmap_GetBuffer(FPDF_BITMAP bitmap)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBitmap_GetBuffer(bitmap); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBitmap_GetBuffer(bitmap); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -643,15 +1058,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_GetWidth")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_GetWidth", SetLastError = true)]
 			internal static extern int FPDFBitmap_GetWidth(FPDF_BITMAP bitmap);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_GetWidth/*'/>
 		/// <seealso cref='PDFiumBitmap.Width'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFBitmap_GetWidth(FPDF_BITMAP bitmap)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBitmap_GetWidth(bitmap); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBitmap_GetWidth(bitmap); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -661,15 +1087,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_GetHeight")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_GetHeight", SetLastError = true)]
 			internal static extern int FPDFBitmap_GetHeight(FPDF_BITMAP bitmap);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_GetHeight/*'/>
 		/// <seealso cref='PDFiumBitmap.Height'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFBitmap_GetHeight(FPDF_BITMAP bitmap)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBitmap_GetHeight(bitmap); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBitmap_GetHeight(bitmap); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -679,15 +1116,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_GetStride")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_GetStride", SetLastError = true)]
 			internal static extern int FPDFBitmap_GetStride(FPDF_BITMAP bitmap);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_GetStride/*'/>
 		/// <seealso cref='PDFiumBitmap.Stride'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFBitmap_GetStride(FPDF_BITMAP bitmap)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBitmap_GetStride(bitmap); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBitmap_GetStride(bitmap); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -697,15 +1145,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBitmap_Destroy")]
+			[DllImport("pdfium", EntryPoint = "FPDFBitmap_Destroy", SetLastError = true)]
 			internal static extern void FPDFBitmap_Destroy(FPDF_BITMAP bitmap);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBitmap_Destroy/*'/>
 		/// <seealso cref='PDFiumBitmap.Dispose'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFBitmap_Destroy(FPDF_BITMAP bitmap)
 		{
-			lock(_lock) { PlatformInvoke.FPDFBitmap_Destroy(bitmap); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFBitmap_Destroy(bitmap); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -715,15 +1174,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_VIEWERREF_GetPrintScaling")]
+			[DllImport("pdfium", EntryPoint = "FPDF_VIEWERREF_GetPrintScaling", SetLastError = true)]
 			internal static extern bool FPDF_VIEWERREF_GetPrintScaling(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_VIEWERREF_GetPrintScaling/*'/>
 		/// <seealso cref='PdfDocument.PrintPrefersScaling'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_VIEWERREF_GetPrintScaling(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_VIEWERREF_GetPrintScaling(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_VIEWERREF_GetPrintScaling(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -733,15 +1203,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_VIEWERREF_GetNumCopies")]
+			[DllImport("pdfium", EntryPoint = "FPDF_VIEWERREF_GetNumCopies", SetLastError = true)]
 			internal static extern int FPDF_VIEWERREF_GetNumCopies(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_VIEWERREF_GetNumCopies/*'/>
 		/// <seealso cref='PdfDocument.PrintCopyCount'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDF_VIEWERREF_GetNumCopies(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_VIEWERREF_GetNumCopies(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_VIEWERREF_GetNumCopies(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -751,14 +1232,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_VIEWERREF_GetPrintPageRange")]
+			[DllImport("pdfium", EntryPoint = "FPDF_VIEWERREF_GetPrintPageRange", SetLastError = true)]
 			internal static extern FPDF_PAGERANGE FPDF_VIEWERREF_GetPrintPageRange(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_VIEWERREF_GetPrintPageRange/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGERANGE FPDF_VIEWERREF_GetPrintPageRange(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_VIEWERREF_GetPrintPageRange(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_VIEWERREF_GetPrintPageRange(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -768,14 +1260,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_VIEWERREF_GetPrintPageRangeCount")]
+			[DllImport("pdfium", EntryPoint = "FPDF_VIEWERREF_GetPrintPageRangeCount", SetLastError = true)]
 			internal static extern uint FPDF_VIEWERREF_GetPrintPageRangeCount(FPDF_PAGERANGE pagerange);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_VIEWERREF_GetPrintPageRangeCount/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDF_VIEWERREF_GetPrintPageRangeCount(FPDF_PAGERANGE pagerange)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_VIEWERREF_GetPrintPageRangeCount(pagerange); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_VIEWERREF_GetPrintPageRangeCount(pagerange); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -785,14 +1288,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_VIEWERREF_GetPrintPageRangeElement")]
+			[DllImport("pdfium", EntryPoint = "FPDF_VIEWERREF_GetPrintPageRangeElement", SetLastError = true)]
 			internal static extern int FPDF_VIEWERREF_GetPrintPageRangeElement(FPDF_PAGERANGE pagerange, uint index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_VIEWERREF_GetPrintPageRangeElement/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDF_VIEWERREF_GetPrintPageRangeElement(FPDF_PAGERANGE pagerange, uint index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_VIEWERREF_GetPrintPageRangeElement(pagerange, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_VIEWERREF_GetPrintPageRangeElement(pagerange, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -802,15 +1316,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_VIEWERREF_GetDuplex")]
+			[DllImport("pdfium", EntryPoint = "FPDF_VIEWERREF_GetDuplex", SetLastError = true)]
 			internal static extern DuplexTypes FPDF_VIEWERREF_GetDuplex(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_VIEWERREF_GetDuplex/*'/>
 		/// <seealso cref='PdfDocument.DuplexType'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static DuplexTypes FPDF_VIEWERREF_GetDuplex(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_VIEWERREF_GetDuplex(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_VIEWERREF_GetDuplex(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -820,14 +1345,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_VIEWERREF_GetName")]
+			[DllImport("pdfium", EntryPoint = "FPDF_VIEWERREF_GetName", SetLastError = true)]
 			internal static extern uint FPDF_VIEWERREF_GetName(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint length);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_VIEWERREF_GetName/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static uint FPDF_VIEWERREF_GetName(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint length)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_VIEWERREF_GetName(document, key, ref buffer, length); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_VIEWERREF_GetName(document, key, ref buffer, length); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -837,16 +1373,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_CountNamedDests")]
+			[DllImport("pdfium", EntryPoint = "FPDF_CountNamedDests", SetLastError = true)]
 			internal static extern int FPDF_CountNamedDests(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_CountNamedDests/*'/>
 		/// <seealso cref='PdfDestinationCollection.Count'/>
 		/// <seealso cref='PdfDocument.Destinations'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDF_CountNamedDests(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_CountNamedDests(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_CountNamedDests(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -856,16 +1403,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetNamedDestByName")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetNamedDestByName", SetLastError = true)]
 			internal static extern FPDF_DEST FPDF_GetNamedDestByName(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string name);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetNamedDestByName/*'/>
 		/// <seealso cref='PdfDestinationCollection[string]'/>
 		/// <seealso cref='PdfDocument.Destinations'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DEST FPDF_GetNamedDestByName(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string name)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetNamedDestByName(document, name); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetNamedDestByName(document, name); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -875,15 +1433,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetNamedDest")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetNamedDest", SetLastError = true)]
 			internal static extern FPDF_DEST FPDF_GetNamedDest(FPDF_DOCUMENT document, int index, IntPtr buffer, out int buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetNamedDest/*'/>
 		/// <seealso cref='PDFium.FPDF_GetNamedDest(FPDF_DOCUMENT, int)'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static FPDF_DEST FPDF_GetNamedDest(FPDF_DOCUMENT document, int index, IntPtr buffer, out int buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetNamedDest(document, index, buffer, out buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetNamedDest(document, index, buffer, out buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -893,15 +1462,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetNamedDest")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetNamedDest", SetLastError = true)]
 			internal static extern FPDF_DEST FPDF_GetNamedDest(FPDF_DOCUMENT document, int index, ref byte buffer, ref int buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetNamedDest/*'/>
 		/// <seealso cref='PDFium.FPDF_GetNamedDest(FPDF_DOCUMENT, int)'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static FPDF_DEST FPDF_GetNamedDest(FPDF_DOCUMENT document, int index, ref byte buffer, ref int buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetNamedDest(document, index, ref buffer, ref buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetNamedDest(document, index, ref buffer, ref buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -911,16 +1491,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBookmark_GetFirstChild")]
+			[DllImport("pdfium", EntryPoint = "FPDFBookmark_GetFirstChild", SetLastError = true)]
 			internal static extern FPDF_BOOKMARK FPDFBookmark_GetFirstChild(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBookmark_GetFirstChild/*'/>
 		/// <seealso cref='PdfDocument.Bookmarks'/>
 		/// <seealso cref='PdfBookmark.Children'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_BOOKMARK FPDFBookmark_GetFirstChild(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBookmark_GetFirstChild(document, bookmark); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBookmark_GetFirstChild(document, bookmark); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -930,16 +1521,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBookmark_GetNextSibling")]
+			[DllImport("pdfium", EntryPoint = "FPDFBookmark_GetNextSibling", SetLastError = true)]
 			internal static extern FPDF_BOOKMARK FPDFBookmark_GetNextSibling(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBookmark_GetNextSibling/*'/>
 		/// <seealso cref='PdfDocument.Bookmarks'/>
 		/// <seealso cref='PdfBookmark.Children'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_BOOKMARK FPDFBookmark_GetNextSibling(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBookmark_GetNextSibling(document, bookmark); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBookmark_GetNextSibling(document, bookmark); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -949,15 +1551,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBookmark_GetTitle")]
+			[DllImport("pdfium", EntryPoint = "FPDFBookmark_GetTitle", SetLastError = true)]
 			internal static extern uint FPDFBookmark_GetTitle(FPDF_BOOKMARK bookmark, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBookmark_GetTitle/*'/>
 		/// <seealso cref='PDFium.FPDFBookmark_GetTitle(FPDF_BOOKMARK)'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static uint FPDFBookmark_GetTitle(FPDF_BOOKMARK bookmark, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBookmark_GetTitle(bookmark, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBookmark_GetTitle(bookmark, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -967,15 +1580,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBookmark_Find")]
+			[DllImport("pdfium", EntryPoint = "FPDFBookmark_Find", SetLastError = true)]
 			internal static extern FPDF_BOOKMARK FPDFBookmark_Find(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPWStr)] string title);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBookmark_Find/*'/>
 		/// <seealso cref='PdfDocument.FindBookmark(string)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_BOOKMARK FPDFBookmark_Find(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPWStr)] string title)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBookmark_Find(document, title); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBookmark_Find(document, title); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -985,15 +1609,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBookmark_GetDest")]
+			[DllImport("pdfium", EntryPoint = "FPDFBookmark_GetDest", SetLastError = true)]
 			internal static extern FPDF_DEST FPDFBookmark_GetDest(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBookmark_GetDest/*'/>
 		/// <seealso cref='PdfBookmark.Destination'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DEST FPDFBookmark_GetDest(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBookmark_GetDest(document, bookmark); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBookmark_GetDest(document, bookmark); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1003,15 +1638,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFBookmark_GetAction")]
+			[DllImport("pdfium", EntryPoint = "FPDFBookmark_GetAction", SetLastError = true)]
 			internal static extern FPDF_ACTION FPDFBookmark_GetAction(FPDF_BOOKMARK bookmark);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFBookmark_GetAction/*'/>
 		/// <seealso cref='PdfBookmark.Action'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_ACTION FPDFBookmark_GetAction(FPDF_BOOKMARK bookmark)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFBookmark_GetAction(bookmark); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFBookmark_GetAction(bookmark); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1021,15 +1667,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFAction_GetType")]
+			[DllImport("pdfium", EntryPoint = "FPDFAction_GetType", SetLastError = true)]
 			internal static extern ActionTypes FPDFAction_GetType(FPDF_ACTION action);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFAction_GetType/*'/>
 		/// <seealso cref='PdfAction.Type'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static ActionTypes FPDFAction_GetType(FPDF_ACTION action)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFAction_GetType(action); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFAction_GetType(action); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1039,15 +1696,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFAction_GetDest")]
+			[DllImport("pdfium", EntryPoint = "FPDFAction_GetDest", SetLastError = true)]
 			internal static extern FPDF_DEST FPDFAction_GetDest(FPDF_DOCUMENT document, FPDF_ACTION action);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFAction_GetDest/*'/>
 		/// <seealso cref='PdfAction.Destination'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DEST FPDFAction_GetDest(FPDF_DOCUMENT document, FPDF_ACTION action)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFAction_GetDest(document, action); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFAction_GetDest(document, action); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1057,15 +1725,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFAction_GetFilePath")]
+			[DllImport("pdfium", EntryPoint = "FPDFAction_GetFilePath", SetLastError = true)]
 			internal static extern uint FPDFAction_GetFilePath(FPDF_ACTION action, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFAction_GetFilePath/*'/>
 		/// <seealso cref='PDFium.FPDFAction_GetFilePath(FPDF_ACTION)'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static uint FPDFAction_GetFilePath(FPDF_ACTION action, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFAction_GetFilePath(action, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFAction_GetFilePath(action, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1075,15 +1754,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFAction_GetURIPath")]
+			[DllImport("pdfium", EntryPoint = "FPDFAction_GetURIPath", SetLastError = true)]
 			internal static extern uint FPDFAction_GetURIPath(FPDF_DOCUMENT document, FPDF_ACTION action, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFAction_GetURIPath/*'/>
 		/// <seealso cref='PDFium.FPDFAction_GetURIPath(FPDF_DOCUMENT, FPDF_ACTION)'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static uint FPDFAction_GetURIPath(FPDF_DOCUMENT document, FPDF_ACTION action, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFAction_GetURIPath(document, action, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFAction_GetURIPath(document, action, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1093,16 +1783,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFDest_GetDestPageIndex")]
+			[DllImport("pdfium", EntryPoint = "FPDFDest_GetDestPageIndex", SetLastError = true)]
 			internal static extern int FPDFDest_GetDestPageIndex(FPDF_DOCUMENT document, FPDF_DEST dest);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFDest_GetDestPageIndex/*'/>
 		/// <seealso cref='PdfDestination.PageIndex'/>
 		/// <seealso cref='PdfDocument.Destinations'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFDest_GetDestPageIndex(FPDF_DOCUMENT document, FPDF_DEST dest)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFDest_GetDestPageIndex(document, dest); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFDest_GetDestPageIndex(document, dest); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1112,14 +1813,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFDest_GetView")]
+			[DllImport("pdfium", EntryPoint = "FPDFDest_GetView", SetLastError = true)]
 			internal static extern ZoomModes FPDFDest_GetView(FPDF_DEST dest, out uint pNumParams, float pParams);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFDest_GetView/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static ZoomModes FPDFDest_GetView(FPDF_DEST dest, out uint pNumParams, float pParams)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFDest_GetView(dest, out pNumParams, pParams); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFDest_GetView(dest, out pNumParams, pParams); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1129,16 +1841,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFDest_GetLocationInPage")]
+			[DllImport("pdfium", EntryPoint = "FPDFDest_GetLocationInPage", SetLastError = true)]
 			internal static extern bool FPDFDest_GetLocationInPage(FPDF_DEST dest, out bool hasXCoord, out bool hasYCoord, out bool hasZoom, out float x, out float y, out float zoom);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFDest_GetLocationInPage/*'/>
 		/// <seealso cref='PdfDestination.LocationInPage'/>
 		/// <seealso cref='PdfDocument.Destinations'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFDest_GetLocationInPage(FPDF_DEST dest, out bool hasXCoord, out bool hasYCoord, out bool hasZoom, out float x, out float y, out float zoom)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFDest_GetLocationInPage(dest, out hasXCoord, out hasYCoord, out hasZoom, out x, out y, out zoom); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFDest_GetLocationInPage(dest, out hasXCoord, out hasYCoord, out hasZoom, out x, out y, out zoom); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1148,14 +1871,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetLinkAtPoint")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetLinkAtPoint", SetLastError = true)]
 			internal static extern FPDF_LINK FPDFLink_GetLinkAtPoint(FPDF_PAGE page, double x, double y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetLinkAtPoint/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_LINK FPDFLink_GetLinkAtPoint(FPDF_PAGE page, double x, double y)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetLinkAtPoint(page, x, y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetLinkAtPoint(page, x, y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1165,14 +1899,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetLinkZOrderAtPoint")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetLinkZOrderAtPoint", SetLastError = true)]
 			internal static extern int FPDFLink_GetLinkZOrderAtPoint(FPDF_PAGE page, double x, double y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetLinkZOrderAtPoint/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFLink_GetLinkZOrderAtPoint(FPDF_PAGE page, double x, double y)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetLinkZOrderAtPoint(page, x, y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetLinkZOrderAtPoint(page, x, y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1182,14 +1927,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetDest")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetDest", SetLastError = true)]
 			internal static extern FPDF_DEST FPDFLink_GetDest(FPDF_DOCUMENT document, FPDF_LINK link);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetDest/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DEST FPDFLink_GetDest(FPDF_DOCUMENT document, FPDF_LINK link)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetDest(document, link); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetDest(document, link); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1199,14 +1955,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetAction")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetAction", SetLastError = true)]
 			internal static extern FPDF_ACTION FPDFLink_GetAction(FPDF_LINK link);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetAction/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_ACTION FPDFLink_GetAction(FPDF_LINK link)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetAction(link); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetAction(link); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1216,14 +1983,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_Enumerate")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_Enumerate", SetLastError = true)]
 			internal static extern bool FPDFLink_Enumerate(FPDF_PAGE page, ref int startPos, out FPDF_LINK linkAnnot);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_Enumerate/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static bool FPDFLink_Enumerate(FPDF_PAGE page, ref int startPos, out FPDF_LINK linkAnnot)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_Enumerate(page, ref startPos, out linkAnnot); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_Enumerate(page, ref startPos, out linkAnnot); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1233,14 +2011,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetAnnotRect")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetAnnotRect", SetLastError = true)]
 			internal static extern bool FPDFLink_GetAnnotRect(FPDF_LINK linkAnnot, out FS_RECTF rect);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetAnnotRect/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFLink_GetAnnotRect(FPDF_LINK linkAnnot, out FS_RECTF rect)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetAnnotRect(linkAnnot, out rect); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetAnnotRect(linkAnnot, out rect); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1250,14 +2039,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_CountQuadPoints")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_CountQuadPoints", SetLastError = true)]
 			internal static extern int FPDFLink_CountQuadPoints(FPDF_LINK linkAnnot);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_CountQuadPoints/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFLink_CountQuadPoints(FPDF_LINK linkAnnot)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_CountQuadPoints(linkAnnot); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_CountQuadPoints(linkAnnot); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1267,14 +2067,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetQuadPoints")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetQuadPoints", SetLastError = true)]
 			internal static extern bool FPDFLink_GetQuadPoints(FPDF_LINK linkAnnot, int quadIndex, out FS_QUADPOINTSF quadPoints);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetQuadPoints/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFLink_GetQuadPoints(FPDF_LINK linkAnnot, int quadIndex, out FS_QUADPOINTSF quadPoints)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetQuadPoints(linkAnnot, quadIndex, out quadPoints); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetQuadPoints(linkAnnot, quadIndex, out quadPoints); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1284,16 +2095,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetMetaText")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetMetaText", SetLastError = true)]
 			internal static extern uint FPDF_GetMetaText(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string tag, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetMetaText/*'/>
 		/// <seealso cref='PDFium.FPDF_GetMetaText(FPDF_DOCUMENT, string)'/>
 		/// <seealso cref='PDFium.FPDF_GetMetaText(FPDF_DOCUMENT, MetadataTags)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDF_GetMetaText(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string tag, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetMetaText(document, tag, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetMetaText(document, tag, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1303,15 +2125,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_GetPageLabel")]
+			[DllImport("pdfium", EntryPoint = "FPDF_GetPageLabel", SetLastError = true)]
 			internal static extern uint FPDF_GetPageLabel(FPDF_DOCUMENT document, int page_index, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetPageLabel/*'/>
 		/// <seealso cref='PDFium.FPDF_GetPageLabel(FPDF_DOCUMENT, int)'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static uint FPDF_GetPageLabel(FPDF_DOCUMENT document, int page_index, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_GetPageLabel(document, page_index, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_GetPageLabel(document, page_index, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1321,15 +2154,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_CreateNewDocument")]
+			[DllImport("pdfium", EntryPoint = "FPDF_CreateNewDocument", SetLastError = true)]
 			internal static extern FPDF_DOCUMENT FPDF_CreateNewDocument();
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_CreateNewDocument/*'/>
 		/// <seealso cref='PdfDocument.PdfDocument'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DOCUMENT FPDF_CreateNewDocument()
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_CreateNewDocument(); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_CreateNewDocument(); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1339,7 +2183,7 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_New")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_New", SetLastError = true)]
 			internal static extern FPDF_PAGE FPDFPage_New(FPDF_DOCUMENT document, int page_index, double width, double height);
 		}
 
@@ -1347,9 +2191,20 @@ namespace PdfLibCore
 		/// <seealso cref='PdfPageCollection.Add(double, double)'/>
 		/// <seealso cref='PdfPageCollection.Insert(int, double, double)'/>
 		/// <seealso cref='PdfDocument.Pages'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGE FPDFPage_New(FPDF_DOCUMENT document, int page_index, double width, double height)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_New(document, page_index, width, height); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_New(document, page_index, width, height); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1359,16 +2214,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_Delete")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_Delete", SetLastError = true)]
 			internal static extern void FPDFPage_Delete(FPDF_DOCUMENT document, int page_index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_Delete/*'/>
 		/// <seealso cref='PdfPageCollection.RemoveAt(int)'/>
 		/// <seealso cref='PdfDocument.Pages'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_Delete(FPDF_DOCUMENT document, int page_index)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_Delete(document, page_index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_Delete(document, page_index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1378,15 +2244,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_GetRotation")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_GetRotation", SetLastError = true)]
 			internal static extern PageOrientations FPDFPage_GetRotation(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_GetRotation/*'/>
 		/// <seealso cref='PdfPage.Orientation'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static PageOrientations FPDFPage_GetRotation(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_GetRotation(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_GetRotation(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1396,15 +2273,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_SetRotation")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_SetRotation", SetLastError = true)]
 			internal static extern void FPDFPage_SetRotation(FPDF_PAGE page, PageOrientations rotation);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_SetRotation/*'/>
 		/// <seealso cref='PdfPage.Orientation'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_SetRotation(FPDF_PAGE page, PageOrientations rotation)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_SetRotation(page, rotation); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_SetRotation(page, rotation); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1414,14 +2302,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_InsertObject")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_InsertObject", SetLastError = true)]
 			internal static extern void FPDFPage_InsertObject(FPDF_PAGE page, FPDF_PAGEOBJECT page_obj);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_InsertObject/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static void FPDFPage_InsertObject(FPDF_PAGE page, FPDF_PAGEOBJECT page_obj)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_InsertObject(page, page_obj); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_InsertObject(page, page_obj); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1431,14 +2330,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_RemoveObject")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_RemoveObject", SetLastError = true)]
 			internal static extern bool FPDFPage_RemoveObject(FPDF_PAGE page, FPDF_PAGEOBJECT page_obj);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_RemoveObject/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_RemoveObject(FPDF_PAGE page, FPDF_PAGEOBJECT page_obj)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_RemoveObject(page, page_obj); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_RemoveObject(page, page_obj); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1448,14 +2358,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_CountObjects")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_CountObjects", SetLastError = true)]
 			internal static extern int FPDFPage_CountObjects(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_CountObjects/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFPage_CountObjects(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_CountObjects(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_CountObjects(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1465,14 +2386,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_GetObject")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_GetObject", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECT FPDFPage_GetObject(FPDF_PAGE page, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_GetObject/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECT FPDFPage_GetObject(FPDF_PAGE page, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_GetObject(page, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_GetObject(page, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1482,14 +2414,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_HasTransparency")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_HasTransparency", SetLastError = true)]
 			internal static extern bool FPDFPage_HasTransparency(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_HasTransparency/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_HasTransparency(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_HasTransparency(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_HasTransparency(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1499,14 +2442,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_GenerateContent")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_GenerateContent", SetLastError = true)]
 			internal static extern bool FPDFPage_GenerateContent(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_GenerateContent/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_GenerateContent(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_GenerateContent(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_GenerateContent(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1516,14 +2470,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_Destroy")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_Destroy", SetLastError = true)]
 			internal static extern void FPDFPageObj_Destroy(FPDF_PAGEOBJECT page_obj);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_Destroy/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPageObj_Destroy(FPDF_PAGEOBJECT page_obj)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPageObj_Destroy(page_obj); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPageObj_Destroy(page_obj); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1533,14 +2498,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_HasTransparency")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_HasTransparency", SetLastError = true)]
 			internal static extern bool FPDFPageObj_HasTransparency(FPDF_PAGEOBJECT pageObject);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_HasTransparency/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_HasTransparency(FPDF_PAGEOBJECT pageObject)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_HasTransparency(pageObject); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_HasTransparency(pageObject); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1550,14 +2526,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetType")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetType", SetLastError = true)]
 			internal static extern PageObjTypes FPDFPageObj_GetType(FPDF_PAGEOBJECT page_object);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetType/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static PageObjTypes FPDFPageObj_GetType(FPDF_PAGEOBJECT page_object)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetType(page_object); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetType(page_object); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1567,14 +2554,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_Transform")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_Transform", SetLastError = true)]
 			internal static extern void FPDFPageObj_Transform(FPDF_PAGEOBJECT page_object, double a, double b, double c, double d, double e, double f);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_Transform/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPageObj_Transform(FPDF_PAGEOBJECT page_object, double a, double b, double c, double d, double e, double f)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPageObj_Transform(page_object, a, b, c, d, e, f); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPageObj_Transform(page_object, a, b, c, d, e, f); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1584,14 +2582,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_TransformAnnots")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_TransformAnnots", SetLastError = true)]
 			internal static extern void FPDFPage_TransformAnnots(FPDF_PAGE page, double a, double b, double c, double d, double e, double f);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_TransformAnnots/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_TransformAnnots(FPDF_PAGE page, double a, double b, double c, double d, double e, double f)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_TransformAnnots(page, a, b, c, d, e, f); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_TransformAnnots(page, a, b, c, d, e, f); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1601,14 +2610,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_NewImageObj")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_NewImageObj", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECT FPDFPageObj_NewImageObj(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_NewImageObj/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECT FPDFPageObj_NewImageObj(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_NewImageObj(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_NewImageObj(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1618,14 +2638,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_CountMarks")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_CountMarks", SetLastError = true)]
 			internal static extern int FPDFPageObj_CountMarks(FPDF_PAGEOBJECT page_object);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_CountMarks/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFPageObj_CountMarks(FPDF_PAGEOBJECT page_object)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_CountMarks(page_object); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_CountMarks(page_object); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1635,14 +2666,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetMark")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetMark", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECTMARK FPDFPageObj_GetMark(FPDF_PAGEOBJECT page_object, uint index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetMark/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECTMARK FPDFPageObj_GetMark(FPDF_PAGEOBJECT page_object, uint index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetMark(page_object, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetMark(page_object, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1652,14 +2694,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_AddMark")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_AddMark", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECTMARK FPDFPageObj_AddMark(FPDF_PAGEOBJECT page_object, [MarshalAs(UnmanagedType.LPStr)] string name);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_AddMark/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECTMARK FPDFPageObj_AddMark(FPDF_PAGEOBJECT page_object, [MarshalAs(UnmanagedType.LPStr)] string name)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_AddMark(page_object, name); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_AddMark(page_object, name); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1669,14 +2722,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_RemoveMark")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_RemoveMark", SetLastError = true)]
 			internal static extern bool FPDFPageObj_RemoveMark(FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_RemoveMark/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_RemoveMark(FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_RemoveMark(page_object, mark); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_RemoveMark(page_object, mark); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1686,14 +2750,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_GetName")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_GetName", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_GetName(FPDF_PAGEOBJECTMARK mark, ref byte buffer, uint buflen, out uint out_buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_GetName/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_GetName(FPDF_PAGEOBJECTMARK mark, ref byte buffer, uint buflen, out uint out_buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_GetName(mark, ref buffer, buflen, out out_buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_GetName(mark, ref buffer, buflen, out out_buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1703,14 +2778,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_CountParams")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_CountParams", SetLastError = true)]
 			internal static extern int FPDFPageObjMark_CountParams(FPDF_PAGEOBJECTMARK mark);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_CountParams/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFPageObjMark_CountParams(FPDF_PAGEOBJECTMARK mark)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_CountParams(mark); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_CountParams(mark); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1720,14 +2806,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_GetParamKey")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_GetParamKey", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_GetParamKey(FPDF_PAGEOBJECTMARK mark, uint index, ref byte buffer, uint buflen, out uint out_buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_GetParamKey/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_GetParamKey(FPDF_PAGEOBJECTMARK mark, uint index, ref byte buffer, uint buflen, out uint out_buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_GetParamKey(mark, index, ref buffer, buflen, out out_buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_GetParamKey(mark, index, ref buffer, buflen, out out_buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1737,14 +2834,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_GetParamValueType")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_GetParamValueType", SetLastError = true)]
 			internal static extern ObjectTypes FPDFPageObjMark_GetParamValueType(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_GetParamValueType/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static ObjectTypes FPDFPageObjMark_GetParamValueType(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_GetParamValueType(mark, key); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_GetParamValueType(mark, key); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1754,14 +2862,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_GetParamIntValue")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_GetParamIntValue", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_GetParamIntValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, out int out_value);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_GetParamIntValue/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_GetParamIntValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, out int out_value)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_GetParamIntValue(mark, key, out out_value); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_GetParamIntValue(mark, key, out out_value); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1771,14 +2890,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_GetParamStringValue")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_GetParamStringValue", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_GetParamStringValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint buflen, out uint out_buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_GetParamStringValue/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_GetParamStringValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint buflen, out uint out_buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_GetParamStringValue(mark, key, ref buffer, buflen, out out_buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_GetParamStringValue(mark, key, ref buffer, buflen, out out_buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1788,14 +2918,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_GetParamBlobValue")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_GetParamBlobValue", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_GetParamBlobValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint buflen, out uint out_buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_GetParamBlobValue/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_GetParamBlobValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint buflen, out uint out_buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_GetParamBlobValue(mark, key, ref buffer, buflen, out out_buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_GetParamBlobValue(mark, key, ref buffer, buflen, out out_buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1805,14 +2946,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_SetIntParam")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_SetIntParam", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_SetIntParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, int value);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_SetIntParam/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_SetIntParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, int value)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_SetIntParam(document, page_object, mark, key, value); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_SetIntParam(document, page_object, mark, key, value); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1822,14 +2974,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_SetStringParam")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_SetStringParam", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_SetStringParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_SetStringParam/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_SetStringParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_SetStringParam(document, page_object, mark, key, value); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_SetStringParam(document, page_object, mark, key, value); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1839,14 +3002,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_SetBlobParam")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_SetBlobParam", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_SetBlobParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte value, uint value_len);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_SetBlobParam/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_SetBlobParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte value, uint value_len)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_SetBlobParam(document, page_object, mark, key, ref value, value_len); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_SetBlobParam(document, page_object, mark, key, ref value, value_len); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1856,14 +3030,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObjMark_RemoveParam")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObjMark_RemoveParam", SetLastError = true)]
 			internal static extern bool FPDFPageObjMark_RemoveParam(FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObjMark_RemoveParam/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObjMark_RemoveParam(FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObjMark_RemoveParam(page_object, mark, key); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObjMark_RemoveParam(page_object, mark, key); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1873,14 +3058,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_LoadJpegFile")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_LoadJpegFile", SetLastError = true)]
 			internal static extern bool FPDFImageObj_LoadJpegFile(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_FILEREAD fileRead);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_LoadJpegFile/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static bool FPDFImageObj_LoadJpegFile(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_FILEREAD fileRead)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_LoadJpegFile(ref pages, nCount, image_object, fileRead); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_LoadJpegFile(ref pages, nCount, image_object, fileRead); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1890,14 +3086,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_LoadJpegFileInline")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_LoadJpegFileInline", SetLastError = true)]
 			internal static extern bool FPDFImageObj_LoadJpegFileInline(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_FILEREAD fileRead);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_LoadJpegFileInline/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static bool FPDFImageObj_LoadJpegFileInline(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_FILEREAD fileRead)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_LoadJpegFileInline(ref pages, nCount, image_object, fileRead); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_LoadJpegFileInline(ref pages, nCount, image_object, fileRead); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1907,14 +3114,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_GetMatrix")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_GetMatrix", SetLastError = true)]
 			internal static extern bool FPDFImageObj_GetMatrix(FPDF_PAGEOBJECT image_object, out double a, out double b, out double c, out double d, out double e, out double f);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_GetMatrix/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFImageObj_GetMatrix(FPDF_PAGEOBJECT image_object, out double a, out double b, out double c, out double d, out double e, out double f)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_GetMatrix(image_object, out a, out b, out c, out d, out e, out f); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_GetMatrix(image_object, out a, out b, out c, out d, out e, out f); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1924,14 +3142,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_SetMatrix")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_SetMatrix", SetLastError = true)]
 			internal static extern bool FPDFImageObj_SetMatrix(FPDF_PAGEOBJECT image_object, double a, double b, double c, double d, double e, double f);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_SetMatrix/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFImageObj_SetMatrix(FPDF_PAGEOBJECT image_object, double a, double b, double c, double d, double e, double f)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_SetMatrix(image_object, a, b, c, d, e, f); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_SetMatrix(image_object, a, b, c, d, e, f); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1941,14 +3170,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_SetBitmap")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_SetBitmap", SetLastError = true)]
 			internal static extern bool FPDFImageObj_SetBitmap(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_BITMAP bitmap);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_SetBitmap/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFImageObj_SetBitmap(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_BITMAP bitmap)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_SetBitmap(ref pages, nCount, image_object, bitmap); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_SetBitmap(ref pages, nCount, image_object, bitmap); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1958,14 +3198,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_GetBitmap")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_GetBitmap", SetLastError = true)]
 			internal static extern FPDF_BITMAP FPDFImageObj_GetBitmap(FPDF_PAGEOBJECT image_object);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_GetBitmap/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_BITMAP FPDFImageObj_GetBitmap(FPDF_PAGEOBJECT image_object)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_GetBitmap(image_object); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_GetBitmap(image_object); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1975,14 +3226,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_GetImageDataDecoded")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_GetImageDataDecoded", SetLastError = true)]
 			internal static extern uint FPDFImageObj_GetImageDataDecoded(FPDF_PAGEOBJECT image_object, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_GetImageDataDecoded/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDFImageObj_GetImageDataDecoded(FPDF_PAGEOBJECT image_object, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_GetImageDataDecoded(image_object, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_GetImageDataDecoded(image_object, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -1992,14 +3254,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_GetImageDataRaw")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_GetImageDataRaw", SetLastError = true)]
 			internal static extern uint FPDFImageObj_GetImageDataRaw(FPDF_PAGEOBJECT image_object, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_GetImageDataRaw/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDFImageObj_GetImageDataRaw(FPDF_PAGEOBJECT image_object, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_GetImageDataRaw(image_object, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_GetImageDataRaw(image_object, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2009,14 +3282,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_GetImageFilterCount")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_GetImageFilterCount", SetLastError = true)]
 			internal static extern int FPDFImageObj_GetImageFilterCount(FPDF_PAGEOBJECT image_object);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_GetImageFilterCount/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFImageObj_GetImageFilterCount(FPDF_PAGEOBJECT image_object)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_GetImageFilterCount(image_object); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_GetImageFilterCount(image_object); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2026,14 +3310,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_GetImageFilter")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_GetImageFilter", SetLastError = true)]
 			internal static extern uint FPDFImageObj_GetImageFilter(FPDF_PAGEOBJECT image_object, int index, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_GetImageFilter/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDFImageObj_GetImageFilter(FPDF_PAGEOBJECT image_object, int index, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_GetImageFilter(image_object, index, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_GetImageFilter(image_object, index, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2043,14 +3338,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFImageObj_GetImageMetadata")]
+			[DllImport("pdfium", EntryPoint = "FPDFImageObj_GetImageMetadata", SetLastError = true)]
 			internal static extern bool FPDFImageObj_GetImageMetadata(FPDF_PAGEOBJECT image_object, FPDF_PAGE page, out FPDF_IMAGEOBJ_METADATA metadata);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFImageObj_GetImageMetadata/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFImageObj_GetImageMetadata(FPDF_PAGEOBJECT image_object, FPDF_PAGE page, out FPDF_IMAGEOBJ_METADATA metadata)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFImageObj_GetImageMetadata(image_object, page, out metadata); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFImageObj_GetImageMetadata(image_object, page, out metadata); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2060,14 +3366,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_CreateNewPath")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_CreateNewPath", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECT FPDFPageObj_CreateNewPath(float x, float y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_CreateNewPath/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECT FPDFPageObj_CreateNewPath(float x, float y)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_CreateNewPath(x, y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_CreateNewPath(x, y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2077,14 +3394,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_CreateNewRect")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_CreateNewRect", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECT FPDFPageObj_CreateNewRect(float x, float y, float w, float h);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_CreateNewRect/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECT FPDFPageObj_CreateNewRect(float x, float y, float w, float h)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_CreateNewRect(x, y, w, h); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_CreateNewRect(x, y, w, h); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2094,14 +3422,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetBounds")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetBounds", SetLastError = true)]
 			internal static extern bool FPDFPageObj_GetBounds(FPDF_PAGEOBJECT page_object, out float left, out float bottom, out float right, out float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetBounds/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_GetBounds(FPDF_PAGEOBJECT page_object, out float left, out float bottom, out float right, out float top)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetBounds(page_object, out left, out bottom, out right, out top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetBounds(page_object, out left, out bottom, out right, out top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2111,14 +3450,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_SetBlendMode")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_SetBlendMode", SetLastError = true)]
 			internal static extern void FPDFPageObj_SetBlendMode(FPDF_PAGEOBJECT page_object, [MarshalAs(UnmanagedType.LPStr)] string blend_mode);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_SetBlendMode/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPageObj_SetBlendMode(FPDF_PAGEOBJECT page_object, [MarshalAs(UnmanagedType.LPStr)] string blend_mode)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPageObj_SetBlendMode(page_object, blend_mode); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPageObj_SetBlendMode(page_object, blend_mode); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2128,14 +3478,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_SetStrokeColor")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_SetStrokeColor", SetLastError = true)]
 			internal static extern bool FPDFPageObj_SetStrokeColor(FPDF_PAGEOBJECT page_object, uint R, uint G, uint B, uint A);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_SetStrokeColor/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_SetStrokeColor(FPDF_PAGEOBJECT page_object, uint R, uint G, uint B, uint A)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_SetStrokeColor(page_object, R, G, B, A); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_SetStrokeColor(page_object, R, G, B, A); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2145,14 +3506,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetStrokeColor")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetStrokeColor", SetLastError = true)]
 			internal static extern bool FPDFPageObj_GetStrokeColor(FPDF_PAGEOBJECT page_object, out uint R, out uint G, out uint B, out uint A);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetStrokeColor/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_GetStrokeColor(FPDF_PAGEOBJECT page_object, out uint R, out uint G, out uint B, out uint A)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetStrokeColor(page_object, out R, out G, out B, out A); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetStrokeColor(page_object, out R, out G, out B, out A); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2162,14 +3534,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_SetStrokeWidth")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_SetStrokeWidth", SetLastError = true)]
 			internal static extern bool FPDFPageObj_SetStrokeWidth(FPDF_PAGEOBJECT page_object, float width);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_SetStrokeWidth/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_SetStrokeWidth(FPDF_PAGEOBJECT page_object, float width)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_SetStrokeWidth(page_object, width); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_SetStrokeWidth(page_object, width); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2179,14 +3562,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetStrokeWidth")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetStrokeWidth", SetLastError = true)]
 			internal static extern bool FPDFPageObj_GetStrokeWidth(FPDF_PAGEOBJECT page_object, out float width);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetStrokeWidth/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_GetStrokeWidth(FPDF_PAGEOBJECT page_object, out float width)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetStrokeWidth(page_object, out width); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetStrokeWidth(page_object, out width); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2196,14 +3590,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetLineJoin")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetLineJoin", SetLastError = true)]
 			internal static extern int FPDFPageObj_GetLineJoin(FPDF_PAGEOBJECT page_object);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetLineJoin/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFPageObj_GetLineJoin(FPDF_PAGEOBJECT page_object)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetLineJoin(page_object); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetLineJoin(page_object); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2213,14 +3618,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_SetLineJoin")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_SetLineJoin", SetLastError = true)]
 			internal static extern bool FPDFPageObj_SetLineJoin(FPDF_PAGEOBJECT page_object, int line_join);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_SetLineJoin/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_SetLineJoin(FPDF_PAGEOBJECT page_object, int line_join)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_SetLineJoin(page_object, line_join); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_SetLineJoin(page_object, line_join); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2230,14 +3646,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetLineCap")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetLineCap", SetLastError = true)]
 			internal static extern int FPDFPageObj_GetLineCap(FPDF_PAGEOBJECT page_object);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetLineCap/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFPageObj_GetLineCap(FPDF_PAGEOBJECT page_object)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetLineCap(page_object); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetLineCap(page_object); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2247,14 +3674,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_SetLineCap")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_SetLineCap", SetLastError = true)]
 			internal static extern bool FPDFPageObj_SetLineCap(FPDF_PAGEOBJECT page_object, int line_cap);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_SetLineCap/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_SetLineCap(FPDF_PAGEOBJECT page_object, int line_cap)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_SetLineCap(page_object, line_cap); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_SetLineCap(page_object, line_cap); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2264,14 +3702,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_SetFillColor")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_SetFillColor", SetLastError = true)]
 			internal static extern bool FPDFPageObj_SetFillColor(FPDF_PAGEOBJECT page_object, uint R, uint G, uint B, uint A);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_SetFillColor/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_SetFillColor(FPDF_PAGEOBJECT page_object, uint R, uint G, uint B, uint A)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_SetFillColor(page_object, R, G, B, A); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_SetFillColor(page_object, R, G, B, A); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2281,14 +3730,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetFillColor")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetFillColor", SetLastError = true)]
 			internal static extern bool FPDFPageObj_GetFillColor(FPDF_PAGEOBJECT page_object, out uint R, out uint G, out uint B, out uint A);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetFillColor/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPageObj_GetFillColor(FPDF_PAGEOBJECT page_object, out uint R, out uint G, out uint B, out uint A)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetFillColor(page_object, out R, out G, out B, out A); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetFillColor(page_object, out R, out G, out B, out A); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2298,14 +3758,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_CountSegments")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_CountSegments", SetLastError = true)]
 			internal static extern int FPDFPath_CountSegments(FPDF_PAGEOBJECT path);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_CountSegments/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFPath_CountSegments(FPDF_PAGEOBJECT path)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_CountSegments(path); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_CountSegments(path); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2315,14 +3786,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_GetPathSegment")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_GetPathSegment", SetLastError = true)]
 			internal static extern FPDF_PATHSEGMENT FPDFPath_GetPathSegment(FPDF_PAGEOBJECT path, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_GetPathSegment/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PATHSEGMENT FPDFPath_GetPathSegment(FPDF_PAGEOBJECT path, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_GetPathSegment(path, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_GetPathSegment(path, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2332,14 +3814,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPathSegment_GetPoint")]
+			[DllImport("pdfium", EntryPoint = "FPDFPathSegment_GetPoint", SetLastError = true)]
 			internal static extern bool FPDFPathSegment_GetPoint(FPDF_PATHSEGMENT segment, out float x, out float y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPathSegment_GetPoint/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPathSegment_GetPoint(FPDF_PATHSEGMENT segment, out float x, out float y)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPathSegment_GetPoint(segment, out x, out y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPathSegment_GetPoint(segment, out x, out y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2349,14 +3842,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPathSegment_GetType")]
+			[DllImport("pdfium", EntryPoint = "FPDFPathSegment_GetType", SetLastError = true)]
 			internal static extern int FPDFPathSegment_GetType(FPDF_PATHSEGMENT segment);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPathSegment_GetType/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFPathSegment_GetType(FPDF_PATHSEGMENT segment)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPathSegment_GetType(segment); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPathSegment_GetType(segment); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2366,14 +3870,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPathSegment_GetClose")]
+			[DllImport("pdfium", EntryPoint = "FPDFPathSegment_GetClose", SetLastError = true)]
 			internal static extern bool FPDFPathSegment_GetClose(FPDF_PATHSEGMENT segment);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPathSegment_GetClose/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPathSegment_GetClose(FPDF_PATHSEGMENT segment)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPathSegment_GetClose(segment); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPathSegment_GetClose(segment); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2383,14 +3898,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_MoveTo")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_MoveTo", SetLastError = true)]
 			internal static extern bool FPDFPath_MoveTo(FPDF_PAGEOBJECT path, float x, float y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_MoveTo/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPath_MoveTo(FPDF_PAGEOBJECT path, float x, float y)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_MoveTo(path, x, y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_MoveTo(path, x, y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2400,14 +3926,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_LineTo")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_LineTo", SetLastError = true)]
 			internal static extern bool FPDFPath_LineTo(FPDF_PAGEOBJECT path, float x, float y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_LineTo/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPath_LineTo(FPDF_PAGEOBJECT path, float x, float y)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_LineTo(path, x, y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_LineTo(path, x, y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2417,14 +3954,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_BezierTo")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_BezierTo", SetLastError = true)]
 			internal static extern bool FPDFPath_BezierTo(FPDF_PAGEOBJECT path, float x1, float y1, float x2, float y2, float x3, float y3);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_BezierTo/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPath_BezierTo(FPDF_PAGEOBJECT path, float x1, float y1, float x2, float y2, float x3, float y3)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_BezierTo(path, x1, y1, x2, y2, x3, y3); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_BezierTo(path, x1, y1, x2, y2, x3, y3); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2434,14 +3982,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_Close")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_Close", SetLastError = true)]
 			internal static extern bool FPDFPath_Close(FPDF_PAGEOBJECT path);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_Close/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPath_Close(FPDF_PAGEOBJECT path)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_Close(path); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_Close(path); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2451,14 +4010,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_SetDrawMode")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_SetDrawMode", SetLastError = true)]
 			internal static extern bool FPDFPath_SetDrawMode(FPDF_PAGEOBJECT path, PathFillModes fillmode, bool stroke);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_SetDrawMode/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPath_SetDrawMode(FPDF_PAGEOBJECT path, PathFillModes fillmode, bool stroke)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_SetDrawMode(path, fillmode, stroke); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_SetDrawMode(path, fillmode, stroke); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2468,14 +4038,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_GetDrawMode")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_GetDrawMode", SetLastError = true)]
 			internal static extern bool FPDFPath_GetDrawMode(FPDF_PAGEOBJECT path, out PathFillModes fillmode, out bool stroke);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_GetDrawMode/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPath_GetDrawMode(FPDF_PAGEOBJECT path, out PathFillModes fillmode, out bool stroke)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_GetDrawMode(path, out fillmode, out stroke); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_GetDrawMode(path, out fillmode, out stroke); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2485,14 +4066,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_GetMatrix")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_GetMatrix", SetLastError = true)]
 			internal static extern bool FPDFPath_GetMatrix(FPDF_PAGEOBJECT path, FS_MATRIX matrix);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_GetMatrix/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPath_GetMatrix(FPDF_PAGEOBJECT path, FS_MATRIX matrix)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_GetMatrix(path, matrix); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_GetMatrix(path, matrix); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2502,14 +4094,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPath_SetMatrix")]
+			[DllImport("pdfium", EntryPoint = "FPDFPath_SetMatrix", SetLastError = true)]
 			internal static extern bool FPDFPath_SetMatrix(FPDF_PAGEOBJECT path, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPath_SetMatrix/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPath_SetMatrix(FPDF_PAGEOBJECT path, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPath_SetMatrix(path, matrix); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPath_SetMatrix(path, matrix); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2519,14 +4122,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_NewTextObj")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_NewTextObj", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECT FPDFPageObj_NewTextObj(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string font, float font_size);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_NewTextObj/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECT FPDFPageObj_NewTextObj(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string font, float font_size)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_NewTextObj(document, font, font_size); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_NewTextObj(document, font, font_size); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2536,14 +4150,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_SetText")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_SetText", SetLastError = true)]
 			internal static extern bool FPDFText_SetText(FPDF_PAGEOBJECT text_object, [MarshalAs(UnmanagedType.LPWStr)] string text);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_SetText/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_SetText(FPDF_PAGEOBJECT text_object, [MarshalAs(UnmanagedType.LPWStr)] string text)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_SetText(text_object, text); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_SetText(text_object, text); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2553,14 +4178,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_LoadFont")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_LoadFont", SetLastError = true)]
 			internal static extern FPDF_FONT FPDFText_LoadFont(FPDF_DOCUMENT document, ref byte data, uint size, FontTypes font_type, bool cid);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_LoadFont/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static FPDF_FONT FPDFText_LoadFont(FPDF_DOCUMENT document, ref byte data, uint size, FontTypes font_type, bool cid)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_LoadFont(document, ref data, size, font_type, cid); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_LoadFont(document, ref data, size, font_type, cid); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2570,14 +4206,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_LoadStandardFont")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_LoadStandardFont", SetLastError = true)]
 			internal static extern FPDF_FONT FPDFText_LoadStandardFont(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string font);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_LoadStandardFont/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_FONT FPDFText_LoadStandardFont(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string font)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_LoadStandardFont(document, font); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_LoadStandardFont(document, font); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2587,14 +4234,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFTextObj_GetMatrix")]
+			[DllImport("pdfium", EntryPoint = "FPDFTextObj_GetMatrix", SetLastError = true)]
 			internal static extern bool FPDFTextObj_GetMatrix(FPDF_PAGEOBJECT text, FS_MATRIX matrix);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFTextObj_GetMatrix/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFTextObj_GetMatrix(FPDF_PAGEOBJECT text, FS_MATRIX matrix)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFTextObj_GetMatrix(text, matrix); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFTextObj_GetMatrix(text, matrix); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2604,14 +4262,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFTextObj_GetFontSize")]
+			[DllImport("pdfium", EntryPoint = "FPDFTextObj_GetFontSize", SetLastError = true)]
 			internal static extern float FPDFTextObj_GetFontSize(FPDF_PAGEOBJECT text);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFTextObj_GetFontSize/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static float FPDFTextObj_GetFontSize(FPDF_PAGEOBJECT text)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFTextObj_GetFontSize(text); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFTextObj_GetFontSize(text); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2621,14 +4290,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFFont_Close")]
+			[DllImport("pdfium", EntryPoint = "FPDFFont_Close", SetLastError = true)]
 			internal static extern void FPDFFont_Close(FPDF_FONT font);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFFont_Close/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFFont_Close(FPDF_FONT font)
 		{
-			lock(_lock) { PlatformInvoke.FPDFFont_Close(font); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFFont_Close(font); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2638,14 +4318,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_CreateTextObj")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_CreateTextObj", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECT FPDFPageObj_CreateTextObj(FPDF_DOCUMENT document, FPDF_FONT font, float font_size);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_CreateTextObj/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECT FPDFPageObj_CreateTextObj(FPDF_DOCUMENT document, FPDF_FONT font, float font_size)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_CreateTextObj(document, font, font_size); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_CreateTextObj(document, font, font_size); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2655,14 +4346,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFTextObj_GetTextRenderMode")]
+			[DllImport("pdfium", EntryPoint = "FPDFTextObj_GetTextRenderMode", SetLastError = true)]
 			internal static extern FPDF_TEXT_RENDERMODE FPDFTextObj_GetTextRenderMode(FPDF_PAGEOBJECT text);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFTextObj_GetTextRenderMode/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_TEXT_RENDERMODE FPDFTextObj_GetTextRenderMode(FPDF_PAGEOBJECT text)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFTextObj_GetTextRenderMode(text); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFTextObj_GetTextRenderMode(text); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2672,14 +4374,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFTextObj_SetTextRenderMode")]
+			[DllImport("pdfium", EntryPoint = "FPDFTextObj_SetTextRenderMode", SetLastError = true)]
 			internal static extern bool FPDFTextObj_SetTextRenderMode(FPDF_PAGEOBJECT text, FPDF_TEXT_RENDERMODE render_mode);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFTextObj_SetTextRenderMode/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFTextObj_SetTextRenderMode(FPDF_PAGEOBJECT text, FPDF_TEXT_RENDERMODE render_mode)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFTextObj_SetTextRenderMode(text, render_mode); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFTextObj_SetTextRenderMode(text, render_mode); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2689,14 +4402,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFTextObj_GetFontName")]
+			[DllImport("pdfium", EntryPoint = "FPDFTextObj_GetFontName", SetLastError = true)]
 			internal static extern uint FPDFTextObj_GetFontName(FPDF_PAGEOBJECT text, ref byte buffer, uint length);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFTextObj_GetFontName/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDFTextObj_GetFontName(FPDF_PAGEOBJECT text, ref byte buffer, uint length)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFTextObj_GetFontName(text, ref buffer, length); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFTextObj_GetFontName(text, ref buffer, length); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2706,14 +4430,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFTextObj_GetText")]
+			[DllImport("pdfium", EntryPoint = "FPDFTextObj_GetText", SetLastError = true)]
 			internal static extern uint FPDFTextObj_GetText(FPDF_PAGEOBJECT text_object, FPDF_TEXTPAGE text_page, ref byte buffer, uint length);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFTextObj_GetText/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDFTextObj_GetText(FPDF_PAGEOBJECT text_object, FPDF_TEXTPAGE text_page, ref byte buffer, uint length)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFTextObj_GetText(text_object, text_page, ref buffer, length); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFTextObj_GetText(text_object, text_page, ref buffer, length); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2723,14 +4458,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFFormObj_CountObjects")]
+			[DllImport("pdfium", EntryPoint = "FPDFFormObj_CountObjects", SetLastError = true)]
 			internal static extern int FPDFFormObj_CountObjects(FPDF_PAGEOBJECT form_object);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFFormObj_CountObjects/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFFormObj_CountObjects(FPDF_PAGEOBJECT form_object)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFFormObj_CountObjects(form_object); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFFormObj_CountObjects(form_object); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2740,14 +4486,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFFormObj_GetObject")]
+			[DllImport("pdfium", EntryPoint = "FPDFFormObj_GetObject", SetLastError = true)]
 			internal static extern FPDF_PAGEOBJECT FPDFFormObj_GetObject(FPDF_PAGEOBJECT form_object, uint index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFFormObj_GetObject/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGEOBJECT FPDFFormObj_GetObject(FPDF_PAGEOBJECT form_object, uint index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFFormObj_GetObject(form_object, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFFormObj_GetObject(form_object, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2757,14 +4514,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFFormObj_GetMatrix")]
+			[DllImport("pdfium", EntryPoint = "FPDFFormObj_GetMatrix", SetLastError = true)]
 			internal static extern bool FPDFFormObj_GetMatrix(FPDF_PAGEOBJECT form_object, FS_MATRIX matrix);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFFormObj_GetMatrix/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFFormObj_GetMatrix(FPDF_PAGEOBJECT form_object, FS_MATRIX matrix)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFFormObj_GetMatrix(form_object, matrix); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFFormObj_GetMatrix(form_object, matrix); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2774,15 +4542,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFDoc_GetPageMode")]
+			[DllImport("pdfium", EntryPoint = "FPDFDoc_GetPageMode", SetLastError = true)]
 			internal static extern PageModes FPDFDoc_GetPageMode(FPDF_DOCUMENT document);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFDoc_GetPageMode/*'/>
 		/// <seealso cref='PdfDocument.PageMode'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static PageModes FPDFDoc_GetPageMode(FPDF_DOCUMENT document)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFDoc_GetPageMode(document); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFDoc_GetPageMode(document); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2792,15 +4571,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_Flatten")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_Flatten", SetLastError = true)]
 			internal static extern FlattenResults FPDFPage_Flatten(FPDF_PAGE page, FlattenFlags nFlag);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_Flatten/*'/>
 		/// <seealso cref='PdfPage.Flatten(FlattenFlags)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FlattenResults FPDFPage_Flatten(FPDF_PAGE page, FlattenFlags nFlag)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_Flatten(page, nFlag); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_Flatten(page, nFlag); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2810,7 +4600,7 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_ImportPages")]
+			[DllImport("pdfium", EntryPoint = "FPDF_ImportPages", SetLastError = true)]
 			internal static extern bool FPDF_ImportPages(FPDF_DOCUMENT dest_doc, FPDF_DOCUMENT src_doc, [MarshalAs(UnmanagedType.LPStr)] string pagerange, int index);
 		}
 
@@ -2818,9 +4608,20 @@ namespace PdfLibCore
 		/// <seealso cref='PdfPageCollection.Insert(int, PdfDocument, int[])'/>
 		/// <seealso cref='PdfPageCollection.Add(PdfDocument, int[])'/>
 		/// <seealso cref='PdfDocument.Pages'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_ImportPages(FPDF_DOCUMENT dest_doc, FPDF_DOCUMENT src_doc, [MarshalAs(UnmanagedType.LPStr)] string pagerange, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_ImportPages(dest_doc, src_doc, pagerange, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_ImportPages(dest_doc, src_doc, pagerange, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2830,14 +4631,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_ImportNPagesToOne")]
+			[DllImport("pdfium", EntryPoint = "FPDF_ImportNPagesToOne", SetLastError = true)]
 			internal static extern FPDF_DOCUMENT FPDF_ImportNPagesToOne(FPDF_DOCUMENT src_doc, float output_width, float output_height, int num_pages_on_x_axis, int num_pages_on_y_axis);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_ImportNPagesToOne/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DOCUMENT FPDF_ImportNPagesToOne(FPDF_DOCUMENT src_doc, float output_width, float output_height, int num_pages_on_x_axis, int num_pages_on_y_axis)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_ImportNPagesToOne(src_doc, output_width, output_height, num_pages_on_x_axis, num_pages_on_y_axis); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_ImportNPagesToOne(src_doc, output_width, output_height, num_pages_on_x_axis, num_pages_on_y_axis); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2847,15 +4659,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_CopyViewerPreferences")]
+			[DllImport("pdfium", EntryPoint = "FPDF_CopyViewerPreferences", SetLastError = true)]
 			internal static extern bool FPDF_CopyViewerPreferences(FPDF_DOCUMENT dest_doc, FPDF_DOCUMENT src_doc);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_CopyViewerPreferences/*'/>
 		/// <seealso cref='PdfDocument.CopyViewerPreferencesFrom(PdfDocument)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_CopyViewerPreferences(FPDF_DOCUMENT dest_doc, FPDF_DOCUMENT src_doc)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_CopyViewerPreferences(dest_doc, src_doc); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_CopyViewerPreferences(dest_doc, src_doc); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2865,14 +4688,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_RenderPageBitmap_Start")]
+			[DllImport("pdfium", EntryPoint = "FPDF_RenderPageBitmap_Start", SetLastError = true)]
 			internal static extern RenderingStatus FPDF_RenderPageBitmap_Start(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, RenderingFlags flags, IFSDK_PAUSE pause);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_RenderPageBitmap_Start/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static RenderingStatus FPDF_RenderPageBitmap_Start(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, RenderingFlags flags, IFSDK_PAUSE pause)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_RenderPageBitmap_Start(bitmap, page, start_x, start_y, size_x, size_y, rotate, flags, pause); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_RenderPageBitmap_Start(bitmap, page, start_x, start_y, size_x, size_y, rotate, flags, pause); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2882,14 +4716,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_RenderPage_Continue")]
+			[DllImport("pdfium", EntryPoint = "FPDF_RenderPage_Continue", SetLastError = true)]
 			internal static extern RenderingStatus FPDF_RenderPage_Continue(FPDF_PAGE page, IFSDK_PAUSE pause);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_RenderPage_Continue/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static RenderingStatus FPDF_RenderPage_Continue(FPDF_PAGE page, IFSDK_PAUSE pause)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_RenderPage_Continue(page, pause); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_RenderPage_Continue(page, pause); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2899,14 +4744,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_RenderPage_Close")]
+			[DllImport("pdfium", EntryPoint = "FPDF_RenderPage_Close", SetLastError = true)]
 			internal static extern void FPDF_RenderPage_Close(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_RenderPage_Close/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_RenderPage_Close(FPDF_PAGE page)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_RenderPage_Close(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_RenderPage_Close(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2916,16 +4772,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_SaveAsCopy")]
+			[DllImport("pdfium", EntryPoint = "FPDF_SaveAsCopy", SetLastError = true)]
 			internal static extern bool FPDF_SaveAsCopy(FPDF_DOCUMENT document, FPDF_FILEWRITE fileWrite, SaveFlags flags);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_SaveAsCopy/*'/>
 		/// <seealso cref='PDFium.FPDF_SaveAsCopy(FPDF_DOCUMENT, Stream, SaveFlags, int)'/>
 		/// <seealso cref='PdfDocument.Save(Stream, SaveFlags, int)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_SaveAsCopy(FPDF_DOCUMENT document, FPDF_FILEWRITE fileWrite, SaveFlags flags)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_SaveAsCopy(document, fileWrite, flags); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_SaveAsCopy(document, fileWrite, flags); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2935,16 +4802,27 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_SaveWithVersion")]
+			[DllImport("pdfium", EntryPoint = "FPDF_SaveWithVersion", SetLastError = true)]
 			internal static extern bool FPDF_SaveWithVersion(FPDF_DOCUMENT document, FPDF_FILEWRITE fileWrite, SaveFlags flags, int fileVersion);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_SaveWithVersion/*'/>
 		/// <seealso cref='PDFium.FPDF_SaveAsCopy(FPDF_DOCUMENT, Stream, SaveFlags, int)'/>
 		/// <seealso cref='PdfDocument.Save(Stream, SaveFlags, int)'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDF_SaveWithVersion(FPDF_DOCUMENT document, FPDF_FILEWRITE fileWrite, SaveFlags flags, int fileVersion)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_SaveWithVersion(document, fileWrite, flags, fileVersion); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_SaveWithVersion(document, fileWrite, flags, fileVersion); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2954,14 +4832,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetCharIndexFromTextIndex")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetCharIndexFromTextIndex", SetLastError = true)]
 			internal static extern int FPDFText_GetCharIndexFromTextIndex(FPDF_TEXTPAGE text_page, int nTextIndex);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetCharIndexFromTextIndex/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFText_GetCharIndexFromTextIndex(FPDF_TEXTPAGE text_page, int nTextIndex)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetCharIndexFromTextIndex(text_page, nTextIndex); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetCharIndexFromTextIndex(text_page, nTextIndex); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2971,14 +4860,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetTextIndexFromCharIndex")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetTextIndexFromCharIndex", SetLastError = true)]
 			internal static extern int FPDFText_GetTextIndexFromCharIndex(FPDF_TEXTPAGE text_page, int nCharIndex);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetTextIndexFromCharIndex/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFText_GetTextIndexFromCharIndex(FPDF_TEXTPAGE text_page, int nCharIndex)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetTextIndexFromCharIndex(text_page, nCharIndex); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetTextIndexFromCharIndex(text_page, nCharIndex); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -2988,14 +4888,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructTree_GetForPage")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructTree_GetForPage", SetLastError = true)]
 			internal static extern FPDF_STRUCTTREE FPDF_StructTree_GetForPage(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructTree_GetForPage/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_STRUCTTREE FPDF_StructTree_GetForPage(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructTree_GetForPage(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructTree_GetForPage(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3005,14 +4916,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructTree_Close")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructTree_Close", SetLastError = true)]
 			internal static extern void FPDF_StructTree_Close(FPDF_STRUCTTREE struct_tree);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructTree_Close/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_StructTree_Close(FPDF_STRUCTTREE struct_tree)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_StructTree_Close(struct_tree); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_StructTree_Close(struct_tree); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3022,14 +4944,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructTree_CountChildren")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructTree_CountChildren", SetLastError = true)]
 			internal static extern int FPDF_StructTree_CountChildren(FPDF_STRUCTTREE struct_tree);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructTree_CountChildren/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDF_StructTree_CountChildren(FPDF_STRUCTTREE struct_tree)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructTree_CountChildren(struct_tree); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructTree_CountChildren(struct_tree); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3039,14 +4972,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructTree_GetChildAtIndex")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructTree_GetChildAtIndex", SetLastError = true)]
 			internal static extern FPDF_STRUCTELEMENT FPDF_StructTree_GetChildAtIndex(FPDF_STRUCTTREE struct_tree, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructTree_GetChildAtIndex/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_STRUCTELEMENT FPDF_StructTree_GetChildAtIndex(FPDF_STRUCTTREE struct_tree, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructTree_GetChildAtIndex(struct_tree, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructTree_GetChildAtIndex(struct_tree, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3056,14 +5000,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructElement_GetAltText")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructElement_GetAltText", SetLastError = true)]
 			internal static extern uint FPDF_StructElement_GetAltText(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructElement_GetAltText/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static uint FPDF_StructElement_GetAltText(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructElement_GetAltText(struct_element, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructElement_GetAltText(struct_element, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3073,14 +5028,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructElement_GetMarkedContentID")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructElement_GetMarkedContentID", SetLastError = true)]
 			internal static extern int FPDF_StructElement_GetMarkedContentID(FPDF_STRUCTELEMENT struct_element);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructElement_GetMarkedContentID/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDF_StructElement_GetMarkedContentID(FPDF_STRUCTELEMENT struct_element)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructElement_GetMarkedContentID(struct_element); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructElement_GetMarkedContentID(struct_element); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3090,14 +5056,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructElement_GetType")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructElement_GetType", SetLastError = true)]
 			internal static extern uint FPDF_StructElement_GetType(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructElement_GetType/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDF_StructElement_GetType(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructElement_GetType(struct_element, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructElement_GetType(struct_element, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3107,14 +5084,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructElement_GetTitle")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructElement_GetTitle", SetLastError = true)]
 			internal static extern uint FPDF_StructElement_GetTitle(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructElement_GetTitle/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDF_StructElement_GetTitle(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructElement_GetTitle(struct_element, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructElement_GetTitle(struct_element, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3124,14 +5112,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructElement_CountChildren")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructElement_CountChildren", SetLastError = true)]
 			internal static extern int FPDF_StructElement_CountChildren(FPDF_STRUCTELEMENT struct_element);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructElement_CountChildren/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDF_StructElement_CountChildren(FPDF_STRUCTELEMENT struct_element)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructElement_CountChildren(struct_element); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructElement_CountChildren(struct_element); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3141,14 +5140,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_StructElement_GetChildAtIndex")]
+			[DllImport("pdfium", EntryPoint = "FPDF_StructElement_GetChildAtIndex", SetLastError = true)]
 			internal static extern FPDF_STRUCTELEMENT FPDF_StructElement_GetChildAtIndex(FPDF_STRUCTELEMENT struct_element, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_StructElement_GetChildAtIndex/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_STRUCTELEMENT FPDF_StructElement_GetChildAtIndex(FPDF_STRUCTELEMENT struct_element, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_StructElement_GetChildAtIndex(struct_element, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_StructElement_GetChildAtIndex(struct_element, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3158,14 +5168,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_LoadPage")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_LoadPage", SetLastError = true)]
 			internal static extern FPDF_TEXTPAGE FPDFText_LoadPage(FPDF_PAGE page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_LoadPage/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_TEXTPAGE FPDFText_LoadPage(FPDF_PAGE page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_LoadPage(page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_LoadPage(page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3175,14 +5196,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_ClosePage")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_ClosePage", SetLastError = true)]
 			internal static extern void FPDFText_ClosePage(FPDF_TEXTPAGE text_page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_ClosePage/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFText_ClosePage(FPDF_TEXTPAGE text_page)
 		{
-			lock(_lock) { PlatformInvoke.FPDFText_ClosePage(text_page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFText_ClosePage(text_page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3192,14 +5224,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_CountChars")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_CountChars", SetLastError = true)]
 			internal static extern int FPDFText_CountChars(FPDF_TEXTPAGE text_page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_CountChars/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFText_CountChars(FPDF_TEXTPAGE text_page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_CountChars(text_page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_CountChars(text_page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3209,15 +5252,26 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetUnicode")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetUnicode", SetLastError = true)]
 			[return: MarshalAs(UnmanagedType.U4)]
 			internal static extern char FPDFText_GetUnicode(FPDF_TEXTPAGE text_page, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetUnicode/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static char FPDFText_GetUnicode(FPDF_TEXTPAGE text_page, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetUnicode(text_page, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetUnicode(text_page, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3227,14 +5281,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetFontSize")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetFontSize", SetLastError = true)]
 			internal static extern double FPDFText_GetFontSize(FPDF_TEXTPAGE text_page, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetFontSize/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static double FPDFText_GetFontSize(FPDF_TEXTPAGE text_page, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetFontSize(text_page, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetFontSize(text_page, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3244,14 +5309,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetFontInfo")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetFontInfo", SetLastError = true)]
 			internal static extern uint FPDFText_GetFontInfo(FPDF_TEXTPAGE text_page, int index, ref byte buffer, uint buflen, out int flags);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetFontInfo/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static uint FPDFText_GetFontInfo(FPDF_TEXTPAGE text_page, int index, ref byte buffer, uint buflen, out int flags)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetFontInfo(text_page, index, ref buffer, buflen, out flags); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetFontInfo(text_page, index, ref buffer, buflen, out flags); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3261,14 +5337,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetFontWeight")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetFontWeight", SetLastError = true)]
 			internal static extern int FPDFText_GetFontWeight(FPDF_TEXTPAGE text_page, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetFontWeight/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFText_GetFontWeight(FPDF_TEXTPAGE text_page, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetFontWeight(text_page, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetFontWeight(text_page, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3278,14 +5365,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetTextRenderMode")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetTextRenderMode", SetLastError = true)]
 			internal static extern FPDF_TEXT_RENDERMODE FPDFText_GetTextRenderMode(FPDF_TEXTPAGE text_page, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetTextRenderMode/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_TEXT_RENDERMODE FPDFText_GetTextRenderMode(FPDF_TEXTPAGE text_page, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetTextRenderMode(text_page, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetTextRenderMode(text_page, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3295,14 +5393,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetFillColor")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetFillColor", SetLastError = true)]
 			internal static extern bool FPDFText_GetFillColor(FPDF_TEXTPAGE text_page, int index, out uint R, out uint G, out uint B, out uint A);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetFillColor/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_GetFillColor(FPDF_TEXTPAGE text_page, int index, out uint R, out uint G, out uint B, out uint A)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetFillColor(text_page, index, out R, out G, out B, out A); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetFillColor(text_page, index, out R, out G, out B, out A); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3312,14 +5421,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetStrokeColor")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetStrokeColor", SetLastError = true)]
 			internal static extern bool FPDFText_GetStrokeColor(FPDF_TEXTPAGE text_page, int index, out uint R, out uint G, out uint B, out uint A);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetStrokeColor/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_GetStrokeColor(FPDF_TEXTPAGE text_page, int index, out uint R, out uint G, out uint B, out uint A)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetStrokeColor(text_page, index, out R, out G, out B, out A); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetStrokeColor(text_page, index, out R, out G, out B, out A); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3329,14 +5449,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetCharAngle")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetCharAngle", SetLastError = true)]
 			internal static extern float FPDFText_GetCharAngle(FPDF_TEXTPAGE text_page, int index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetCharAngle/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static float FPDFText_GetCharAngle(FPDF_TEXTPAGE text_page, int index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetCharAngle(text_page, index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetCharAngle(text_page, index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3346,14 +5477,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetCharBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetCharBox", SetLastError = true)]
 			internal static extern bool FPDFText_GetCharBox(FPDF_TEXTPAGE text_page, int index, out double left, out double right, out double bottom, out double top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetCharBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_GetCharBox(FPDF_TEXTPAGE text_page, int index, out double left, out double right, out double bottom, out double top)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetCharBox(text_page, index, out left, out right, out bottom, out top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetCharBox(text_page, index, out left, out right, out bottom, out top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3363,14 +5505,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetLooseCharBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetLooseCharBox", SetLastError = true)]
 			internal static extern bool FPDFText_GetLooseCharBox(FPDF_TEXTPAGE text_page, int index, FS_RECTF rect);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetLooseCharBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_GetLooseCharBox(FPDF_TEXTPAGE text_page, int index, FS_RECTF rect)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetLooseCharBox(text_page, index, rect); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetLooseCharBox(text_page, index, rect); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3380,14 +5533,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetMatrix")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetMatrix", SetLastError = true)]
 			internal static extern bool FPDFText_GetMatrix(FPDF_TEXTPAGE text_page, int index, FS_MATRIX matrix);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetMatrix/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_GetMatrix(FPDF_TEXTPAGE text_page, int index, FS_MATRIX matrix)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetMatrix(text_page, index, matrix); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetMatrix(text_page, index, matrix); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3397,14 +5561,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetCharOrigin")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetCharOrigin", SetLastError = true)]
 			internal static extern bool FPDFText_GetCharOrigin(FPDF_TEXTPAGE text_page, int index, out double x, out double y);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetCharOrigin/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_GetCharOrigin(FPDF_TEXTPAGE text_page, int index, out double x, out double y)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetCharOrigin(text_page, index, out x, out y); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetCharOrigin(text_page, index, out x, out y); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3414,14 +5589,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetCharIndexAtPos")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetCharIndexAtPos", SetLastError = true)]
 			internal static extern int FPDFText_GetCharIndexAtPos(FPDF_TEXTPAGE text_page, double x, double y, double xTolerance, double yTolerance);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetCharIndexAtPos/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFText_GetCharIndexAtPos(FPDF_TEXTPAGE text_page, double x, double y, double xTolerance, double yTolerance)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetCharIndexAtPos(text_page, x, y, xTolerance, yTolerance); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetCharIndexAtPos(text_page, x, y, xTolerance, yTolerance); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3431,14 +5617,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetText")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetText", SetLastError = true)]
 			internal static extern int FPDFText_GetText(FPDF_TEXTPAGE text_page, int start_index, int count, ref byte result);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetText/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static int FPDFText_GetText(FPDF_TEXTPAGE text_page, int start_index, int count, ref byte result)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetText(text_page, start_index, count, ref result); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetText(text_page, start_index, count, ref result); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3448,14 +5645,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_CountRects")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_CountRects", SetLastError = true)]
 			internal static extern int FPDFText_CountRects(FPDF_TEXTPAGE text_page, int start_index, int count);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_CountRects/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFText_CountRects(FPDF_TEXTPAGE text_page, int start_index, int count)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_CountRects(text_page, start_index, count); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_CountRects(text_page, start_index, count); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3465,14 +5673,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetRect")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetRect", SetLastError = true)]
 			internal static extern bool FPDFText_GetRect(FPDF_TEXTPAGE text_page, int rect_index, out double left, out double top, out double right, out double bottom);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetRect/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_GetRect(FPDF_TEXTPAGE text_page, int rect_index, out double left, out double top, out double right, out double bottom)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetRect(text_page, rect_index, out left, out top, out right, out bottom); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetRect(text_page, rect_index, out left, out top, out right, out bottom); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3482,14 +5701,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetBoundedText")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetBoundedText", SetLastError = true)]
 			internal static extern int FPDFText_GetBoundedText(FPDF_TEXTPAGE text_page, double left, double top, double right, double bottom, ref byte buffer, int buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetBoundedText/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static int FPDFText_GetBoundedText(FPDF_TEXTPAGE text_page, double left, double top, double right, double bottom, ref byte buffer, int buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetBoundedText(text_page, left, top, right, bottom, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetBoundedText(text_page, left, top, right, bottom, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3499,14 +5729,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_FindStart")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_FindStart", SetLastError = true)]
 			internal static extern FPDF_SCHHANDLE FPDFText_FindStart(FPDF_TEXTPAGE text_page, [MarshalAs(UnmanagedType.LPWStr)] string findwhat, SearchFlags flags, int start_index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_FindStart/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_SCHHANDLE FPDFText_FindStart(FPDF_TEXTPAGE text_page, [MarshalAs(UnmanagedType.LPWStr)] string findwhat, SearchFlags flags, int start_index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_FindStart(text_page, findwhat, flags, start_index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_FindStart(text_page, findwhat, flags, start_index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3516,14 +5757,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_FindNext")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_FindNext", SetLastError = true)]
 			internal static extern bool FPDFText_FindNext(FPDF_SCHHANDLE handle);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_FindNext/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_FindNext(FPDF_SCHHANDLE handle)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_FindNext(handle); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_FindNext(handle); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3533,14 +5785,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_FindPrev")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_FindPrev", SetLastError = true)]
 			internal static extern bool FPDFText_FindPrev(FPDF_SCHHANDLE handle);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_FindPrev/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFText_FindPrev(FPDF_SCHHANDLE handle)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_FindPrev(handle); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_FindPrev(handle); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3550,14 +5813,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetSchResultIndex")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetSchResultIndex", SetLastError = true)]
 			internal static extern int FPDFText_GetSchResultIndex(FPDF_SCHHANDLE handle);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetSchResultIndex/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFText_GetSchResultIndex(FPDF_SCHHANDLE handle)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetSchResultIndex(handle); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetSchResultIndex(handle); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3567,14 +5841,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_GetSchCount")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_GetSchCount", SetLastError = true)]
 			internal static extern int FPDFText_GetSchCount(FPDF_SCHHANDLE handle);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_GetSchCount/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFText_GetSchCount(FPDF_SCHHANDLE handle)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFText_GetSchCount(handle); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFText_GetSchCount(handle); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3584,14 +5869,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFText_FindClose")]
+			[DllImport("pdfium", EntryPoint = "FPDFText_FindClose", SetLastError = true)]
 			internal static extern void FPDFText_FindClose(FPDF_SCHHANDLE handle);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFText_FindClose/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFText_FindClose(FPDF_SCHHANDLE handle)
 		{
-			lock(_lock) { PlatformInvoke.FPDFText_FindClose(handle); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFText_FindClose(handle); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3601,14 +5897,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_LoadWebLinks")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_LoadWebLinks", SetLastError = true)]
 			internal static extern FPDF_PAGELINK FPDFLink_LoadWebLinks(FPDF_TEXTPAGE text_page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_LoadWebLinks/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGELINK FPDFLink_LoadWebLinks(FPDF_TEXTPAGE text_page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_LoadWebLinks(text_page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_LoadWebLinks(text_page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3618,14 +5925,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_CountWebLinks")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_CountWebLinks", SetLastError = true)]
 			internal static extern int FPDFLink_CountWebLinks(FPDF_PAGELINK link_page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_CountWebLinks/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFLink_CountWebLinks(FPDF_PAGELINK link_page)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_CountWebLinks(link_page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_CountWebLinks(link_page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3635,14 +5953,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetURL")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetURL", SetLastError = true)]
 			internal static extern int FPDFLink_GetURL(FPDF_PAGELINK link_page, int link_index, ref byte buffer, int buflen);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetURL/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		private static int FPDFLink_GetURL(FPDF_PAGELINK link_page, int link_index, ref byte buffer, int buflen)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetURL(link_page, link_index, ref buffer, buflen); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetURL(link_page, link_index, ref buffer, buflen); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3652,14 +5981,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_CountRects")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_CountRects", SetLastError = true)]
 			internal static extern int FPDFLink_CountRects(FPDF_PAGELINK link_page, int link_index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_CountRects/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFLink_CountRects(FPDF_PAGELINK link_page, int link_index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_CountRects(link_page, link_index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_CountRects(link_page, link_index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3669,14 +6009,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetRect")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetRect", SetLastError = true)]
 			internal static extern bool FPDFLink_GetRect(FPDF_PAGELINK link_page, int link_index, int rect_index, out double left, out double top, out double right, out double bottom);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetRect/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFLink_GetRect(FPDF_PAGELINK link_page, int link_index, int rect_index, out double left, out double top, out double right, out double bottom)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetRect(link_page, link_index, rect_index, out left, out top, out right, out bottom); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetRect(link_page, link_index, rect_index, out left, out top, out right, out bottom); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3686,14 +6037,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_GetTextRange")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_GetTextRange", SetLastError = true)]
 			internal static extern bool FPDFLink_GetTextRange(FPDF_PAGELINK link_page, int link_index, out int start_char_index, out int char_count);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_GetTextRange/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFLink_GetTextRange(FPDF_PAGELINK link_page, int link_index, out int start_char_index, out int char_count)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFLink_GetTextRange(link_page, link_index, out start_char_index, out char_count); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFLink_GetTextRange(link_page, link_index, out start_char_index, out char_count); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3703,14 +6065,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFLink_CloseWebLinks")]
+			[DllImport("pdfium", EntryPoint = "FPDFLink_CloseWebLinks", SetLastError = true)]
 			internal static extern void FPDFLink_CloseWebLinks(FPDF_PAGELINK link_page);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFLink_CloseWebLinks/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFLink_CloseWebLinks(FPDF_PAGELINK link_page)
 		{
-			lock(_lock) { PlatformInvoke.FPDFLink_CloseWebLinks(link_page); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFLink_CloseWebLinks(link_page); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3720,14 +6093,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_SetMediaBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_SetMediaBox", SetLastError = true)]
 			internal static extern void FPDFPage_SetMediaBox(FPDF_PAGE page, float left, float bottom, float right, float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_SetMediaBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_SetMediaBox(FPDF_PAGE page, float left, float bottom, float right, float top)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_SetMediaBox(page, left, bottom, right, top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_SetMediaBox(page, left, bottom, right, top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3737,14 +6121,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_SetCropBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_SetCropBox", SetLastError = true)]
 			internal static extern void FPDFPage_SetCropBox(FPDF_PAGE page, float left, float bottom, float right, float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_SetCropBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_SetCropBox(FPDF_PAGE page, float left, float bottom, float right, float top)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_SetCropBox(page, left, bottom, right, top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_SetCropBox(page, left, bottom, right, top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3754,14 +6149,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_SetBleedBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_SetBleedBox", SetLastError = true)]
 			internal static extern void FPDFPage_SetBleedBox(FPDF_PAGE page, float left, float bottom, float right, float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_SetBleedBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_SetBleedBox(FPDF_PAGE page, float left, float bottom, float right, float top)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_SetBleedBox(page, left, bottom, right, top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_SetBleedBox(page, left, bottom, right, top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3771,14 +6177,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_SetTrimBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_SetTrimBox", SetLastError = true)]
 			internal static extern void FPDFPage_SetTrimBox(FPDF_PAGE page, float left, float bottom, float right, float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_SetTrimBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_SetTrimBox(FPDF_PAGE page, float left, float bottom, float right, float top)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_SetTrimBox(page, left, bottom, right, top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_SetTrimBox(page, left, bottom, right, top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3788,14 +6205,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_SetArtBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_SetArtBox", SetLastError = true)]
 			internal static extern void FPDFPage_SetArtBox(FPDF_PAGE page, float left, float bottom, float right, float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_SetArtBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_SetArtBox(FPDF_PAGE page, float left, float bottom, float right, float top)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_SetArtBox(page, left, bottom, right, top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_SetArtBox(page, left, bottom, right, top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3805,14 +6233,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_GetMediaBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_GetMediaBox", SetLastError = true)]
 			internal static extern bool FPDFPage_GetMediaBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_GetMediaBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_GetMediaBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_GetMediaBox(page, out left, out bottom, out right, out top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_GetMediaBox(page, out left, out bottom, out right, out top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3822,14 +6261,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_GetCropBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_GetCropBox", SetLastError = true)]
 			internal static extern bool FPDFPage_GetCropBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_GetCropBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_GetCropBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_GetCropBox(page, out left, out bottom, out right, out top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_GetCropBox(page, out left, out bottom, out right, out top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3839,14 +6289,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_GetBleedBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_GetBleedBox", SetLastError = true)]
 			internal static extern bool FPDFPage_GetBleedBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_GetBleedBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_GetBleedBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_GetBleedBox(page, out left, out bottom, out right, out top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_GetBleedBox(page, out left, out bottom, out right, out top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3856,14 +6317,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_GetTrimBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_GetTrimBox", SetLastError = true)]
 			internal static extern bool FPDFPage_GetTrimBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_GetTrimBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_GetTrimBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_GetTrimBox(page, out left, out bottom, out right, out top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_GetTrimBox(page, out left, out bottom, out right, out top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3873,14 +6345,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_GetArtBox")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_GetArtBox", SetLastError = true)]
 			internal static extern bool FPDFPage_GetArtBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_GetArtBox/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_GetArtBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_GetArtBox(page, out left, out bottom, out right, out top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_GetArtBox(page, out left, out bottom, out right, out top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3890,14 +6373,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_TransFormWithClip")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_TransFormWithClip", SetLastError = true)]
 			internal static extern bool FPDFPage_TransFormWithClip(FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipRect);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_TransFormWithClip/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static bool FPDFPage_TransFormWithClip(FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipRect)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPage_TransFormWithClip(page, matrix, clipRect); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPage_TransFormWithClip(page, matrix, clipRect); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3907,14 +6401,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_TransformClipPath")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_TransformClipPath", SetLastError = true)]
 			internal static extern void FPDFPageObj_TransformClipPath(FPDF_PAGEOBJECT page_object, double a, double b, double c, double d, double e, double f);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_TransformClipPath/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPageObj_TransformClipPath(FPDF_PAGEOBJECT page_object, double a, double b, double c, double d, double e, double f)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPageObj_TransformClipPath(page_object, a, b, c, d, e, f); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPageObj_TransformClipPath(page_object, a, b, c, d, e, f); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3924,14 +6429,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPageObj_GetClipPath")]
+			[DllImport("pdfium", EntryPoint = "FPDFPageObj_GetClipPath", SetLastError = true)]
 			internal static extern FPDF_CLIPPATH FPDFPageObj_GetClipPath(FPDF_PAGEOBJECT page_object);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPageObj_GetClipPath/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_CLIPPATH FPDFPageObj_GetClipPath(FPDF_PAGEOBJECT page_object)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFPageObj_GetClipPath(page_object); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFPageObj_GetClipPath(page_object); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3941,14 +6457,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFClipPath_CountPaths")]
+			[DllImport("pdfium", EntryPoint = "FPDFClipPath_CountPaths", SetLastError = true)]
 			internal static extern int FPDFClipPath_CountPaths(FPDF_CLIPPATH clip_path);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFClipPath_CountPaths/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFClipPath_CountPaths(FPDF_CLIPPATH clip_path)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFClipPath_CountPaths(clip_path); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFClipPath_CountPaths(clip_path); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3958,14 +6485,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFClipPath_CountPathSegments")]
+			[DllImport("pdfium", EntryPoint = "FPDFClipPath_CountPathSegments", SetLastError = true)]
 			internal static extern int FPDFClipPath_CountPathSegments(FPDF_CLIPPATH clip_path, int path_index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFClipPath_CountPathSegments/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static int FPDFClipPath_CountPathSegments(FPDF_CLIPPATH clip_path, int path_index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFClipPath_CountPathSegments(clip_path, path_index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFClipPath_CountPathSegments(clip_path, path_index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3975,14 +6513,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFClipPath_GetPathSegment")]
+			[DllImport("pdfium", EntryPoint = "FPDFClipPath_GetPathSegment", SetLastError = true)]
 			internal static extern FPDF_PATHSEGMENT FPDFClipPath_GetPathSegment(FPDF_CLIPPATH clip_path, int path_index, int segment_index);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFClipPath_GetPathSegment/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PATHSEGMENT FPDFClipPath_GetPathSegment(FPDF_CLIPPATH clip_path, int path_index, int segment_index)
 		{
-			lock(_lock) { return PlatformInvoke.FPDFClipPath_GetPathSegment(clip_path, path_index, segment_index); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDFClipPath_GetPathSegment(clip_path, path_index, segment_index); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -3992,14 +6541,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_CreateClipPath")]
+			[DllImport("pdfium", EntryPoint = "FPDF_CreateClipPath", SetLastError = true)]
 			internal static extern FPDF_CLIPPATH FPDF_CreateClipPath(float left, float bottom, float right, float top);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_CreateClipPath/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static FPDF_CLIPPATH FPDF_CreateClipPath(float left, float bottom, float right, float top)
 		{
-			lock(_lock) { return PlatformInvoke.FPDF_CreateClipPath(left, bottom, right, top); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.FPDF_CreateClipPath(left, bottom, right, top); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -4009,14 +6569,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDF_DestroyClipPath")]
+			[DllImport("pdfium", EntryPoint = "FPDF_DestroyClipPath", SetLastError = true)]
 			internal static extern void FPDF_DestroyClipPath(FPDF_CLIPPATH clipPath);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_DestroyClipPath/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_DestroyClipPath(FPDF_CLIPPATH clipPath)
 		{
-			lock(_lock) { PlatformInvoke.FPDF_DestroyClipPath(clipPath); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDF_DestroyClipPath(clipPath); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion
@@ -4026,14 +6597,25 @@ namespace PdfLibCore
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("pdfium", CallingConvention = CallingConvention.Cdecl, EntryPoint = "FPDFPage_InsertClipPath")]
+			[DllImport("pdfium", EntryPoint = "FPDFPage_InsertClipPath", SetLastError = true)]
 			internal static extern void FPDFPage_InsertClipPath(FPDF_PAGE page, FPDF_CLIPPATH clipPath);
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDFPage_InsertClipPath/*'/>
+        [HandleProcessCorruptedStateExceptions]
 		public static void FPDFPage_InsertClipPath(FPDF_PAGE page, FPDF_CLIPPATH clipPath)
 		{
-			lock(_lock) { PlatformInvoke.FPDFPage_InsertClipPath(page, clipPath); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.FPDFPage_InsertClipPath(page, clipPath); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 		}
 
 		#endregion

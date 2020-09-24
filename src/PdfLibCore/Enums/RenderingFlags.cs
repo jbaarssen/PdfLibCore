@@ -70,6 +70,6 @@ namespace PdfLibCore.Enums
         /// <summary>
         /// Set whether to render in a reverse Byte order, this flag is only used when rendering to a bitmap.
         /// </summary>
-        ReverseByteOrder = 0x10
+        ReverseByteOrder = 0x10,
     }
 }

@@ -135,6 +135,11 @@ var Imports = new[] {
 		  AccessModifier = "public",
 		  Documentation = new string[] { "<seealso cref='PdfPage.Render'/>" },
 		  Attributes = new string[] { } },
+          
+	new { Method = "void FPDF_RenderPage(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotation, RenderingFlags flags)",
+	      AccessModifier = "public",
+	      Documentation = new string[] { "<seealso cref='PdfPage.Render'/>" },
+	      Attributes = new string[] { } },
 
 	new { Method = "void FPDF_RenderPageBitmapWithMatrix(FPDF_BITMAP bitmap, FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipping, RenderingFlags flags)",
 		  AccessModifier = "public",
@@ -1202,6 +1207,7 @@ License: Microsoft Reciprocal License (MS-RL)
 // DO NOT MODIFY
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.ExceptionServices;
 using System.Security;
 using PdfLibCore.Types;
 using PdfLibCore.Enums;
@@ -1251,24 +1257,45 @@ foreach (var import in Imports)
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("<#=DllName#>", CallingConvention = <#=CallingConvention#>, EntryPoint = "<#=name#>")]<#=attributes#>
+			[DllImport("<#=DllName#>", EntryPoint = "<#=name#>", SetLastError = true)]<#=attributes#>
 			internal static extern <#=returnType#> <#=name#><#=argumentList#>;
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/<#=name#>/*'/><#=documentation#>
+        [HandleProcessCorruptedStateExceptions]
 		<#=import.AccessModifier#> static <#=returnType#> <#=name#><#=argumentList#>
 		{
 <# // ------------------------------------------------------ Code Start ------------------------------------------------------
 	if (returnType == "void")
 	{
 // --------------------------------------------------------- Code End ----------------------------------------------------- #>
-			lock(_lock) { PlatformInvoke.<#=name#>(<#=args#>); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    PlatformInvoke.<#=name#>(<#=args#>); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 <# // ------------------------------------------------------ Code Start ------------------------------------------------------
 	}
 	else
 	{
 // --------------------------------------------------------- Code End ----------------------------------------------------- #>
-			lock(_lock) { return PlatformInvoke.<#=name#>(<#=args#>); }
+			lock(_lock) 
+            { 
+                try
+                {
+                    return PlatformInvoke.<#=name#>(<#=args#>); 
+                }
+                catch(AccessViolationException innerException)
+                {
+                    throw new PdfiumException(innerException);
+                }
+            }
 <# // ------------------------------------------------------ Code Start ------------------------------------------------------
 	}
 // --------------------------------------------------------- Code End ----------------------------------------------------- #>

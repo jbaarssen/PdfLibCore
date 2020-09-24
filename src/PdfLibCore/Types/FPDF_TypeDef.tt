@@ -54,22 +54,22 @@ foreach (string name in Names)
 	[StructLayout(LayoutKind.Sequential)]
     public struct <#=name#> : IHandle<<#=name#>>
 	{
-		IntPtr _ptr;
+		public IntPtr Pointer;
 
 		/// <summary>Gets a value indicating whether the handle is <c>null</c>.</summary>
-		public bool IsNull => _ptr == IntPtr.Zero;
+		public bool IsNull => Pointer == IntPtr.Zero;
 
-		public override string ToString() => "<#=name#>: 0x" + _ptr.ToString("X16");
+		public override string ToString() => "<#=name#>: 0x" + Pointer.ToString("X16");
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
 		public static <#=name#> Null => new <#=name#>();
 
 		<#=name#>(IntPtr ptr)
 		{
-			_ptr = ptr;
+			Pointer = ptr;
 		}
 
-		<#=name#> IHandle<<#=name#>>.SetToNull() => new <#=name#>(Interlocked.Exchange(ref _ptr, IntPtr.Zero));
+		<#=name#> IHandle<<#=name#>>.SetToNull() => new <#=name#>(Interlocked.Exchange(ref Pointer, IntPtr.Zero));
 	}
 
 <# // ------------------------------------------------------ Code Start ------------------------------------------------------

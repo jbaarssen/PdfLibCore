@@ -9,16 +9,21 @@ namespace PdfLibCore
 	{
 		readonly PdfDocument _doc;
 		readonly List<PdfPage> _pages;
+		
+		private object _lock = new object();
 
 		internal PdfPageCollection(PdfDocument doc)
 		{
-			_doc = doc;
-			_pages = new List<PdfPage>(Pdfium.FPDF_GetPageCount(doc.Handle));
+			lock (_lock)
+			{
+				_doc = doc;
+				_pages = new List<PdfPage>(Pdfium.FPDF_GetPageCount(doc.Handle));
 
-            //Initialize _pages with null entries
-            for(int i=this.Count;i>0;i--)
-                _pages.Add(null);
-        }
+				//Initialize _pages with null entries
+				for (int i = 0; i < _pages.Capacity; i++)
+					_pages.Add(null);
+			}
+		}
 
 		/// <summary>
 		/// Gets the number of pages in the <see cref="PdfDocument"/>.
@@ -36,9 +41,10 @@ namespace PdfLibCore
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
-
+				
 				if (_pages[index] == null || _pages[index].IsDisposed)
 					_pages[index] = PdfPage.Load(_doc, index);
+				
 				return _pages[index];
 			}
 		}

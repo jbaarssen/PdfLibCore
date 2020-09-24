@@ -1,4 +1,6 @@
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using PdfLibCore.Enums;
 using PdfLibCore.Types;
 
@@ -67,7 +69,19 @@ namespace PdfLibCore
 			Index = index;
 		}
 
-		internal static PdfPage Load(PdfDocument doc, int index) => new PdfPage(doc, Pdfium.FPDF_LoadPage(doc.Handle, index), index);
+		internal static PdfPage Load(PdfDocument doc, int index)
+		{
+			try
+			{
+				return new PdfPage(doc, Pdfium.FPDF_LoadPage(doc.Handle, index), index);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				throw;
+			}
+		}
+
 		internal static PdfPage New(PdfDocument doc, int index, double width, double height) => new PdfPage(doc, Pdfium.FPDFPage_New(doc.Handle, index, width, height), index);
 
 		/// <summary>
@@ -79,10 +93,7 @@ namespace PdfLibCore
 		/// <param name="flags">The flags specifying how the page is to be rendered.</param>
 		public void Render(PdfiumBitmap renderTarget, (int left, int top, int width, int height) rectDest, PageOrientations orientation = PageOrientations.Normal, RenderingFlags flags = RenderingFlags.None)
 		{
-			if (renderTarget == null)
-				throw new ArgumentNullException(nameof(renderTarget));
-
-			Pdfium.FPDF_RenderPageBitmap(renderTarget.Handle, this.Handle, rectDest.left, rectDest.top, rectDest.width, rectDest.height, orientation, flags);
+			Pdfium.FPDF_RenderPageBitmap(renderTarget.Handle, this.Handle, 0, 0, rectDest.width, rectDest.height, PageOrientations.Normal, RenderingFlags.LcdText);
 		}
 
 		/// <summary>

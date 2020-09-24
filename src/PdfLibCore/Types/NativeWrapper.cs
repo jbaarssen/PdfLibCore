@@ -2,7 +2,7 @@ using System;
 
 namespace PdfLibCore.Types
 {
-    public abstract class NativeWrapper<T> : IDisposable
+    public class NativeWrapper<T> : IDisposable
         where T : struct, IHandle<T>
     {
         T _handle;
@@ -29,7 +29,11 @@ namespace PdfLibCore.Types
         protected NativeWrapper(T handle)
         {
             if (handle.IsNull)
-                throw new Exception();
+            {
+                Console.WriteLine($"Type: {typeof(T).Name}");
+                throw new PdfiumException();
+            }
+
             _handle = handle;
         }
 

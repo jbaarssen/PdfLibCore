@@ -4,6 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using PdfLibCore;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 
 namespace ExampleApp
 {
@@ -14,10 +18,9 @@ namespace ExampleApp
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
             
-            //var destination = Path.Combine("/Users/jan/Projects/temp/output");
+            var destination = Path.Combine("/Users/jan/Projects/temp/output");
             // Get bytes from PDF
-            var webClient = new WebClient();
-            var bytes = webClient.DownloadData("https://www.hq.nasa.gov/alsj/a17/A17_FlightPlan.pdf");
+            var bytes = File.ReadAllBytes("/Users/jan/Downloads/sticker.pdf");
             
             using var pdfDocument = new PdfDocument(bytes, 0);
 
@@ -26,11 +29,14 @@ namespace ExampleApp
             {
                 using (page)
                 {
-                    using (var bitmap = new PdfiumBitmap((int)page.Width, (int)page.Height, true))
-                    using (var stream = new FileStream($"{i++}.bmp", FileMode.Create))
+                    var pageWidth = (int) (300 * page.Size.Width / 96F);
+                    var pageHeight = (int) (300 * page.Size.Height / 96F);
+                    
+                    using (var bitmap = new PdfiumBitmap(pageWidth, pageHeight, true))
                     {
                         page.Render(bitmap);
-                        bitmap.Save(stream);
+                        
+                        //SaveToJpeg(bitmap.AsBmpStream(196D, 196D), Path.Combine(destination, $"{i++}.jpeg"));
                     }
                 }
             }
@@ -46,6 +52,35 @@ namespace ExampleApp
             Console.WriteLine("RunTime " + elapsedTime);
 
             Console.ReadKey();
+        }
+
+        public static void SaveToJpeg(Stream image, string destination)
+        {
+            if (image == null)
+            {
+                return;
+            }
+            
+            image.Position = 0;
+            var bmpDecoder = new BmpDecoder();
+            var img = bmpDecoder.Decode(Configuration.Default, image);
+            if (img == null)
+            {
+                return;
+            }
+            var width = (int) (img.Width * 0.5D);
+            var height = (int) (img.Height * 0.5D);
+            img.Mutate(context => context.Resize(new ResizeOptions
+            {
+                Mode = ResizeMode.Max,
+                Size = new Size(width, height)
+            }));
+            
+            using var ms = new MemoryStream();
+            img.Save(ms, JpegFormat.Instance);
+            img.Dispose();
+            
+            File.WriteAllBytes(destination, ms.ToArray());
         }
     }
 }
