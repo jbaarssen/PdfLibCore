@@ -41,6 +41,10 @@ namespace PdfLibCore
 		{
 			byte b = 0;
 			int length = handler(ref b, 0);
+			if (length == 0)
+			{
+				return string.Empty;
+			}
 			var buffer = new byte[length * lengthUnit];
 			handler(ref buffer[0], length);
 			length *= lengthUnit;
@@ -53,6 +57,10 @@ namespace PdfLibCore
 		{
 			byte b = 0;
 			int length = handler(ref b, 0);
+			if (length == 0)
+			{
+				return string.Empty;
+			}
 			var buffer = new byte[length];
 			handler(ref buffer[0], length);
 			return Encoding.ASCII.GetString(buffer, 0, (int)length - 1);
@@ -62,6 +70,10 @@ namespace PdfLibCore
 		{
 			byte b = 0;
 			int length = handler(ref b, 0);
+			if (length == 0)
+			{
+				return string.Empty;
+			}
 			var buffer = new byte[length];
 			handler(ref buffer[0], length);
 			return Encoding.UTF8.GetString(buffer, 0, (int)length - 1);
