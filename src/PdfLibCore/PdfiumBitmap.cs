@@ -1,10 +1,9 @@
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using PdfLibCore.Enums;
 using PdfLibCore.Types;
+using SixLabors.ImageSharp;
 
 namespace PdfLibCore
 {
@@ -13,9 +12,7 @@ namespace PdfLibCore
 	/// </summary>
     public sealed class PdfiumBitmap : NativeWrapper<FPDF_BITMAP>
     {
-	    private Bitmap _bitmap;
-	    
-		public int Width => Pdfium.FPDFBitmap_GetWidth(Handle);
+	    public int Width => Pdfium.FPDFBitmap_GetWidth(Handle);
 		public int Height => Pdfium.FPDFBitmap_GetHeight(Handle);
 		public int Stride => Pdfium.FPDFBitmap_GetStride(Handle);
 		public IntPtr Scan0 => Pdfium.FPDFBitmap_GetBuffer(Handle);
@@ -49,49 +46,7 @@ namespace PdfLibCore
 			throw new ArgumentOutOfRangeException(nameof(format));
 		}
 		
-		public Image Image
-		{
-			get
-			{
-				if (_bitmap != null)
-				{
-					return (Image) _bitmap;
-				}
-
-				if (IsDisposed)
-				{
-					throw new ObjectDisposedException(nameof(PdfiumBitmap));
-				}
-
-				PixelFormat pixelFormat;
-				switch (Format)
-				{
-					case BitmapFormats.Gray:
-					case BitmapFormats.RGB:
-						throw new PdfiumException();
-					case BitmapFormats.RGBx:
-						pixelFormat = _forceAlphaChannel ? PixelFormat.Format32bppArgb : PixelFormat.Format32bppRgb;
-						break;
-					case BitmapFormats.RGBA:
-						pixelFormat = PixelFormat.Format32bppArgb;
-						break;
-					default:
-						throw new PdfiumException();
-				}
-				
-				try
-				{
-					_bitmap = new Bitmap(Width, Height, Stride, pixelFormat, 
-						Pdfium.FPDFBitmap_GetBuffer(Handle));
-				}
-				catch (Exception)
-				{
-					throw;
-				}
-				
-				return _bitmap;
-			}
-		}
+		public Image Image => SixLabors.ImageSharp.Image.Load(this.AsBmpStream());
 
 		/// <summary>
 		/// Creates a new <see cref="PdfiumBitmap"/>. Unmanaged memory is allocated which must
@@ -154,8 +109,6 @@ namespace PdfLibCore
 		public void Dispose()
 		{
 			((IDisposable)this).Dispose();
-			_bitmap?.Dispose();
-			_bitmap = null;
 		}
 		
 		protected override void Dispose(FPDF_BITMAP handle)
