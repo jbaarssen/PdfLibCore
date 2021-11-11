@@ -148,7 +148,7 @@ namespace PdfLibCore
 				_bitmap = bitmap;
 				_rowLength = (uint)bitmap.BytesPerPixel * (uint)bitmap.Width;
 				_stride = ((uint)bitmap.BytesPerPixel * 8 * (uint)bitmap.Width + 31) / 32 * 4;
-				_length = PixelArrayOffset + _stride * (uint)bitmap.Height + 1;
+				_length = PixelArrayOffset + _stride * (uint)bitmap.Height;
 				_header = GetHeader(_length, _bitmap, dpiX, dpiY);
 				_pos = 0;
 			}
@@ -196,7 +196,7 @@ namespace PdfLibCore
 			public override long Position
 			{
 				get => _pos;
-				set => _pos = value < 0 || value >= _length ?  throw new ArgumentOutOfRangeException() : (uint)value;
+				set => _pos = (uint)value;
 			}
 
 			public override void Flush() { }
