@@ -7,7 +7,6 @@
         <Authors>Jan Baarssen</Authors>
         <Product>PdfLib.Core</Product>
         <Description>PdfLib CORE is a fast PDF editing and reading library for modern .NET core applications.</Description>
-        <version>$(VersionSuffix)</version>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1701;1702;1591;0649</NoWarn>
         <Copyright>MIT</Copyright>
@@ -16,7 +15,15 @@
         <RepositoryUrl>https://github.com/jbaarssen/PdfLibCore</RepositoryUrl>
         <PackageTags>PDF; Reader; netstandard; PDFium; JPEG; JPG</PackageTags>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageVersion>2.0.0</PackageVersion>
+        <ClientVersion Condition=" '$(IsPreview)' != 'true' ">$(ClientOfficialVersion)</ClientVersion>
+        <ClientVersion Condition=" '$(IsPreview)' == 'true' ">$(ClientPreviewVersion)</ClientVersion>
+        <VersionSuffix Condition=" '$(IsNightly)' == 'true' ">nightly-$(CurrentDate)</VersionSuffix>
+        <VersionSuffix Condition=" '$(IsPreview)' == 'true' ">preview</VersionSuffix>
+        <Version Condition=" '$(VersionSuffix)' == '' ">$(ClientVersion)</Version>
+        <Version Condition=" '$(VersionSuffix)' != '' ">$(ClientVersion)-$(VersionSuffix)</Version>
+        <FileVersion>$(ClientVersion)</FileVersion>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
@@ -61,6 +68,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="MinVer" Version="2.5.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
     </ItemGroup>
 </Project>
