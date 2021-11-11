@@ -16,7 +16,7 @@
         <RepositoryUrl>https://github.com/jbaarssen/PdfLibCore</RepositoryUrl>
         <PackageTags>PDF; Reader; netstandard; PDFium; JPEG; JPG</PackageTags>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageVersion>1.1.9</PackageVersion>
+        <PackageVersion>2.0.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -48,10 +48,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Compile Update="Types\FPDF_TypeDef.cs">
         <AutoGen>True</AutoGen>
         <DesignTime>True</DesignTime>
@@ -62,5 +58,9 @@
         <DesignTime>True</DesignTime>
         <DependentUpon>Pdfium.tt</DependentUpon>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SixLabors.ImageSharp" Version="1.0.4" />
     </ItemGroup>
 </Project>

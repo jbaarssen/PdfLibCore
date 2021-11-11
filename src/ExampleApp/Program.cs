@@ -24,7 +24,6 @@ namespace ExampleApp
             
             using var pdfDocument = new PdfDocument(bytes, 0);
 
-            int i = 0;
             foreach (var page in pdfDocument.Pages)
             {
                 using (page)
