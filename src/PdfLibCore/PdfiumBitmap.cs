@@ -147,8 +147,8 @@ namespace PdfLibCore
 
 				_bitmap = bitmap;
 				_rowLength = (uint)bitmap.BytesPerPixel * (uint)bitmap.Width;
-				_stride = (((uint)bitmap.BytesPerPixel * 8 * (uint)bitmap.Width + 31) / 32) * 4;
-				_length = PixelArrayOffset + _stride * (uint)bitmap.Height;
+				_stride = ((uint)bitmap.BytesPerPixel * 8 * (uint)bitmap.Width + 31) / 32 * 4;
+				_length = PixelArrayOffset + _stride * (uint)bitmap.Height + 1;
 				_header = GetHeader(_length, _bitmap, dpiX, dpiY);
 				_pos = 0;
 			}
