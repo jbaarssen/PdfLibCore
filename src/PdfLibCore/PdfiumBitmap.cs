@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using PdfLibCore.Enums;
 using PdfLibCore.Types;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Bmp;
 
 namespace PdfLibCore
 {
@@ -12,21 +13,18 @@ namespace PdfLibCore
 	/// </summary>
     public sealed class PdfiumBitmap : NativeWrapper<FPDF_BITMAP>
     {
+	    private readonly bool _forceAlphaChannel;
+
 	    public int Width => Pdfium.FPDFBitmap_GetWidth(Handle);
 		public int Height => Pdfium.FPDFBitmap_GetHeight(Handle);
 		public int Stride => Pdfium.FPDFBitmap_GetStride(Handle);
 		public IntPtr Scan0 => Pdfium.FPDFBitmap_GetBuffer(Handle);
-		private readonly bool _forceAlphaChannel;
-		
 		public int BytesPerPixel => GetBytesPerPixel(Format);
-
 		public BitmapFormats Format { get; }
 
-		PdfiumBitmap(FPDF_BITMAP bitmap, BitmapFormats format)
-			: base(bitmap)
+		private PdfiumBitmap(FPDF_BITMAP bitmap, BitmapFormats format)
+			: base(bitmap.IsNull ? throw new Exception() : bitmap)
 		{
-			if (bitmap.IsNull)
-				throw new Exception();
 			GetBytesPerPixel(format);
 			Format = format;
 		}
@@ -35,19 +33,6 @@ namespace PdfLibCore
 		{
 		}
 
-		static int GetBytesPerPixel(BitmapFormats format)
-		{
-			if (format == BitmapFormats.RGB)
-				return 3;
-			if (format == BitmapFormats.RGBA || format == BitmapFormats.RGBx)
-				return 4;
-			if (format == BitmapFormats.Gray)
-				return 1;
-			throw new ArgumentOutOfRangeException(nameof(format));
-		}
-		
-		public Image Image => SixLabors.ImageSharp.Image.Load(this.AsBmpStream());
-
 		/// <summary>
 		/// Creates a new <see cref="PdfiumBitmap"/>. Unmanaged memory is allocated which must
 		/// be freed by calling <see cref="Dispose"/>.
@@ -55,6 +40,7 @@ namespace PdfLibCore
 		/// <param name="width">The width of the new bitmap.</param>
 		/// <param name="height">The height of the new bitmap.</param>
 		/// <param name="hasAlpha">A value indicating wheter the new bitmap has an alpha channel.</param>
+		/// <param name="forceAlphaChannel"></param>
 		/// <remarks>
 		/// A bitmap created with this overload always uses 4 bytes per pixel.
 		/// Depending on <paramref name="hasAlpha"/> the <see cref="Format"/> is then either
@@ -84,61 +70,81 @@ namespace PdfLibCore
 			FillRectangle(0, 0, width, height, 0xFFFFFFFF);
 		}
 
+		public Image AsImage(double dpiX = 72, double dpiY = 72)
+		{
+			var image = AsBmpStream(dpiX, dpiY);
+			if (image == null)
+			{
+				return null;
+			}
+
+			image.Position = 0;
+			var bmpDecoder = new BmpDecoder();
+			return bmpDecoder.Decode(Configuration.Default, image);
+		}
+
 		/// <summary>
 		/// Fills a rectangle in the <see cref="PdfiumBitmap"/> with <paramref name="color"/>.
 		/// The pixel values in the rectangle are replaced and not blended.
 		/// </summary>
-		public void FillRectangle(int left, int top, int width, int height, FPDF_COLOR color)
-		{
+		public void FillRectangle(int left, int top, int width, int height, FPDF_COLOR color) => 
 			Pdfium.FPDFBitmap_FillRect(Handle, left, top, width, height, color);
-		}
-		
+
 		/// <summary>
 		/// Exposes the underlying image data directly as read-only stream in the
 		/// <see href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</see> file format.
 		/// </summary>
-		public Stream AsBmpStream(double dpiX = 72, double dpiY = 72) => new BmpStream(this, dpiX, dpiY);
+		public Stream AsBmpStream(double dpiX = 72, double dpiY = 72) => 
+			new BmpStream(this, dpiX, dpiY);
 
 		/// <summary>
 		/// Fills the whole <see cref="PdfiumBitmap"/> with <paramref name="color"/>.
 		/// The pixel values in the rectangle are replaced and not blended.
 		/// </summary>
 		/// <param name="color"></param>
-		public void Fill(FPDF_COLOR color) => FillRectangle(0, 0, Width, Height, color);
+		public void Fill(FPDF_COLOR color) => 
+			FillRectangle(0, 0, Width, Height, color);
 
-		public void Dispose()
-		{
+		public void Dispose() => 
 			((IDisposable)this).Dispose();
-		}
-		
-		protected override void Dispose(FPDF_BITMAP handle)
-		{
-			Pdfium.FPDFBitmap_Destroy(handle);
-		}
-		
-		class BmpStream : Stream
-		{
-			const uint BmpHeaderSize = 14;
-			const uint DibHeaderSize = 108; // BITMAPV4HEADER
-			const uint PixelArrayOffset = BmpHeaderSize + DibHeaderSize;
-			const uint CompressionMethod = 3; // BI_BITFIELDS
-			const uint MaskR = 0x00_FF_00_00;
-			const uint MaskG = 0x00_00_FF_00;
-			const uint MaskB = 0x00_00_00_FF;
-			const uint MaskA = 0xFF_00_00_00;
 
-			readonly PdfiumBitmap _bitmap;
-			readonly byte[] _header;
-			readonly uint _length;
-			readonly uint _stride;
-			readonly uint _rowLength;
-			uint _pos;
+		protected override void Dispose(FPDF_BITMAP handle) => 
+			Pdfium.FPDFBitmap_Destroy(handle);
+
+		private static int GetBytesPerPixel(BitmapFormats format) => format switch
+		{
+			BitmapFormats.RGB => 3,
+			BitmapFormats.RGBA => 4,
+			BitmapFormats.RGBx => 4,
+			BitmapFormats.Gray => 1,
+			_ => throw new ArgumentOutOfRangeException(nameof(format))
+		};
+
+		private class BmpStream : Stream
+		{
+			private const uint BmpHeaderSize = 14;
+			private const uint DibHeaderSize = 108; // BITMAPV4HEADER
+			private const uint PixelArrayOffset = BmpHeaderSize + DibHeaderSize;
+			private const uint CompressionMethod = 3; // BI_BITFIELDS
+			private const uint MaskR = 0x00_FF_00_00;
+			private const uint MaskG = 0x00_00_FF_00;
+			private const uint MaskB = 0x00_00_00_FF;
+			private const uint MaskA = 0xFF_00_00_00;
+
+			private readonly PdfiumBitmap _bitmap;
+			private readonly byte[] _header;
+			private readonly uint _length;
+			private readonly uint _stride;
+			private readonly uint _rowLength;
+			private uint _pos;
 
 			public BmpStream(PdfiumBitmap bitmap, double dpiX, double dpiY)
 			{
 				if (bitmap.Format == BitmapFormats.Gray)
+				{
 					throw new NotSupportedException($"Bitmap format {bitmap.Format} is not yet supported.");
-				
+				}
+
 				_bitmap = bitmap;
 				_rowLength = (uint)bitmap.BytesPerPixel * (uint)bitmap.Width;
 				_stride = (((uint)bitmap.BytesPerPixel * 8 * (uint)bitmap.Width + 31) / 32) * 4;
@@ -147,35 +153,34 @@ namespace PdfLibCore
 				_pos = 0;
 			}
 
-			static byte[] GetHeader(uint fileSize, PdfiumBitmap bitmap, double dpiX, double dpiY)
+			private static byte[] GetHeader(uint fileSize, PdfiumBitmap bitmap, double dpiX, double dpiY)
 			{
-				const double MetersPerInch = 0.0254;
+				const double metersPerInch = 0.0254;
+				var header = new byte[BmpHeaderSize + DibHeaderSize];
 
-				byte[] header = new byte[BmpHeaderSize + DibHeaderSize];
-
-				using (var ms = new MemoryStream(header))
-				using (var writer = new BinaryWriter(ms))
+				using var ms = new MemoryStream(header);
+				using var writer = new BinaryWriter(ms);
+				writer.Write((byte)'B'); 
+				writer.Write((byte)'M');
+				writer.Write(fileSize);
+				writer.Write(0u);
+				writer.Write(PixelArrayOffset);
+				writer.Write(DibHeaderSize);
+				writer.Write(bitmap.Width);
+				writer.Write(-bitmap.Height); // top-down image
+				writer.Write((ushort)1);
+				writer.Write((ushort)(bitmap.BytesPerPixel * 8));
+				writer.Write(CompressionMethod);
+				writer.Write(0);
+				writer.Write((int)Math.Round(dpiX / metersPerInch));
+				writer.Write((int)Math.Round(dpiY / metersPerInch));
+				writer.Write(0L);
+				writer.Write(MaskR);
+				writer.Write(MaskG);
+				writer.Write(MaskB);
+				if (bitmap.Format == BitmapFormats.RGBA)
 				{
-					writer.Write((byte)'B'); 
-					writer.Write((byte)'M');
-					writer.Write(fileSize);
-					writer.Write(0u);
-					writer.Write(PixelArrayOffset);
-					writer.Write(DibHeaderSize);
-					writer.Write(bitmap.Width);
-					writer.Write(-bitmap.Height); // top-down image
-					writer.Write((ushort)1);
-					writer.Write((ushort)(bitmap.BytesPerPixel * 8));
-					writer.Write(CompressionMethod);
-					writer.Write(0);
-					writer.Write((int)Math.Round(dpiX / MetersPerInch));
-					writer.Write((int)Math.Round(dpiY / MetersPerInch));
-					writer.Write(0L);
-					writer.Write(MaskR);
-					writer.Write(MaskG);
-					writer.Write(MaskB);
-					if (bitmap.Format == BitmapFormats.RGBA)
-						writer.Write(MaskA);
+					writer.Write(MaskA);
 				}
 				return header;
 			}
@@ -191,20 +196,15 @@ namespace PdfLibCore
 			public override long Position
 			{
 				get => _pos;
-				set
-				{
-					if (value < 0 || value >= _length)
-						throw new ArgumentOutOfRangeException();
-					_pos = (uint)value;
-				}
+				set => _pos = value < 0 || value >= _length ?  throw new ArgumentOutOfRangeException() : (uint)value;
 			}
 
 			public override void Flush() { }
 
 			public override int Read(byte[] buffer, int offset, int count)
 			{
-				int bytesToRead = count;
-				int returnValue = 0;
+				var bytesToRead = count;
+				var returnValue = 0;
 				if (_pos < PixelArrayOffset)
 				{
 					returnValue = Math.Min(count, (int)(PixelArrayOffset - _pos));
@@ -215,10 +215,12 @@ namespace PdfLibCore
 				}
 
 				if (bytesToRead <= 0)
+				{
 					return returnValue;
+				}
 
 				bytesToRead = Math.Min(bytesToRead, (int)(_length - _pos));
-				uint idxBuffer = _pos - PixelArrayOffset;
+				var idxBuffer = _pos - PixelArrayOffset;
 
 				if (_stride == _bitmap.Stride)
 				{
@@ -230,36 +232,46 @@ namespace PdfLibCore
 
 				while (bytesToRead > 0)
 				{
-					int idxInStride = (int)(idxBuffer / _stride);
-					int leftInRow = Math.Max(0, (int)_rowLength - idxInStride);
-					int paddingBytes = (int)(_stride - _rowLength);
-					int read = Math.Min(bytesToRead, leftInRow);
+					var idxInStride = (int)(idxBuffer / _stride);
+					var leftInRow = Math.Max(0, (int)_rowLength - idxInStride);
+					var paddingBytes = (int)(_stride - _rowLength);
+					var read = Math.Min(bytesToRead, leftInRow);
 					if (read > 0)
+					{
 						Marshal.Copy(_bitmap.Scan0 + (int)idxBuffer, buffer, offset, read);
+					}
 					offset += read;
 					idxBuffer += (uint)read;
 					bytesToRead -= read;
 					returnValue += read;
 					read = Math.Min(bytesToRead, paddingBytes);
-					for (int i = 0; i < read; i++)
+					for (var i = 0; i < read; i++)
+					{
 						buffer[offset + i] = 0;
+					}
 					offset += read;
 					idxBuffer += (uint)read;
 					bytesToRead -= read;
 					returnValue += read;
 				}
-				_pos = PixelArrayOffset + (uint)idxBuffer;
+				_pos = PixelArrayOffset + idxBuffer;
 				return returnValue;
 			}
 
 			public override long Seek(long offset, SeekOrigin origin)
 			{
-				if (origin == SeekOrigin.Begin)
-					Position = offset;
-				else if (origin == SeekOrigin.Current)
-					Position += offset;
-				else if (origin == SeekOrigin.End)
-					Position = Length + offset;
+				switch (origin)
+				{
+					case SeekOrigin.Begin:
+						Position = offset;
+						break;
+					case SeekOrigin.Current:
+						Position += offset;
+						break;
+					case SeekOrigin.End:
+						Position = Length + offset;
+						break;
+				}
 				return Position;
 			}
 
