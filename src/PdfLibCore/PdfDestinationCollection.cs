@@ -6,15 +6,12 @@ namespace PdfLibCore
 {
     public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
     {
-        readonly PdfDocument _doc;
+        private readonly PdfDocument _doc;
 
-        /// 
         public int Count => Pdfium.FPDF_CountNamedDests(_doc.Handle);
 
-        internal PdfDestinationCollection(PdfDocument doc)
-        {
+        internal PdfDestinationCollection(PdfDocument doc) => 
             _doc = doc;
-        }
 
         public PdfDestination this[string name]
         {
@@ -30,24 +27,30 @@ namespace PdfLibCore
             get
             {
                 if (index < 0 || index >= Count)
+                {
                     throw new ArgumentOutOfRangeException(nameof(index));
-                (var handle, var name) = Pdfium.FPDF_GetNamedDest(_doc.Handle, index);
+                }
+                var (handle, name) = Pdfium.FPDF_GetNamedDest(_doc.Handle, index);
                 return handle.IsNull ? null : new PdfDestination(_doc, handle, name);
             }
         }
 
         IEnumerator<PdfDestination> IEnumerable<PdfDestination>.GetEnumerator()
         {
-            int count = Count;
-            for (int i = 0; i < count; i++)
+            var count = Count;
+            for (var i = 0; i < count; i++)
+            {
                 yield return this[i];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            int count = Count;
-            for (int i = 0; i < count; i++)
+            var count = Count;
+            for (var i = 0; i < count; i++)
+            {
                 yield return this[i];
+            }
         }
     }
 }

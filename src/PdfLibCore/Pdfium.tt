@@ -6,15 +6,12 @@ License: Microsoft Reciprocal License (MS-RL)
 <#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Security" #>
-<#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".g.cs" #>
 <# // ------------------------------------------------------ Code Start ------------------------------------------------------
-const string DllName = "pdfium";
-const string CallingConvention = "CallingConvention.Cdecl";
+const string dllName = "pdfium";
+const string callingConvention = "CallingConvention.Cdecl";
 
-var Imports = new[] {
+var imports = new[] {
 	// https://pdfium.googlesource.com/pdfium/+/master/public/fpdfview.h
 	new { Method = "void FPDF_InitLibrary()",
 		  AccessModifier = "public",
@@ -48,17 +45,17 @@ var Imports = new[] {
 
 	new { Method = "FPDF_DOCUMENT FPDF_LoadDocument([MarshalAs(UnmanagedType.LPStr)] string file_path, [MarshalAs(UnmanagedType.LPStr)] string password)",
 		  AccessModifier = "public",
-		  Documentation = new[] { "<seealso cref='PdfDocument.PdfDocument(string, string)'/>" },
+		  Documentation = new[] { "<seealso cref='PdfDocument(string, string)'/>" },
 		  Attributes = new string[] { } },
 
 	new { Method = "FPDF_DOCUMENT FPDF_LoadMemDocument(ref byte data_buf, int size, [MarshalAs(UnmanagedType.LPStr)] string password)",
 		  AccessModifier = "private",
-		  Documentation = new[] { "<seealso cref='PdfDocument.PdfDocument(byte[], int, int, string)'/>" },
+		  Documentation = new[] { "<seealso cref='PdfDocument(byte[], int, int, string)'/>" },
 		  Attributes = new string[] { } },
 
 	new { Method = "FPDF_DOCUMENT FPDF_LoadCustomDocument(FPDF_FILEREAD fileRead, [MarshalAs(UnmanagedType.LPStr)] string password)",
 		  AccessModifier = "public",
-		  Documentation = new[] { "<seealso cref='PdfDocument.PdfDocument(System.IO.Stream, int, string)'/>" },
+		  Documentation = new[] { "<seealso cref='PdfDocument(System.IO.Stream, int, string)'/>" },
 		  Attributes = new string[] { } },
 
 	new { Method = "bool FPDF_GetFileVersion(FPDF_DOCUMENT doc, out int fileVersion)",
@@ -93,7 +90,7 @@ var Imports = new[] {
 
 	new { Method = "FPDF_PAGE FPDF_LoadPage(FPDF_DOCUMENT document, int page_index)",
 		  AccessModifier = "public",
-		  Documentation = new string[] { "<seealso cref='PdfPageCollection[int]'/>", "<seealso cref='PdfDocument.Pages'/>" },
+		  Documentation = new string[] { "<seealso cref='PdfPageCollection'/>", "<seealso cref='PdfDocument.Pages'/>" },
 		  Attributes = new string[] { } },
 
 	new { Method = "float FPDF_GetPageWidthF(FPDF_PAGE page)",
@@ -163,12 +160,12 @@ var Imports = new[] {
 
 	new { Method = "void FPDF_DeviceToPage(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, int device_x, int device_y, out double page_x, out double page_y)",
 		  AccessModifier = "public",
-		  Documentation = new string[] { "<seealso cref='PdfPage.DeviceToPage((int left, int top, int width, int height), int, int, PageOrientations)'/>" },
+		  Documentation = new string[] { "<seealso cref='PdfPage.DeviceToPage'/>" },
 		  Attributes = new string[] { } },
 
 	new { Method = "void FPDF_PageToDevice(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, double page_x, double page_y, out int device_x, out int device_y)",
 		  AccessModifier = "public",
-		  Documentation = new string[] { "<seealso cref='PdfPage.PageToDevice((int left, int top, int width, int height), double, double, PageOrientations)'/>" },
+		  Documentation = new string[] { "<seealso cref='PdfPage.PageToDevice'/>" },
 		  Attributes = new string[] { } },
 
 	new { Method = "FPDF_BITMAP FPDFBitmap_Create(int width, int height, bool hasAlpha)",
@@ -258,7 +255,7 @@ var Imports = new[] {
 
 	new { Method = "FPDF_DEST FPDF_GetNamedDestByName(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string name)",
 		  AccessModifier = "public",
-		  Documentation = new string[] { "<seealso cref='PdfDestinationCollection[string]'/>", "<seealso cref='PdfDocument.Destinations'/>" },
+		  Documentation = new string[] { "<seealso cref='PdfDestinationCollection'/>", "<seealso cref='PdfDocument.Destinations'/>" },
 		  Attributes = new string[] { } },
 
 	new { Method = "FPDF_DEST FPDF_GetNamedDest(FPDF_DOCUMENT document, int index, IntPtr buffer, out int buflen)",
@@ -1218,7 +1215,7 @@ namespace PdfLibCore
 	{
 		static readonly object _lock = new object();
 <# // ------------------------------------------------------ Code Start ------------------------------------------------------
-foreach (var import in Imports)
+foreach (var import in imports)
 {
 	if (string.IsNullOrEmpty(import.Method))
 		continue;
@@ -1235,20 +1232,20 @@ foreach (var import in Imports)
 	{
 		var argDecl = tmp.Split('=')[0].TrimEnd();
 		if (argDecl.Contains("ref "))
-			args += "ref ";
+		{
+		    args += "ref ";
+		}
 		else if (argDecl.Contains("out "))
-			args += "out ";
+		{
+		    args += "out ";
+		}
 		args += argDecl.Split(' ').Last() + ", ";
 	}
 	if (!string.IsNullOrEmpty(args))
 		args = args.Substring(0, args.Length - 2);
 
-	var attributes = string.Empty;
-	foreach (var attr in import.Attributes)
-		attributes += Environment.NewLine + "\t\t\t" + attr;
-	var documentation = string.Empty;
-	foreach (var doc in import.Documentation)
-		documentation += Environment.NewLine + "\t\t/// " + doc;
+	var attributes = import.Attributes.Aggregate(string.Empty, (current, attr) => current + (Environment.NewLine + "\t\t\t" + attr));
+	var documentation = import.Documentation.Aggregate(string.Empty, (current, doc) => current + (Environment.NewLine + "\t\t/// " + doc));
 
 // --------------------------------------------------------- Code End ----------------------------------------------------- #>
 
@@ -1257,7 +1254,7 @@ foreach (var import in Imports)
 		static partial class PlatformInvoke
 		{
             [SuppressUnmanagedCodeSecurity]
-			[DllImport("<#=DllName#>", EntryPoint = "<#=name#>", SetLastError = true)]<#=attributes#>
+			[DllImport("<#=dllName#>", EntryPoint = "<#=name#>", SetLastError = true)]<#=attributes#>
 			internal static extern <#=returnType#> <#=name#><#=argumentList#>;
 		}
 

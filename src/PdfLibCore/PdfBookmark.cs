@@ -11,7 +11,7 @@ namespace PdfLibCore
         {
             get
             {
-                FPDF_BOOKMARK handle = Pdfium.FPDFBookmark_GetFirstChild(Document.Handle, Handle);
+                var handle = Pdfium.FPDFBookmark_GetFirstChild(Document.Handle, Handle);
                 while (!handle.IsNull)
                 {
                     yield return new PdfBookmark(Document, handle);

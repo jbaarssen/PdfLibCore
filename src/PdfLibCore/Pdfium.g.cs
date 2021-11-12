@@ -1,4 +1,4 @@
-﻿#region Copyright and License
+#region Copyright and License
 /*
 This file is part of PDFiumSharp, a wrapper around the PDFium library for the .NET framework.
 Copyright (C) 2017 Tobias Meyer
@@ -199,7 +199,7 @@ namespace PdfLibCore
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_LoadDocument/*'/>
-		/// <seealso cref='PdfDocument.PdfDocument(string, string)'/>
+		/// <seealso cref='PdfDocument(string, string)'/>
         [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DOCUMENT FPDF_LoadDocument([MarshalAs(UnmanagedType.LPStr)] string file_path, [MarshalAs(UnmanagedType.LPStr)] string password)
 		{
@@ -228,7 +228,7 @@ namespace PdfLibCore
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_LoadMemDocument/*'/>
-		/// <seealso cref='PdfDocument.PdfDocument(byte[], int, int, string)'/>
+		/// <seealso cref='PdfDocument(byte[], int, int, string)'/>
         [HandleProcessCorruptedStateExceptions]
 		private static FPDF_DOCUMENT FPDF_LoadMemDocument(ref byte data_buf, int size, [MarshalAs(UnmanagedType.LPStr)] string password)
 		{
@@ -257,7 +257,7 @@ namespace PdfLibCore
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_LoadCustomDocument/*'/>
-		/// <seealso cref='PdfDocument.PdfDocument(System.IO.Stream, int, string)'/>
+		/// <seealso cref='PdfDocument(System.IO.Stream, int, string)'/>
         [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DOCUMENT FPDF_LoadCustomDocument(FPDF_FILEREAD fileRead, [MarshalAs(UnmanagedType.LPStr)] string password)
 		{
@@ -459,7 +459,7 @@ namespace PdfLibCore
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_LoadPage/*'/>
-		/// <seealso cref='PdfPageCollection[int]'/>
+		/// <seealso cref='PdfPageCollection'/>
 		/// <seealso cref='PdfDocument.Pages'/>
         [HandleProcessCorruptedStateExceptions]
 		public static FPDF_PAGE FPDF_LoadPage(FPDF_DOCUMENT document, int page_index)
@@ -688,7 +688,7 @@ namespace PdfLibCore
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_RenderPageBitmap/*'/>
-		/// <seealso cref='PdfPage.Render'/>
+		/// <seealso cref='PdfPage.Render(FPDF_BITMAP, FPDF_PAGE, int, int, int, int, PageOrientations, RenderingFlags)'/>
         [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_RenderPageBitmap(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotation, RenderingFlags flags)
 		{
@@ -860,7 +860,7 @@ namespace PdfLibCore
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_DeviceToPage/*'/>
-		/// <seealso cref='PdfPage.DeviceToPage((int left, int top, int width, int height), int, int, PageOrientations)'/>
+		/// <seealso cref='PdfPage.DeviceToPage'/>
         [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_DeviceToPage(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, int device_x, int device_y, out double page_x, out double page_y)
 		{
@@ -889,7 +889,7 @@ namespace PdfLibCore
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_PageToDevice/*'/>
-		/// <seealso cref='PdfPage.PageToDevice((int left, int top, int width, int height), double, double, PageOrientations)'/>
+		/// <seealso cref='PdfPage.PageToDevice'/>
         [HandleProcessCorruptedStateExceptions]
 		public static void FPDF_PageToDevice(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, double page_x, double page_y, out int device_x, out int device_y)
 		{
@@ -1408,7 +1408,7 @@ namespace PdfLibCore
 		}
 
 		/// <include file='PDFium.xml' path='Documentation/FPDF_GetNamedDestByName/*'/>
-		/// <seealso cref='PdfDestinationCollection[string]'/>
+		/// <seealso cref='PdfDestinationCollection'/>
 		/// <seealso cref='PdfDocument.Destinations'/>
         [HandleProcessCorruptedStateExceptions]
 		public static FPDF_DEST FPDF_GetNamedDestByName(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string name)

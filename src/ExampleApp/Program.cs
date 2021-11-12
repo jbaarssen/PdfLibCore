@@ -1,83 +1,67 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net;
 using PdfLibCore;
+using PdfLibCore.Enums;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Bmp;
-using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 
 namespace ExampleApp
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
             
-            var destination = Path.Combine("/Users/jan/Projects/temp/output");
+            var destination = Path.Combine("c:/temp/output");
             // Get bytes from PDF
-            var bytes = File.ReadAllBytes("/Users/jan/Downloads/sticker.pdf");
+            var bytes = File.ReadAllBytes("c:/temp/IR.pdf");
             
             using var pdfDocument = new PdfDocument(bytes, 0);
 
+            var i = 0;
             foreach (var page in pdfDocument.Pages)
             {
                 using (page)
                 {
-                    var pageWidth = (int) (300 * page.Size.Width / 96F);
-                    var pageHeight = (int) (300 * page.Size.Height / 96F);
-                    
-                    using (var bitmap = new PdfiumBitmap(pageWidth, pageHeight, true))
-                    {
-                        page.Render(bitmap);
-                        
-                        //SaveToJpeg(bitmap.AsBmpStream(196D, 196D), Path.Combine(destination, $"{i++}.jpeg"));
-                    }
+                    var pageWidth = (int) (300 * page.Size.Width / 72);
+                    var pageHeight = (int) (300 * page.Size.Height / 72);
+
+                    using var bitmap = new PdfiumBitmap(pageWidth, pageHeight, true);
+                    page.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
+
+                    using var ms = new MemoryStream();
+                    bitmap.AsImage(196D, 196D).SaveAsJpeg(ms);
+                    File.WriteAllBytes(Path.Combine(destination, $"{i++}.jpeg"), ms.ToArray());
+
+                    //ResizeAndSaveToJpeg(bitmap.AsImage(196D, 196D), Path.Combine(destination, $"{i++}.jpeg"));
                 }
             }
             
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
+            var ts = stopWatch.Elapsed;
 
             // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                ts.Hours, ts.Minutes, ts.Seconds,
-                ts.Milliseconds / 10);
-            Console.WriteLine("RunTime " + elapsedTime);
-
+            Console.WriteLine("RunTime " + $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}");
             Console.ReadKey();
         }
 
-        public static void SaveToJpeg(Stream image, string destination)
+        public static void ResizeAndSaveToJpeg(Image image, string destination)
         {
-            if (image == null)
-            {
-                return;
-            }
-            
-            image.Position = 0;
-            var bmpDecoder = new BmpDecoder();
-            var img = bmpDecoder.Decode(Configuration.Default, image);
-            if (img == null)
-            {
-                return;
-            }
-            var width = (int) (img.Width * 0.5D);
-            var height = (int) (img.Height * 0.5D);
-            img.Mutate(context => context.Resize(new ResizeOptions
+            var width = (int) (image.Width * 0.5D);
+            var height = (int) (image.Height * 0.5D);
+            image.Mutate(context => context.Resize(new ResizeOptions
             {
                 Mode = ResizeMode.Max,
                 Size = new Size(width, height)
             }));
             
             using var ms = new MemoryStream();
-            img.Save(ms, JpegFormat.Instance);
-            img.Dispose();
+            image.SaveAsJpeg(ms);
+            image.Dispose();
             
             File.WriteAllBytes(destination, ms.ToArray());
         }

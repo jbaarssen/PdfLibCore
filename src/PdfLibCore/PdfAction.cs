@@ -17,7 +17,7 @@ namespace PdfLibCore
         public Uri Uri => new Uri(Pdfium.FPDFAction_GetURIPath(Document.Handle, Handle));
 
         internal PdfAction(PdfDocument doc, FPDF_ACTION actionHandle)
-            :base(actionHandle)
+            : base(actionHandle)
         {
             Document = doc;
         }

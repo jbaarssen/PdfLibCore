@@ -5,9 +5,9 @@ namespace PdfLibCore
 {
     public struct PinnedGCHandle : IDisposable
     {
-        GCHandle _handle;
+        private GCHandle _handle;
 
-        PinnedGCHandle(GCHandle handle)
+        private PinnedGCHandle(GCHandle handle)
         {
             _handle = handle;
         }
@@ -19,7 +19,9 @@ namespace PdfLibCore
         void IDisposable.Dispose()
         {
             if (_handle.IsAllocated)
+            {
                 _handle.Free();
+            }
         }
 
         public override string ToString() => _handle.ToString();
