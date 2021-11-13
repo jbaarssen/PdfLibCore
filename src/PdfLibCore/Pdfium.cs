@@ -28,10 +28,8 @@ namespace PdfLibCore
 		/// </summary>
 		public static bool IsAvailable { get; }
 
-		static Pdfium()
-		{
+		static Pdfium() => 
 			IsAvailable = Initialize();
-		}
 
 		private static bool Initialize()
 		{
@@ -64,17 +62,12 @@ namespace PdfLibCore
 		}
 
 		/// <summary>
-		/// Loads a PDF document from '<paramref name="count"/>' bytes read from a stream.
+		/// Loads a PDF document from a stream.
 		/// </summary>
 		/// <param name="fileRead"></param>
-		/// <param name="count">
-		/// The number of bytes to read from the <paramref name="stream"/>.
-		/// If the value is equal to or smaller than 0, the stream is read to the end.
-		/// </param>
-		/// <param name="stream"></param>
 		/// <param name="password">Pdf password</param>
-		public static FPDF_DOCUMENT FPDF_LoadDocument(Stream stream, FPDF_FILEREAD fileRead, int count = 0, string password = null) => 
-			FPDF_LoadCustomDocument(fileRead, password);
+		public static FPDF_DOCUMENT FPDF_LoadDocument(Stream fileRead, string password = null) => 
+			FPDF_LoadCustomDocument(FPDF_FILEREAD.FromStream(fileRead), password);
 
 		public static string FPDF_VIEWERREF_GetName(FPDF_DOCUMENT document, string key)
 		{
@@ -238,8 +231,8 @@ namespace PdfLibCore
 		/// valid <paramref name="loadedPages"/> value.
 		/// </remarks>
 		public static bool FPDFImageObj_LoadJpegFile(FPDF_PAGE[] loadedPages, FPDF_PAGEOBJECT imageObject, Stream stream, int count = 0, bool inline = true) => inline 
-				? FPDFImageObj_LoadJpegFileInline(ref loadedPages[0], loadedPages.Length, imageObject, FPDF_FILEREAD.FromStream(stream, count)) 
-				: FPDFImageObj_LoadJpegFile(ref loadedPages[0], loadedPages.Length, imageObject, FPDF_FILEREAD.FromStream(stream, count));
+				? FPDFImageObj_LoadJpegFileInline(ref loadedPages[0], loadedPages.Length, imageObject, FPDF_FILEREAD.FromStream(stream)) 
+				: FPDFImageObj_LoadJpegFile(ref loadedPages[0], loadedPages.Length, imageObject, FPDF_FILEREAD.FromStream(stream));
 
 		/// <summary>
 		/// Set <paramref name="bitmap"/> to <paramref name="imageObject"/>.

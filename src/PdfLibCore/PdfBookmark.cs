@@ -5,8 +5,6 @@ namespace PdfLibCore
 {
     public sealed class PdfBookmark : NativeWrapper<FPDF_BOOKMARK>
     {
-        public PdfDocument Document { get; }
-
         public IEnumerable<PdfBookmark> Children
         {
             get
@@ -27,9 +25,8 @@ namespace PdfLibCore
         public PdfAction Action => new PdfAction(Document, Pdfium.FPDFBookmark_GetAction(Handle));
 
         internal PdfBookmark(PdfDocument doc, FPDF_BOOKMARK handle)
-            : base(handle)
+            : base(doc, handle)
         {
-            Document = doc;
         }
     }
 }

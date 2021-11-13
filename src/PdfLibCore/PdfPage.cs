@@ -2,6 +2,7 @@ using System;
 using PdfLibCore.Enums;
 using PdfLibCore.Types;
 
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 namespace PdfLibCore
 {
@@ -41,25 +42,19 @@ namespace PdfLibCore
 		public bool HasTransparency => Pdfium.FPDFPage_HasTransparency(Handle);
 
 		/// <summary>
-		/// Gets the zero-based index of the page in the <see cref="Document"/>
+		/// Gets the zero-based index of the page in the <see cref="NativeWrapper{T}.Document"/>
 		/// </summary>
 		public int Index { get; internal set; }
-
-		/// <summary>
-		/// Gets the <see cref="PdfDocument"/> which contains the page.
-		/// </summary>
-		public PdfDocument Document { get; }
 
 		public string Label => Pdfium.FPDF_GetPageLabel(Document.Handle, Index);
 
 		private PdfPage(PdfDocument doc, FPDF_PAGE page, int index)
-			: base(page)
+			: base(doc, page)
 		{
 			if (page.IsNull)
 			{
 				throw new PdfiumException();
 			}
-			Document = doc;
 			Index = index;
 		}
 
@@ -86,7 +81,7 @@ namespace PdfLibCore
 		/// <param name="orientation">The orientation at which the page is to be rendered.</param>
 		/// <param name="flags">The flags specifying how the page is to be rendered.</param>
 		public void Render(PdfiumBitmap renderTarget, (int left, int top, int width, int height) rectDest, PageOrientations orientation = PageOrientations.Normal, RenderingFlags flags = RenderingFlags.None) => 
-			Pdfium.FPDF_RenderPageBitmap(renderTarget.Handle, this.Handle, 0, 0, rectDest.width, rectDest.height, PageOrientations.Normal, RenderingFlags.LcdText);
+			Pdfium.FPDF_RenderPageBitmap(renderTarget.Handle, Handle, 0, 0, rectDest.width, rectDest.height, orientation, flags);
 		
 		public (double X, double Y) DeviceToPage((int left, int top, int width, int height) displayArea, int deviceX, int deviceY, PageOrientations orientation = PageOrientations.Normal)
 		{

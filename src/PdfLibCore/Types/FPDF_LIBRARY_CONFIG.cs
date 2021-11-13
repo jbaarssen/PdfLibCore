@@ -4,13 +4,15 @@ using System.Runtime.InteropServices;
 namespace PdfLibCore.Types
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct FPDF_LIBRARY_CONFIG
+    public readonly struct FPDF_LIBRARY_CONFIG
     {
-        readonly int _version;
-        readonly IntPtr _userFontPaths;
-        readonly IntPtr _v8Isolate;
-        readonly uint _v8EmbedderSlot;
+        private readonly int _version;
+        private readonly IntPtr _userFontPaths;
+        private readonly IntPtr _v8Isolate;
+        private readonly uint _v8EmbedderSlot;
 
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once ConvertToAutoProperty
         public int Version => _version;
     }
 }

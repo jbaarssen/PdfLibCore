@@ -5,6 +5,8 @@ namespace PdfLibCore.Types
     public class NativeWrapper<T> : IDisposable
         where T : struct, IHandle<T>
     {
+        protected PdfDocument Document { get; }
+        
         private T _handle;
 
         /// <summary>
@@ -17,6 +19,10 @@ namespace PdfLibCore.Types
         /// called on this instance.
         /// </summary>
         public bool IsDisposed => _handle.IsNull;
+
+        protected NativeWrapper(PdfDocument document, T handle) 
+            : this(handle) =>
+            Document = document ?? throw new PdfiumException();
 
         protected NativeWrapper(T handle) => 
             _handle = handle.IsNull ? throw new PdfiumException() : handle;

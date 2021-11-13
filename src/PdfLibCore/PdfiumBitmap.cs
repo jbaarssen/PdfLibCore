@@ -9,7 +9,7 @@ namespace PdfLibCore
 	/// <summary>
 	/// A bitmap to which a <see cref="PdfPage"/> can be rendered.
 	/// </summary>
-	public sealed partial class PdfiumBitmap : NativeWrapper<FPDF_BITMAP>
+	public sealed class PdfiumBitmap : NativeWrapper<FPDF_BITMAP>
 	{
 		public int Width => Pdfium.FPDFBitmap_GetWidth(Handle);
 		public int Height => Pdfium.FPDFBitmap_GetHeight(Handle);

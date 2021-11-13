@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <PlatformTarget>x64</PlatformTarget>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Authors>Jan Baarssen, Jan Kokenberg</Authors>
+        <Product>PdfLib.Core</Product>
+        <Description>PdfLib CORE is a fast PDF editing and reading library for modern .NET core applications.</Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>1701;1702;1591;0649</NoWarn>
+        <Copyright>MIT</Copyright>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/jbaarssen/PdfLibCore</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/jbaarssen/PdfLibCore</RepositoryUrl>
+        <PackageTags>PDF; Reader; netstandard; PDFium; JPEG; JPG</PackageTags>
+        <PackageIcon>icon.png</PackageIcon>
+        <ClientVersion Condition=" '$(IsPreview)' != 'true' ">$(ClientOfficialVersion)</ClientVersion>
+        <ClientVersion Condition=" '$(IsPreview)' == 'true' ">$(ClientPreviewVersion)</ClientVersion>
+        <VersionSuffix Condition=" '$(IsNightly)' == 'true' ">nightly-$(CurrentDate)</VersionSuffix>
+        <VersionSuffix Condition=" '$(IsPreview)' == 'true' ">preview</VersionSuffix>
+        <Version Condition=" '$(VersionSuffix)' == '' ">$(ClientVersion)</Version>
+        <Version Condition=" '$(VersionSuffix)' != '' ">$(ClientVersion)-$(VersionSuffix)</Version>
+        <FileVersion>$(ClientVersion)</FileVersion>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <RootNamespace>PdfLibCore.CoreCompat.System.Drawing</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FreeImage.Standard" Version="4.3.8" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\PdfLibCore\PdfLibCore.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Content Include="..\..\assets\icon.png">
+        <PackagePath>icon.png</PackagePath>
+        <Link>icon.png</Link>
+      </Content>
+      <Content Include="..\..\LICENSE.txt">
+        <PackagePath>LICENSE.txt</PackagePath>
+        <Link>LICENSE.txt</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>

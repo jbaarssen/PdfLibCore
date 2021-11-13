@@ -2,7 +2,7 @@
 using SixLabors.ImageSharp.Formats.Bmp;
 
 // ReSharper disable once CheckNamespace
-namespace PdfLibCore
+namespace PdfLibCore.ImageSharp
 {
     public static class PdfiumBitmapExtensions
     {

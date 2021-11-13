@@ -1,6 +1,6 @@
 namespace PdfLibCore.Types
 {
-    public interface IHandle<T>
+    public interface IHandle<out T>
     {
         bool IsNull { get; }
 

@@ -1,9 +1,11 @@
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 namespace PdfLibCore.Types
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct FPDF_IMAGEOBJ_METADATA
+    public readonly struct FPDF_IMAGEOBJ_METADATA
     {
         // The image width in pixels.
         public uint Width { get; }

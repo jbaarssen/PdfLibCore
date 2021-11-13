@@ -6,8 +6,6 @@ namespace PdfLibCore
 {
     public sealed class PdfAction : NativeWrapper<FPDF_ACTION>
     {
-        public PdfDocument Document { get; }
-
         public ActionTypes Type => Pdfium.FPDFAction_GetType(Handle);
 
         public PdfDestination Destination => new PdfDestination(Document, Pdfium.FPDFAction_GetDest(Document.Handle, Handle), null);
@@ -17,9 +15,8 @@ namespace PdfLibCore
         public Uri Uri => new Uri(Pdfium.FPDFAction_GetURIPath(Document.Handle, Handle));
 
         internal PdfAction(PdfDocument doc, FPDF_ACTION actionHandle)
-            : base(actionHandle)
+            : base(doc, actionHandle)
         {
-            Document = doc;
         }
     }
 }

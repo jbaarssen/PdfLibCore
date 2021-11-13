@@ -4,6 +4,9 @@ using System.IO;
 using PdfLibCore.Enums;
 using PdfLibCore.Types;
 
+// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 namespace PdfLibCore
 {
     public class PdfDocument : NativeWrapper<FPDF_DOCUMENT>
@@ -18,14 +21,8 @@ namespace PdfLibCore
         /// <summary>
         /// Gets the PDF file version. File version: 14 for 1.4, 15 for 1.5, ...
         /// </summary>
-        public int FileVersion
-        {
-            get
-            {
-                Pdfium.FPDF_GetFileVersion(Handle, out var fileVersion);
-                return fileVersion;
-            }
-        }
+        public int FileVersion => 
+            Pdfium.FPDF_GetFileVersion(Handle, out var fileVersion) ? fileVersion : 1;
 
         /// <summary>
         /// Gets the revision of the security handler.
@@ -103,18 +100,13 @@ namespace PdfLibCore
         }
 
         /// <summary>
-        /// Loads a <see cref="PdfDocument"/> from '<paramref name="count"/>' bytes read from a <paramref name="stream"/>.
+        /// Loads a <see cref="PdfDocument"/> from a <paramref name="stream"/>.
         /// <see cref="Close"/> must be called in order to free unmanaged resources.
         /// </summary>
         /// <param name="stream"></param>
-        /// <param name="fileRead"></param>
-        /// <param name="count">
-        /// The number of bytes to read from the <paramref name="stream"/>.
-        /// If the value is equal to or smaller than 0, the stream is read to the end.
-        /// </param>
         /// <param name="password"></param>
-        public PdfDocument(Stream stream, FPDF_FILEREAD fileRead, int count = 0, string password = null)
-            : this(Pdfium.FPDF_LoadDocument(stream, fileRead, count, password))
+        public PdfDocument(Stream stream, string password = null)
+            : this(Pdfium.FPDF_LoadDocument(GetBytes(stream), 0, -1, password))
         {
         }
 
@@ -156,14 +148,24 @@ namespace PdfLibCore
             return handle.IsNull ? null : new PdfBookmark(this, handle);
         }
 
-        public string GetMetaText(MetadataTags tag) => Pdfium.FPDF_GetMetaText(Handle, tag);
+        public string GetMetaText(MetadataTags tag) => 
+            Pdfium.FPDF_GetMetaText(Handle, tag);
 
-        public void CopyViewerPreferencesFrom(PdfDocument srcDoc) => Pdfium.FPDF_CopyViewerPreferences(Handle, srcDoc.Handle);
+        public void CopyViewerPreferencesFrom(PdfDocument srcDoc) => 
+            Pdfium.FPDF_CopyViewerPreferences(Handle, srcDoc.Handle);
 
         protected override void Dispose(FPDF_DOCUMENT handle)
         {
             ((IDisposable)Pages).Dispose();
             Pdfium.FPDF_CloseDocument(handle);
+        }
+        
+        private static byte[] GetBytes(Stream stream)
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+            var ms = new MemoryStream();
+            stream.CopyTo(ms);
+            return ms.ToArray();
         }
     }
 }

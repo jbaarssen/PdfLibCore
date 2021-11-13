@@ -1,18 +1,24 @@
 using System;
 using System.Runtime.InteropServices;
 
+// ReSharper disable UnusedType.Global
+// ReSharper disable UnusedMember.Global
 namespace PdfLibCore
 {
-    public struct PinnedGCHandle : IDisposable
+    public struct PinnedGcHandle : IDisposable
     {
         private GCHandle _handle;
 
-        private PinnedGCHandle(GCHandle handle)
+        public IntPtr Pointer => _handle.AddrOfPinnedObject();
+        public bool IsAllocated => _handle.IsAllocated;
+        public object Target => _handle.Target;        
+        
+        private PinnedGcHandle(GCHandle handle)
         {
             _handle = handle;
         }
 
-        public static PinnedGCHandle Pin(object obj) => new PinnedGCHandle(GCHandle.Alloc(obj, GCHandleType.Pinned));
+        public static PinnedGcHandle Pin(object obj) => new PinnedGcHandle(GCHandle.Alloc(obj, GCHandleType.Pinned));
 
         public void Free() => _handle.Free();
 
@@ -25,9 +31,5 @@ namespace PdfLibCore
         }
 
         public override string ToString() => _handle.ToString();
-
-        public IntPtr Pointer => _handle.AddrOfPinnedObject();
-        public bool IsAllocated => _handle.IsAllocated;
-        public object Target => _handle.Target;
     }
 }

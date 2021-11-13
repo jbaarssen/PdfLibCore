@@ -1,7 +1,7 @@
 ﻿using SkiaSharp;
 
 // ReSharper disable once CheckNamespace
-namespace PdfLibCore
+namespace PdfLibCore.SkiaSharp
 {
     public static class PdfiumBitmapExtensions
     {

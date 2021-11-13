@@ -1,52 +1,44 @@
 using System.Runtime.InteropServices;
 
+// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 namespace PdfLibCore.Types
 {
     [StructLayout(LayoutKind.Explicit)]
-    public struct FPDF_COLOR
+    public readonly struct FPDF_COLOR
     {
-        [FieldOffset(0)]
-        readonly byte _a;
-        [FieldOffset(1)]
-        readonly byte _r;
-        [FieldOffset(2)]
-        readonly byte _g;
-        [FieldOffset(3)]
-        readonly byte _b;
-        [FieldOffset(0)]
-        readonly uint _argb;
+        [field: FieldOffset(0)]
+        public byte A { get; }
 
-        public byte A => _a;
-        public byte R => _r;
-        public byte G => _g;
-        public byte B => _b;
-        public int ARGB => unchecked((int)_argb);
+        [field: FieldOffset(1)]
+        public byte R { get; }
+
+        [field: FieldOffset(2)]
+        public byte G { get; }
+
+        [field: FieldOffset(3)]
+        public byte B { get; }
+
+        [field: FieldOffset(0)]
+        public uint ARGB { get; }
 
         public FPDF_COLOR(byte r, byte g, byte b, byte a = 255)
         {
-            _argb = 0;
-            _a = a;
-            _r = r;
-            _g = g;
-            _b = b;
+            A = a;
+            R = r;
+            G = g;
+            B = b;
+            ARGB = a;
         }
 
-        public FPDF_COLOR(int argb)
+        public FPDF_COLOR(uint argb)
         {
-            _a = 0;
-            _r = 0;
-            _g = 0;
-            _b = 0;
-            _argb = unchecked((uint)argb);
-        }
-
-        FPDF_COLOR(uint argb)
-        {
-            _a = 0;
-            _r = 0;
-            _g = 0;
-            _b = 0;
-            _argb = argb;
+            A = 0;
+            R = 0;
+            G = 0; 
+            B = 0;
+            ARGB = argb;
         }
 
         public static implicit operator FPDF_COLOR(uint argb) => new FPDF_COLOR(argb);

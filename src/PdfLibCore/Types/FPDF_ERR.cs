@@ -50,21 +50,18 @@ namespace PdfLibCore.Types
 
     public static class FpdfErrorExtension
     {
-        public static string GetDescription(this FPDF_ERR err)
+        public static string GetDescription(this FPDF_ERR err) => err switch
         {
-            switch(err)
-            {
-                case FPDF_ERR.SUCCESS: return "No error.";
-                case FPDF_ERR.UNKNOWN: return "Unkown error.";
-                case FPDF_ERR.FILE: return "File not found or could not be opened.";
-                case FPDF_ERR.FORMAT:return "File not in PDF format or corrupted.";
-                case FPDF_ERR.PASSWORD:return "Password required or incorrect password.";
-                case FPDF_ERR.SECURITY:return "Unsupported security scheme.";
-                case FPDF_ERR.PAGE:return "Page not found or content error.";
-                case FPDF_ERR.XFALOAD:return "Load XFA error.";
-                case FPDF_ERR.XFALAYOUT:return "Layout XFA error.";
-                default: return $"{err} (No description available).";
-            }
-        }
+            FPDF_ERR.SUCCESS => "No error.",
+            FPDF_ERR.UNKNOWN => "Unkown error.",
+            FPDF_ERR.FILE => "File not found or could not be opened.",
+            FPDF_ERR.FORMAT => "File not in PDF format or corrupted.",
+            FPDF_ERR.PASSWORD => "Password required or incorrect password.",
+            FPDF_ERR.SECURITY => "Unsupported security scheme.",
+            FPDF_ERR.PAGE => "Page not found or content error.",
+            FPDF_ERR.XFALOAD => "Load XFA error.",
+            FPDF_ERR.XFALAYOUT => "Layout XFA error.",
+            _ => $"{err} (No description available)."
+        };
     }
 }

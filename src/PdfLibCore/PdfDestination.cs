@@ -4,8 +4,6 @@ namespace PdfLibCore
 {
     public sealed class PdfDestination : NativeWrapper<FPDF_DEST>
     {
-        public PdfDocument Document { get; }
-        
         public string Name { get; }
 
         public int PageIndex => Pdfium.FPDFDest_GetDestPageIndex(Document.Handle, Handle);
@@ -16,9 +14,8 @@ namespace PdfLibCore
                 : new PdfPageLocation(hasX ? x : float.NaN, hasY ? y : float.NaN, hasZ ? z : float.NaN);
 
         internal PdfDestination(PdfDocument doc, FPDF_DEST handle, string name)
-            : base(handle)
+            : base(doc, handle)
         {
-            Document = doc;
             Name = name;
         }
     }

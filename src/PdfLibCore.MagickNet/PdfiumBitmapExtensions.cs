@@ -1,7 +1,7 @@
 ﻿using ImageMagick;
 
 // ReSharper disable once CheckNamespace
-namespace PdfLibCore
+namespace PdfLibCore.MagickNet
 {
     public static class PdfiumBitmapExtensions
     {
