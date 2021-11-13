@@ -1,5 +1,4 @@
-[![build](https://github.com/jbaarssen/PdfLibCore/actions/workflows/build-validation.yml/badge.svg)](https://github.com/jbaarssen/PdfLibCore/actions/workflows/build-validation.yml)
-
+[![build](https://github.com/jbaarssen/PdfLibCore/actions/workflows/build-validation.yml/badge.svg)](https://github.com/jbaarssen/PdfLibCore/actions/workflows/build-validation.yml) 
 [![Release Package Version](https://github.com/jbaarssen/PdfLibCore/actions/workflows/nuget-publish.yml/badge.svg)](https://github.com/jbaarssen/PdfLibCore/actions/workflows/nuget-publish.yml)
 
 # PdfLibCore
