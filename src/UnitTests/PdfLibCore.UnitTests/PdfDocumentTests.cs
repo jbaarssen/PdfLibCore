@@ -83,10 +83,10 @@ namespace PdfLibCore.UnitTests
             
             using var page = pdfDocument.Pages[0];
             page.Should().NotBeNull();
-            page.Width.Should().BeApproximately(595D, 1D);
-            page.Height.Should().BeApproximately(841D, 1D);
-            page.Size.Width.Should().BeApproximately(595D, 1D);
-            page.Size.Height.Should().BeApproximately(841D, 1D);
+            page.Width.Should().BeApproximately(612D, 1D);
+            page.Height.Should().BeApproximately(792D, 1D);
+            page.Size.Width.Should().BeApproximately(612D, 1D);
+            page.Size.Height.Should().BeApproximately(792D, 1D);
             page.Orientation.Should().Be(PageOrientations.Normal);
             page.HasTransparency.Should().BeFalse();
             page.Label.Should().BeEquivalentTo(string.Empty);
