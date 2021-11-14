@@ -24,7 +24,7 @@ namespace PdfLibCore.Types
             : this(handle) =>
             Document = document ?? throw new PdfiumException();
 
-        protected NativeWrapper(T handle) => 
+        protected NativeWrapper(T handle) =>
             _handle = handle.IsNull ? throw new PdfiumException() : handle;
 
         /// <summary>

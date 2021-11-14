@@ -358,7 +358,7 @@ namespace PdfLibCore
 			{
 				length -= 2;
 			}
-			return Encoding.Unicode.GetString(buffer, 0, length);
+			return Encoding.Unicode.GetString(buffer, 0, length > 0 ? length : 0);
 		}
 
 		private static string GetAsciiString(GetStringHandler handler)

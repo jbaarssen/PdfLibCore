@@ -1,4 +1,3 @@
-using System;
 using PdfLibCore.Enums;
 using PdfLibCore.Types;
 
@@ -51,10 +50,6 @@ namespace PdfLibCore
 		private PdfPage(PdfDocument doc, FPDF_PAGE page, int index)
 			: base(doc, page)
 		{
-			if (page.IsNull)
-			{
-				throw new PdfiumException();
-			}
 			Index = index;
 		}
 
@@ -99,9 +94,6 @@ namespace PdfLibCore
 
 		public FlattenResults Flatten(FlattenFlags flags) => 
 			Pdfium.FPDFPage_Flatten(Handle, flags);
-
-		public void Dispose() => 
-			((IDisposable)this).Dispose();
 
 		protected override void Dispose(FPDF_PAGE handle) => 
 			Pdfium.FPDF_ClosePage(handle);

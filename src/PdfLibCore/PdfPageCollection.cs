@@ -9,9 +9,8 @@ namespace PdfLibCore
 	{
 		private readonly PdfDocument _doc;
 		private readonly object _lock = new object();
-		private int? _count;
 
-		public new int Count => _count ??= Pdfium.FPDF_GetPageCount(_doc.Handle);
+		public new int Count => Pdfium.FPDF_GetPageCount(_doc.Handle);
 		
 		internal PdfPageCollection(PdfDocument doc)
 		{
@@ -32,7 +31,7 @@ namespace PdfLibCore
 		{
 			get
 			{
-				if (index >= _count)
+				if (index >= Count)
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
@@ -46,7 +45,7 @@ namespace PdfLibCore
 			}
 		}
 
-		void IDisposable.Dispose()
+		public void Dispose()
 		{
 			foreach (IDisposable page in this)
 			{
@@ -68,7 +67,7 @@ namespace PdfLibCore
 		/// <seealso cref="Pdfium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
 		public bool Insert(int index, PdfDocument sourceDocument, params int[] srcPageIndices)
 		{
-			if (index <= _count)
+			if (index <= Count)
             {
                 var result = Pdfium.FPDF_ImportPages(_doc.Handle, sourceDocument.Handle, index, srcPageIndices);
                 if (!result)
@@ -76,7 +75,7 @@ namespace PdfLibCore
 	                return false;
                 }
                 InsertRange(index, Enumerable.Repeat<PdfPage>(null, srcPageIndices.Length));
-                for (var i = index; i < _count; i++)
+                for (var i = index; i < Count; i++)
                 {
 	                if (this[i] != null)
 	                {
@@ -104,11 +103,11 @@ namespace PdfLibCore
 		public PdfPage Insert(int index, double width, double height)
 		{
             PdfPage page;
-            if (index <= _count)
+            if (index <= Count)
 			{
                 page = PdfPage.New(_doc, index, width, height);
                 Insert(index, page);
-				for (var i = index; i < _count; i++)
+				for (var i = index; i < Count; i++)
 				{
 					if (this[i] != null)
 					{
@@ -134,10 +133,10 @@ namespace PdfLibCore
 		/// </summary>
 		public new void RemoveAt(int index)
 		{
-			if (index < _count)
+			if (index < Count)
 			{
 				((IDisposable)this[index])?.Dispose();
-				for (var i = index; i < _count; i++)
+				for (var i = index; i < Count; i++)
 				{
 					if (this[i] != null)
 					{

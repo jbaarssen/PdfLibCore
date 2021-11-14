@@ -58,10 +58,6 @@ namespace PdfLibCore
         private PdfDocument(FPDF_DOCUMENT doc)
             : base(doc)
         {
-            if (doc.IsNull)
-            {
-                throw new PdfiumException();
-            }
             Pages = new PdfPageCollection(this);
             Destinations = new PdfDestinationCollection(this);
         }
@@ -156,7 +152,7 @@ namespace PdfLibCore
 
         protected override void Dispose(FPDF_DOCUMENT handle)
         {
-            ((IDisposable)Pages).Dispose();
+            Pages.Dispose();
             Pdfium.FPDF_CloseDocument(handle);
         }
         

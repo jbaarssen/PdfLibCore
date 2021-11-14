@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using PdfLibCore;
 using PdfLibCore.Enums;
@@ -8,6 +9,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace ExampleApp
 {
+    [ExcludeFromCodeCoverage]
     public static class Program
     {
         public static void Main(string[] args)

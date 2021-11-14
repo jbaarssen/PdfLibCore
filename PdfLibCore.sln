@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfLibCore.SkiaSharp", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfLibCore.FreeImage", "src\PdfLibCore.FreeImage\PdfLibCore.FreeImage.csproj", "{0A84A8FC-D7C4-4D1D-B223-D884C97828B2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{820F5B9F-0B28-41E1-8D72-243F000A2C1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfLibCore.UnitTests", "src\UnitTests\PdfLibCore.UnitTests\PdfLibCore.UnitTests.csproj", "{AFCCC5F8-6BB1-466E-A69F-2EE2ADC59CFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +46,12 @@ Global
 		{0A84A8FC-D7C4-4D1D-B223-D884C97828B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A84A8FC-D7C4-4D1D-B223-D884C97828B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A84A8FC-D7C4-4D1D-B223-D884C97828B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCCC5F8-6BB1-466E-A69F-2EE2ADC59CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCCC5F8-6BB1-466E-A69F-2EE2ADC59CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCCC5F8-6BB1-466E-A69F-2EE2ADC59CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCCC5F8-6BB1-466E-A69F-2EE2ADC59CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AFCCC5F8-6BB1-466E-A69F-2EE2ADC59CFC} = {820F5B9F-0B28-41E1-8D72-243F000A2C1C}
 	EndGlobalSection
 EndGlobal
