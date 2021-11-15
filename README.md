@@ -1,5 +1,6 @@
 [![build](https://github.com/jbaarssen/PdfLibCore/actions/workflows/build-validation.yml/badge.svg)](https://github.com/jbaarssen/PdfLibCore/actions/workflows/build-validation.yml) 
 [![Release Package Version](https://github.com/jbaarssen/PdfLibCore/actions/workflows/nuget-publish.yml/badge.svg)](https://github.com/jbaarssen/PdfLibCore/actions/workflows/nuget-publish.yml)
+[![HitCount](http://hits.dwyl.com/janbaarssen/PdfLibCore.svg?style=flat-square)](http://hits.dwyl.com/janbaarssen/PdfLibCore)
 
 # PdfLibCore
 PdfLib CORE is a fast PDF editing and reading library for modern .NET Core applications.
