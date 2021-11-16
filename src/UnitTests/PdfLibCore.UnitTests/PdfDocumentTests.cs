@@ -75,6 +75,31 @@ namespace PdfLibCore.UnitTests
         }
         
         [Fact]
+        public void Get_FileVersion_From_Document()
+        {
+            using var pdfDocument = new PdfDocument(_path);
+            pdfDocument.FileVersion.Should().Be(15);
+            using var ms = new MemoryStream();
+            pdfDocument.Save(ms, SaveFlags.None, 14);
+            using var result = new PdfDocument(ms);
+            result.FileVersion.Should().Be(14);
+        }
+        
+        [Fact]
+        public void Get_Permissions_From_Document()
+        {
+            using var pdfDocument = new PdfDocument(_path);
+            pdfDocument.Permissions.Should().HaveFlag(DocumentPermissions.Modify);
+            pdfDocument.Permissions.Should().HaveFlag(DocumentPermissions.Print);
+            pdfDocument.Permissions.Should().HaveFlag(DocumentPermissions.AssembleDocument);
+            pdfDocument.Permissions.Should().HaveFlag(DocumentPermissions.ModfiyAnnotations);
+            pdfDocument.Permissions.Should().HaveFlag(DocumentPermissions.FillInForms);
+            pdfDocument.Permissions.Should().HaveFlag(DocumentPermissions.PrintHighQuality);
+            pdfDocument.Permissions.Should().HaveFlag(DocumentPermissions.ExtractTextAndGraphics);
+            pdfDocument.Permissions.Should().HaveFlag(DocumentPermissions.ExtractTextAndGraphics2);
+        }
+        
+        [Fact]
         public void Get_Page_From_Document()
         {
             using var pdfDocument = new PdfDocument(_path);

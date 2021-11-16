@@ -145,6 +145,7 @@ namespace PdfLibCore
 				}
 			}
 			Pdfium.FPDFPage_Delete(_doc.Handle, index);
+			base.RemoveAt(index);
 		}
 	}
 }

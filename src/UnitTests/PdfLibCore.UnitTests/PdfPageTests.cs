@@ -40,6 +40,49 @@ namespace PdfLibCore.UnitTests
         }
         
         [Fact]
+        public void Add_New_Page_To_Collection_And_Remove_It_Again()
+        {
+            var pdfDocument = new PdfDocument();
+            pdfDocument.Pages.Should().HaveCount(0);
+            pdfDocument.Pages.Add(595D, 841D).Should().NotBeNull();
+            pdfDocument.Pages.Should().HaveCount(1);
+            pdfDocument.Pages.RemoveAt(0);
+            pdfDocument.Pages.Should().HaveCount(0);
+        }
+        
+        [Fact]
+        public void Remove_Non_Existing_Page_Results_In_ArgumentOutOfRange_Exception()
+        {
+            var pdfDocument = new PdfDocument();
+            pdfDocument.Pages.Should().HaveCount(0);
+            pdfDocument.Pages.Add(595D, 841D).Should().NotBeNull();
+            pdfDocument.Pages.Should().HaveCount(1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => pdfDocument.Pages.RemoveAt(1));
+        }
+        
+        [Fact]
+        public void Add_New_Page_To_Collection_And_Remove_It_Again_By_Page()
+        {
+            var pdfDocument = new PdfDocument();
+            pdfDocument.Pages.Should().HaveCount(0);
+            var page = pdfDocument.Pages.Add(595D, 841D);
+            page.Should().NotBeNull();
+            pdfDocument.Pages.Should().HaveCount(1);
+            pdfDocument.Pages.Remove(page);
+            pdfDocument.Pages.Should().HaveCount(0);
+        }
+        
+         [Fact]
+        public void Try_Get_Non_Existing_Page_Results_In_ArgumentOutOfRange_Exception()
+        {
+            var pdfDocument = new PdfDocument();
+            pdfDocument.Pages.Should().HaveCount(0);
+            pdfDocument.Pages.Add(595D, 841D).Should().NotBeNull();
+            pdfDocument.Pages.Should().HaveCount(1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => pdfDocument.Pages[1]);
+        }
+        
+        [Fact]
         public void Render_Page()
         {
             var pdfDocument = new PdfDocument();

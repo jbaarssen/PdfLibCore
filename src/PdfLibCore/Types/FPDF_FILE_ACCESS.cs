@@ -47,13 +47,16 @@ namespace PdfLibCore.Types
     [StructLayout(LayoutKind.Sequential)]
     public class FPDF_FILEWRITE
     {
+        private int Version = 1;
+        
         // ReSharper disable once ArrangeTypeMemberModifiers
         // ReSharper disable once NotAccessedField.Local
-        [MarshalAs(UnmanagedType.FunctionPtr)] readonly FileWriteBlockHandler _writeBlock;
+        // ReSharper disable once MemberCanBePrivate.Global
+        [MarshalAs(UnmanagedType.FunctionPtr)] public FileWriteBlockHandler WriteBlock;
 
         public FPDF_FILEWRITE(FileWriteBlockHandler writeBlock)
         {
-            _writeBlock = writeBlock;
+            WriteBlock = writeBlock;
         }
     }
 }
