@@ -2,11 +2,15 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RootNamespace>ConsoleApp1</RootNamespace>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PdfLibCore.FreeImage\PdfLibCore.FreeImage.csproj" />
+      <ProjectReference Include="..\PdfLibCore.ImageSharp\PdfLibCore.ImageSharp.csproj" />
+      <ProjectReference Include="..\PdfLibCore.MagickNet\PdfLibCore.MagickNet.csproj" />
+      <ProjectReference Include="..\PdfLibCore.SkiaSharp\PdfLibCore.SkiaSharp.csproj" />
       <ProjectReference Include="..\PdfLibCore\PdfLibCore.csproj" />
     </ItemGroup>
 

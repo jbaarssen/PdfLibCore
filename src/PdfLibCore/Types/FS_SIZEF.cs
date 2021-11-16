@@ -5,8 +5,10 @@ namespace PdfLibCore.Types
     /// <summary>
     /// Rectangle size. Coordinate system agnostic.
     /// </summary>
+    // ReSharper disable MemberCanBePrivate.Global
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [StructLayout(LayoutKind.Sequential)]
-    public struct FS_SIZEF
+    public readonly struct FS_SIZEF
     {
         public float Width { get; }
         public float Height { get; }

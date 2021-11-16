@@ -2,8 +2,10 @@ using System.Runtime.InteropServices;
 
 namespace PdfLibCore.Types
 {
+    // ReSharper disable MemberCanBePrivate.Global
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [StructLayout(LayoutKind.Sequential)]
-    public struct FS_MATRIX
+    public readonly struct FS_MATRIX
     {
         public float A { get; }
         public float B { get; }

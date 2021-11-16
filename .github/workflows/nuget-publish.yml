@@ -38,17 +38,42 @@ jobs:
     - name: Build
       run: |
         dotnet build --configuration Release --no-restore
+    
+    - name: Test
+      run: |
+        dotnet test --no-restore --verbosity normal
             
-    - name: Pack
-      run: |
-        dotnet pack ./src/PdfLibCore/PdfLibCore.csproj --output packages
-      
-    - name: Publish Package
-      run: |
-        nuget push **\*.nupkg -NoSymbols -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
-      
-    - name: Upload Package
-      uses: actions/upload-artifact@v2
+    - name: Publish PdfLibCore
+      uses: drusellers/publish-nuget@master
       with:
-        name: PdfLibCore.V${{ steps.regex-match.outputs.match }}
-        path: packages/
+        project-file-path: src/PdfLibCore/PdfLibCore.csproj
+        tag-commit: false
+        nuget-key: ${{secrets.NUGET_API_KEY}}
+    
+    - name: Publish PdfLibCore.FreeImage
+      uses: drusellers/publish-nuget@master
+      with:
+        project-file-path: src/PdfLibCore.FreeImage/PdfLibCore.FreeImage.csproj
+        tag-commit: false
+        nuget-key: ${{secrets.NUGET_API_KEY}}
+    
+    - name: Publish PdfLibCore.ImageSharp
+      uses: drusellers/publish-nuget@master
+      with:
+        project-file-path: src/PdfLibCore.ImageSharp/PdfLibCore.ImageSharp.csproj
+        tag-commit: false
+        nuget-key: ${{secrets.NUGET_API_KEY}}
+        
+    - name: Publish PdfLibCore.MagickNet
+      uses: drusellers/publish-nuget@master
+      with:
+        project-file-path: src/PdfLibCore.MagickNet/PdfLibCore.MagickNet.csproj
+        tag-commit: false
+        nuget-key: ${{secrets.NUGET_API_KEY}}
+    
+    - name: Publish PdfLibCore.SkiaSharp
+      uses: drusellers/publish-nuget@master
+      with:
+        project-file-path: src/PdfLibCore.SkiaSharp/PdfLibCore.SkiaSharp.csproj
+        tag-commit: false
+        nuget-key: ${{secrets.NUGET_API_KEY}}

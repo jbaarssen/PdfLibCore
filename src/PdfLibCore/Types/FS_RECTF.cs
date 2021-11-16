@@ -5,8 +5,10 @@ namespace PdfLibCore.Types
     /// <summary>
     /// Rectangle area(float) in device or page coordinate system.
     /// </summary>
+    // ReSharper disable MemberCanBePrivate.Global
+    // ReSharper disable UnusedAutoPropertyAccessor.Global
     [StructLayout(LayoutKind.Sequential)]
-    public struct FS_RECTF
+    public readonly struct FS_RECTF
     {
         /// <summary>
         /// The x-coordinate of the left-top corner.

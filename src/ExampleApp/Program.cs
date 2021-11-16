@@ -1,83 +1,96 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Net;
 using PdfLibCore;
+using PdfLibCore.Enums;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Bmp;
-using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 
 namespace ExampleApp
 {
-    class Program
+    [ExcludeFromCodeCoverage]
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Stopwatch stopWatch = new Stopwatch();
+            var stopWatch = new Stopwatch();
             stopWatch.Start();
             
-            var destination = Path.Combine("/Users/jan/Projects/temp/output");
-            // Get bytes from PDF
-            var bytes = File.ReadAllBytes("/Users/jan/Downloads/sticker.pdf");
+            var destination = Path.Combine("c:/temp/output");
             
-            using var pdfDocument = new PdfDocument(bytes, 0);
+            using var pdfDocument = new PdfDocument(File.Open("c:/temp/IR.pdf", FileMode.Open));
+            //using var pdfDocument = new PdfDocument(File.ReadAllBytes("c:/temp/IR.pdf"));
 
+            var i = 0;
             foreach (var page in pdfDocument.Pages)
             {
-                using (page)
-                {
-                    var pageWidth = (int) (300 * page.Size.Width / 96F);
-                    var pageHeight = (int) (300 * page.Size.Height / 96F);
-                    
-                    using (var bitmap = new PdfiumBitmap(pageWidth, pageHeight, true))
-                    {
-                        page.Render(bitmap);
-                        
-                        //SaveToJpeg(bitmap.AsBmpStream(196D, 196D), Path.Combine(destination, $"{i++}.jpeg"));
-                    }
-                }
+                using var pdfPage = page;
+                var pageWidth = (int) (300 * pdfPage.Size.Width / 72);
+                var pageHeight = (int) (300 * pdfPage.Size.Height / 72);
+
+                using var bitmap = new PdfiumBitmap(pageWidth, pageHeight, true);
+                pdfPage.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
+
+                i++;
+                SaveUsingImageSharp(bitmap, destination, i);
+                SaveUsingMagickNet(bitmap, destination, i);
+                SaveUsingSkiaSharp(bitmap, destination, i);
+                SaveUsingFreeImage(bitmap, destination, i);
+
+                //ResizeAndSaveToJpeg(bitmap.AsImage(196D, 196D), Path.Combine(destination, $"{i++}.jpeg"));
             }
             
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
+            var ts = stopWatch.Elapsed;
 
             // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                ts.Hours, ts.Minutes, ts.Seconds,
-                ts.Milliseconds / 10);
-            Console.WriteLine("RunTime " + elapsedTime);
-
-            Console.ReadKey();
+            Console.WriteLine("RunTime " + $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}");
+            //Console.ReadKey();
         }
 
-        public static void SaveToJpeg(Stream image, string destination)
+        private static void SaveUsingImageSharp(PdfiumBitmap bitmap, string destination, int i)
         {
-            if (image == null)
-            {
-                return;
-            }
-            
-            image.Position = 0;
-            var bmpDecoder = new BmpDecoder();
-            var img = bmpDecoder.Decode(Configuration.Default, image);
-            if (img == null)
-            {
-                return;
-            }
-            var width = (int) (img.Width * 0.5D);
-            var height = (int) (img.Height * 0.5D);
-            img.Mutate(context => context.Resize(new ResizeOptions
+            using var ms = new MemoryStream();
+            PdfLibCore.ImageSharp.PdfiumBitmapExtensions.AsImage(bitmap, 196D, 196D).SaveAsJpeg(ms);
+            File.WriteAllBytes(Path.Combine(destination, $"{i}-ImageSharp.jpeg"), ms.ToArray());
+        }
+        
+        private static void SaveUsingMagickNet(PdfiumBitmap bitmap, string destination, int i)
+        {
+            using var ms = new MemoryStream();
+            PdfLibCore.ImageSharp.PdfiumBitmapExtensions.AsImage(bitmap, 196D, 196D).SaveAsJpeg(ms);
+            File.WriteAllBytes(Path.Combine(destination, $"{i}-MagickNet.jpeg"), ms.ToArray());
+        }
+        
+        private static void SaveUsingSkiaSharp(PdfiumBitmap bitmap, string destination, int i)
+        {
+            using var ms = new MemoryStream();
+            PdfLibCore.ImageSharp.PdfiumBitmapExtensions.AsImage(bitmap, 196D, 196D).SaveAsJpeg(ms);
+            File.WriteAllBytes(Path.Combine(destination, $"{i}-SkiaSharp.jpeg"), ms.ToArray());
+        }
+        
+        private static void SaveUsingFreeImage(PdfiumBitmap bitmap, string destination, int i)
+        {
+            using var ms = new MemoryStream();
+            PdfLibCore.ImageSharp.PdfiumBitmapExtensions.AsImage(bitmap, 196D, 196D).SaveAsJpeg(ms);
+            File.WriteAllBytes(Path.Combine(destination, $"{i}-FreeImage.jpeg"), ms.ToArray());
+        }
+
+        public static void ResizeAndSaveToJpeg(Image image, string destination)
+        {
+            var width = (int) (image.Width * 0.5D);
+            var height = (int) (image.Height * 0.5D);
+            image.Mutate(context => context.Resize(new ResizeOptions
             {
                 Mode = ResizeMode.Max,
                 Size = new Size(width, height)
             }));
             
             using var ms = new MemoryStream();
-            img.Save(ms, JpegFormat.Instance);
-            img.Dispose();
+            image.SaveAsJpeg(ms);
+            image.Dispose();
             
             File.WriteAllBytes(destination, ms.ToArray());
         }

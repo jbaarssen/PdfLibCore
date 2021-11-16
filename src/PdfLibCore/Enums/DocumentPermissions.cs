@@ -6,7 +6,7 @@ namespace PdfLibCore.Enums
 	/// Flags specifying document permissions.
 	/// </summary>
 	/// <seealso cref="PdfDocument.SecurityHandlerRevision"/>
-	/// <seealso cref="PDFium.FPDF_GetSecurityHandlerRevision(Types.FPDF_DOCUMENT)"/>
+	/// <seealso cref="Pdfium.FPDF_GetSecurityHandlerRevision(Types.FPDF_DOCUMENT)"/>
 	/// <seealso href="http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/pdf/pdfs/PDF32000_2008.pdf">PDF Reference: Table 22</seealso>
 	[Flags]
     public enum DocumentPermissions : uint

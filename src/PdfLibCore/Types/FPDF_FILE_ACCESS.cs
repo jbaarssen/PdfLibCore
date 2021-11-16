@@ -13,32 +13,30 @@ namespace PdfLibCore.Types
     [StructLayout(LayoutKind.Sequential)]
     public class FPDF_FILEREAD
     {
-        readonly int _fileLength;
-
+        // ReSharper disable once ArrangeTypeMemberModifiers
+        // ReSharper disable once NotAccessedField.Local
         [MarshalAs(UnmanagedType.FunctionPtr)] readonly FileReadBlockHandler _readBlock;
 
-        readonly IntPtr _param;
-
-        public FPDF_FILEREAD(int fileLength, FileReadBlockHandler readBlock)
+        private FPDF_FILEREAD(FileReadBlockHandler readBlock)
         {
-            _fileLength = fileLength;
             _readBlock = readBlock;
-            _param = IntPtr.Zero;
         }
 
-        public static FPDF_FILEREAD FromStream(Stream stream, int count = 0)
+        public static FPDF_FILEREAD FromStream(Stream stream)
         {
-            if (count <= 0)
-                count = (int) (stream.Length - stream.Position);
             var start = stream.Position;
             byte[] data = null;
-            FPDF_FILEREAD fileread = new FPDF_FILEREAD(count, (ignore, position, buffer, size) =>
+            var fileread = new FPDF_FILEREAD((ignore, position, buffer, size) =>
             {
                 stream.Position = start + position;
                 if (data == null || data.Length < size)
+                {
                     data = new byte[size];
+                }
                 if (stream.Read(data, 0, size) != size)
+                {
                     return false;
+                }
                 Marshal.Copy(data, 0, buffer, size);
                 return true;
             });
@@ -49,14 +47,16 @@ namespace PdfLibCore.Types
     [StructLayout(LayoutKind.Sequential)]
     public class FPDF_FILEWRITE
     {
-        readonly int _version;
-
-        [MarshalAs(UnmanagedType.FunctionPtr)] readonly FileWriteBlockHandler _writeBlock;
+        private int Version = 1;
+        
+        // ReSharper disable once ArrangeTypeMemberModifiers
+        // ReSharper disable once NotAccessedField.Local
+        // ReSharper disable once MemberCanBePrivate.Global
+        [MarshalAs(UnmanagedType.FunctionPtr)] public FileWriteBlockHandler WriteBlock;
 
         public FPDF_FILEWRITE(FileWriteBlockHandler writeBlock)
         {
-            _version = 1;
-            _writeBlock = writeBlock;
+            WriteBlock = writeBlock;
         }
     }
 }

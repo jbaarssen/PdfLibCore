@@ -5,13 +5,11 @@ namespace PdfLibCore
 {
     public sealed class PdfBookmark : NativeWrapper<FPDF_BOOKMARK>
     {
-        public PdfDocument Document { get; }
-
         public IEnumerable<PdfBookmark> Children
         {
             get
             {
-                FPDF_BOOKMARK handle = Pdfium.FPDFBookmark_GetFirstChild(Document.Handle, Handle);
+                var handle = Pdfium.FPDFBookmark_GetFirstChild(Document.Handle, Handle);
                 while (!handle.IsNull)
                 {
                     yield return new PdfBookmark(Document, handle);
@@ -27,9 +25,8 @@ namespace PdfLibCore
         public PdfAction Action => new PdfAction(Document, Pdfium.FPDFBookmark_GetAction(Handle));
 
         internal PdfBookmark(PdfDocument doc, FPDF_BOOKMARK handle)
-            : base(handle)
+            : base(doc, handle)
         {
-            Document = doc;
         }
     }
 }

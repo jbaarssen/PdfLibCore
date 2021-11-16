@@ -8,10 +8,11 @@ namespace PdfLibCore
         public PdfiumException(Exception innerException)
             : base(innerException.Message, innerException)
         {
-             
         }
-        
+
         public PdfiumException()
-            : base($"PDFium Error: {Pdfium.FPDF_GetLastError().GetDescription()}") { }
+            : base($"PDFium Error: {Pdfium.FPDF_GetLastError().GetDescription()}")
+        {
+        }
     }
 }

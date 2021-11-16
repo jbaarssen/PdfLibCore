@@ -1,159 +1,151 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+// ReSharper disable MemberCanBePrivate.Global
 namespace PdfLibCore
 {
-    public sealed class PdfPageCollection : IDisposable, IEnumerable<PdfPage>
+    public sealed class PdfPageCollection : List<PdfPage>, IDisposable
 	{
-		readonly PdfDocument _doc;
-		readonly List<PdfPage> _pages;
-		
-		private object _lock = new object();
+		private readonly PdfDocument _doc;
+		private readonly object _lock = new object();
 
+		public new int Count => Pdfium.FPDF_GetPageCount(_doc.Handle);
+		
 		internal PdfPageCollection(PdfDocument doc)
 		{
 			lock (_lock)
 			{
 				_doc = doc;
-				_pages = new List<PdfPage>(Pdfium.FPDF_GetPageCount(doc.Handle));
-
-				//Initialize _pages with null entries
-				for (int i = 0; i < _pages.Capacity; i++)
-					_pages.Add(null);
+				for (var index = 0; index < Count; index++)
+				{
+					Add(PdfPage.Load(doc, index));
+				}
 			}
 		}
-
-		/// <summary>
-		/// Gets the number of pages in the <see cref="PdfDocument"/>.
-		/// </summary>
-		public int Count => Pdfium.FPDF_GetPageCount(_doc.Handle);
 
 		/// <summary>
 		/// Gets the <see cref="PdfPage"/> at the zero-based <paramref name="index"/> in the <see cref="PdfDocument"/>.
 		/// </summary>
-		public PdfPage this[int index]
+		public new PdfPage this[int index]
 		{
 			get
 			{
-				if (index >= _pages.Count)
+				if (index >= Count)
 				{
 					throw new ArgumentOutOfRangeException(nameof(index));
 				}
 				
-				if (_pages[index] == null || _pages[index].IsDisposed)
-					_pages[index] = PdfPage.Load(_doc, index);
-				
-				return _pages[index];
+				if (base[index] == null || base[index].IsDisposed)
+				{
+					base[index] = PdfPage.Load(_doc, index);
+				}
+
+				return base[index];
 			}
 		}
 
-		void IDisposable.Dispose()
+		public void Dispose()
 		{
-			foreach (IDisposable page in _pages)
+			foreach (IDisposable page in this)
+			{
 				page?.Dispose();
-			_pages.Clear();
-		}
-
-		IEnumerator<PdfPage> IEnumerable<PdfPage>.GetEnumerator()
-		{
-			for (int i = 0; i < _pages.Count; i++)
-				yield return this[i];
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			for (int i = 0; i < _pages.Count; i++)
-				yield return this[i];
+			}
+			Clear();
 		}
 
 		/// <summary>
 		/// Imports pages of <paramref name="sourceDocument"/> into the current <see cref="PdfDocument"/>.
 		/// </summary>
-		/// <seealso cref="PDFium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
+		/// <seealso cref="Pdfium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
+		public bool Add(PdfDocument sourceDocument, params int[] srcPageIndices) => 
+			Insert(Count, sourceDocument, srcPageIndices);
+		
+		/// <summary>
+		/// Imports pages of <paramref name="sourceDocument"/> into the current <see cref="PdfDocument"/>.
+		/// </summary>
+		/// <seealso cref="Pdfium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
 		public bool Insert(int index, PdfDocument sourceDocument, params int[] srcPageIndices)
 		{
-            bool result;
-            if (index <= _pages.Count)
+			if (index <= Count)
             {
-                result = Pdfium.FPDF_ImportPages(_doc.Handle, sourceDocument.Handle, index, srcPageIndices);
-                if (result)
+                var result = Pdfium.FPDF_ImportPages(_doc.Handle, sourceDocument.Handle, index, srcPageIndices);
+                if (!result)
                 {
-                    _pages.InsertRange(index, Enumerable.Repeat<PdfPage>(null, srcPageIndices.Length));
-                    for (int i = index; i < _pages.Count; i++)
-                    {
-                        if (_pages[i] != null)
-                            _pages[i].Index = i;
-                    }
+	                return false;
+                }
+                InsertRange(index, Enumerable.Repeat<PdfPage>(null, srcPageIndices.Length));
+                for (var i = index; i < Count; i++)
+                {
+	                if (this[i] != null)
+	                {
+		                this[i].Index = i;
+	                }
                 }
             }
             else
-                throw new ArgumentOutOfRangeException(nameof(index));
+            {
+	            throw new ArgumentOutOfRangeException(nameof(index));
+            }
 
-            return result;
+            return true;
 		}
 
 		/// <summary>
-		/// Imports pages of <paramref name="sourceDocument"/> into the current <see cref="PdfDocument"/>.
+		/// Adds a new page to the end of the document.
 		/// </summary>
-		/// <seealso cref="PDFium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
-		public bool Add(PdfDocument sourceDocument, params int[] srcPageIndices)
-		{
-			return Insert(Count, sourceDocument, srcPageIndices);
-		}
-
+		public PdfPage Add(double width, double height) => 
+			Insert(Count, width, height);
+		
 		/// <summary>
 		/// Inserts a new page at <paramref name="index"/>.
 		/// </summary>
 		public PdfPage Insert(int index, double width, double height)
 		{
             PdfPage page;
-            if (index <= _pages.Count)
+            if (index <= Count)
 			{
                 page = PdfPage.New(_doc, index, width, height);
-                _pages.Insert(index, page);
-				for (int i = index; i < _pages.Count; i++)
+                Insert(index, page);
+				for (var i = index; i < Count; i++)
 				{
-					if (_pages[i] != null)
-						_pages[i].Index = i;
+					if (this[i] != null)
+					{
+						this[i].Index = i;
+					}
 				}
 			}
             else
-                throw new ArgumentOutOfRangeException(nameof(index));
+            {
+	            throw new ArgumentOutOfRangeException(nameof(index));
+            }
 
             return page;
 		}
 
 		/// <summary>
-		/// Adds a new page to the end of the document.
+		/// Removes the <paramref name="page"/> from the document.
 		/// </summary>
-		public PdfPage Add(double width, double height)
-		{
-			return Insert(Count, width, height);
-		}
-
+		public new void Remove(PdfPage page) => RemoveAt(page.Index);
+		
 		/// <summary>
 		/// Removes the page at <paramref name="index"/>.
 		/// </summary>
-		public void RemoveAt(int index)
+		public new void RemoveAt(int index)
 		{
-			if (index < _pages.Count)
+			if (index < Count)
 			{
-				((IDisposable)_pages[index])?.Dispose();
-				_pages.RemoveAt(index);
-				for (int i = index; i < _pages.Count; i++)
+				((IDisposable)this[index])?.Dispose();
+				for (var i = index; i < Count; i++)
 				{
-					if (_pages[i] != null)
-						_pages[i].Index = i;
+					if (this[i] != null)
+					{
+						this[i].Index = i;
+					}
 				}
 			}
 			Pdfium.FPDFPage_Delete(_doc.Handle, index);
+			base.RemoveAt(index);
 		}
-
-		/// <summary>
-		/// Removes the <paramref name="page"/> from the document.
-		/// </summary>
-		public void Remove(PdfPage page) => RemoveAt(page.Index);
 	}
 }

@@ -1,0 +1,510 @@
+﻿<#+ // ------------------------------------------------------ Code Start ------------------------------------------------------
+    private const string DllName = "pdfium";
+    
+    private readonly MethodDefinition[] _imports = 
+    {
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdfview.h
+		MethodDefinition.Public("void FPDF_InitLibrary()"),
+        MethodDefinition.Public("void FPDF_InitLibraryWithConfig(ref FPDF_LIBRARY_CONFIG config)"),
+		MethodDefinition.Public("void FPDF_DestroyLibrary()"),
+        MethodDefinition.Public("void FPDF_SetSandBoxPolicy(int policy, bool enable)"),
+        MethodDefinition.Public("void FPDF_SetPrintTextWithGDI(bool use_gdi)"),
+        MethodDefinition.Public("bool FPDF_SetPrintMode(int mode)"),
+        MethodDefinition.Public(
+            "FPDF_DOCUMENT FPDF_LoadDocument([MarshalAs(UnmanagedType.LPStr)] string file_path, [MarshalAs(UnmanagedType.LPStr)] string password)", 
+            "<seealso cref='PdfDocument(string, string)'/>"),
+        MethodDefinition.Private(
+            "FPDF_DOCUMENT FPDF_LoadMemDocument(ref byte data_buf, int size, [MarshalAs(UnmanagedType.LPStr)] string password)", 
+            "<seealso cref='PdfDocument(byte[], int, int, string)'/>"),
+        MethodDefinition.Public(
+            "FPDF_DOCUMENT FPDF_LoadCustomDocument(FPDF_FILEREAD fileRead, [MarshalAs(UnmanagedType.LPStr)] string password)",
+            "<seealso cref='PdfDocument(System.IO.Stream, string)'/>"),
+        MethodDefinition.Public(
+            "bool FPDF_GetFileVersion(FPDF_DOCUMENT doc, out int fileVersion)",
+            "<seealso cref='PdfDocument.FileVersion'/>"),
+		MethodDefinition.Public("FPDF_ERR FPDF_GetLastError()"),
+        MethodDefinition.Public("bool FPDF_DocumentHasValidCrossReferenceTable(FPDF_DOCUMENT document)"),
+        MethodDefinition.Public("int FPDF_GetTrailerEnds(FPDF_DOCUMENT document, byte[] buffer, int length)"),
+        MethodDefinition.Public(
+            "DocumentPermissions FPDF_GetDocPermissions(FPDF_DOCUMENT document)",
+            "<seealso cref='PdfDocument.Permissions'/>"),
+        MethodDefinition.Public(
+            "int FPDF_GetSecurityHandlerRevision(FPDF_DOCUMENT document)",
+			"<seealso cref='PdfDocument.SecurityHandlerRevision'/>"
+        ),
+        MethodDefinition.Public(
+            "int FPDF_GetPageCount(FPDF_DOCUMENT document)",
+			"<seealso cref='PdfPageCollection.Count'/>", 
+            "<seealso cref='PdfDocument.Pages'/>"
+        ),
+        MethodDefinition.Public(
+            "FPDF_PAGE FPDF_LoadPage(FPDF_DOCUMENT document, int page_index)",
+			"<seealso cref='PdfPageCollection'/>", 
+            "<seealso cref='PdfDocument.Pages'/>"
+        ),
+        MethodDefinition.Public("float FPDF_GetPageWidthF(FPDF_PAGE page)"),
+        MethodDefinition.Public(
+            "double FPDF_GetPageWidth(FPDF_PAGE page)",
+			"<seealso cref='PdfPage.Width'/>"
+        ),
+        MethodDefinition.Public("float FPDF_GetPageHeightF(FPDF_PAGE page)"),
+        MethodDefinition.Public(
+            "double FPDF_GetPageHeight(FPDF_PAGE page)",
+			"<seealso cref='PdfPage.Height'/>"
+        ),
+        MethodDefinition.Public("bool FPDF_GetPageBoundingBox(FPDF_PAGE page, FS_RECTF rect)"),
+        MethodDefinition.Public("bool FPDF_GetPageSizeByIndexF(FPDF_DOCUMENT document, int index, FS_SIZEF size)"),
+        MethodDefinition.Public(
+            "bool FPDF_GetPageSizeByIndex(FPDF_DOCUMENT document, int index, out double width, out double height)",
+			"<seealso cref='PdfPage.Size'/>"
+        ),
+        MethodDefinition.Public(
+            "void FPDF_RenderPageBitmap(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, RenderingFlags flags)",
+			"<seealso cref='PdfPage.Render(PdfLibCore.PdfiumBitmap,PdfLibCore.Enums.PageOrientations,PdfLibCore.Enums.RenderingFlags)'/>"
+        ),
+        MethodDefinition.Public(
+            "void FPDF_RenderPage(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, RenderingFlags flags)",
+			"<seealso cref='PdfPage.Render(PdfLibCore.PdfiumBitmap,PdfLibCore.Enums.PageOrientations,PdfLibCore.Enums.RenderingFlags)'/>"
+		),
+        MethodDefinition.Public("void FPDF_RenderPageBitmapWithMatrix(FPDF_BITMAP bitmap, FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipping, RenderingFlags flags)"),
+        MethodDefinition.Public("FPDF_RECORDER FPDF_RenderPageSkp(FPDF_PAGE page, int size_x, int size_y)"),
+        MethodDefinition.Public(
+            "void FPDF_ClosePage(FPDF_PAGE page)",
+			"<seealso cref='PdfDocument.Close'/>"
+		),
+        MethodDefinition.Public(
+            "void FPDF_CloseDocument(FPDF_DOCUMENT document)",
+			"<seealso cref='PdfDocument.Close'/>"
+		),
+        MethodDefinition.Public(
+            "void FPDF_DeviceToPage(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, int device_x, int device_y, out double page_x, out double page_y)",
+			"<seealso cref='PdfPage.DeviceToPage'/>"
+        ),
+        MethodDefinition.Public(
+            "void FPDF_PageToDevice(FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, double page_x, double page_y, out int device_x, out int device_y)",
+			"<seealso cref='PdfPage.PageToDevice'/>"
+        ),
+        MethodDefinition.Public(
+            "FPDF_BITMAP FPDFBitmap_Create(int width, int height, bool hasAlpha)",
+			"<seealso cref='PdfiumBitmap(int, int, bool)'/>"
+        ),
+        MethodDefinition.Public(
+            "FPDF_BITMAP FPDFBitmap_CreateEx(int width, int height, BitmapFormats format, IntPtr first_scan, int stride)",
+			"<seealso cref='PdfiumBitmap(int, int, BitmapFormats, IntPtr, int)'/>"
+        ),
+        MethodDefinition.Public("BitmapFormats FPDFBitmap_GetFormat(FPDF_BITMAP bitmap)"),
+        MethodDefinition.Public(
+            "void FPDFBitmap_FillRect(FPDF_BITMAP bitmap, int left, int top, int width, int height, FPDF_COLOR color)",
+			"<seealso cref='PdfiumBitmap.FillRectangle(int, int, int, int, FPDF_COLOR)'/>", 
+            "<seealso cref='PdfiumBitmap.Fill(FPDF_COLOR)'/>"
+        ),
+        MethodDefinition.Public(
+            "IntPtr FPDFBitmap_GetBuffer(FPDF_BITMAP bitmap)",
+			"<seealso cref='PdfiumBitmap.Scan0'/>"
+        ),
+        MethodDefinition.Public(
+            "int FPDFBitmap_GetWidth(FPDF_BITMAP bitmap)",
+			"<seealso cref='PdfiumBitmap.Width'/>"
+        ),
+        MethodDefinition.Public(
+            "int FPDFBitmap_GetHeight(FPDF_BITMAP bitmap)",
+			"<seealso cref='PdfiumBitmap.Height'/>"
+        ),
+        MethodDefinition.Public(
+            "int FPDFBitmap_GetStride(FPDF_BITMAP bitmap)",
+			"<seealso cref='PdfiumBitmap.Stride'/>" 
+        ),
+        MethodDefinition.Public(
+            "void FPDFBitmap_Destroy(FPDF_BITMAP bitmap)",
+			"<seealso cref='PdfiumBitmap.Dispose()'/>"
+        ),
+        MethodDefinition.Public(
+            "bool FPDF_VIEWERREF_GetPrintScaling(FPDF_DOCUMENT document)",
+			"<seealso cref='PdfDocument.PrintPrefersScaling'/>"
+        ),
+        MethodDefinition.Public(
+            "int FPDF_VIEWERREF_GetNumCopies(FPDF_DOCUMENT document)",
+			"<seealso cref='PdfDocument.PrintCopyCount'/>"
+        ),
+        MethodDefinition.Public("FPDF_PAGERANGE FPDF_VIEWERREF_GetPrintPageRange(FPDF_DOCUMENT document)"),
+        MethodDefinition.Public("uint FPDF_VIEWERREF_GetPrintPageRangeCount(FPDF_PAGERANGE pagerange)"),
+        MethodDefinition.Public("int FPDF_VIEWERREF_GetPrintPageRangeElement(FPDF_PAGERANGE pagerange, uint index)"),
+        MethodDefinition.Public(
+            "DuplexTypes FPDF_VIEWERREF_GetDuplex(FPDF_DOCUMENT document)",
+			"<seealso cref='PdfDocument.DuplexType'/>"
+        ),
+        MethodDefinition.Private("uint FPDF_VIEWERREF_GetName(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint length)"),
+        MethodDefinition.Public(
+			"int FPDF_CountNamedDests(FPDF_DOCUMENT document)",
+			"<seealso cref='PdfDestinationCollection.Count'/>", 
+            "<seealso cref='PdfDocument.Destinations'/>"),
+        MethodDefinition.Public(
+            "FPDF_DEST FPDF_GetNamedDestByName(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string name)",
+			"<seealso cref='PdfDestinationCollection'/>", "<seealso cref='PdfDocument.Destinations'/>" 
+        ),
+        MethodDefinition.Private(
+			"FPDF_DEST FPDF_GetNamedDest(FPDF_DOCUMENT document, int index, IntPtr buffer, out int buflen)",
+			"<seealso cref='Pdfium.FPDF_GetNamedDest(FPDF_DOCUMENT, int)'/>"
+        ),
+        MethodDefinition.Private(
+            "FPDF_DEST FPDF_GetNamedDest(FPDF_DOCUMENT document, int index, ref byte buffer, ref int buflen)",
+            "<seealso cref='Pdfium.FPDF_GetNamedDest(FPDF_DOCUMENT, int)'/>"
+        ),
+        MethodDefinition.Public(
+            "string FPDF_GetRecommendedV8Flags()"
+        ),
+        
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_doc.h
+        MethodDefinition.Public(
+            "FPDF_BOOKMARK FPDFBookmark_GetFirstChild(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark)",
+			"<seealso cref='PdfDocument.Bookmarks'/>", 
+            "<seealso cref='PdfBookmark.Children'/>" 
+        ),
+        MethodDefinition.Public(
+            "FPDF_BOOKMARK FPDFBookmark_GetNextSibling(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark)",
+			"<seealso cref='PdfDocument.Bookmarks'/>", 
+            "<seealso cref='PdfBookmark.Children'/>"
+        ),
+        MethodDefinition.Private(
+            "uint FPDFBookmark_GetTitle(FPDF_BOOKMARK bookmark, ref byte buffer, uint buflen)",
+            "<seealso cref='Pdfium.FPDFBookmark_GetTitle(FPDF_BOOKMARK)'/>"
+        ),
+        MethodDefinition.Public(
+            "FPDF_BOOKMARK FPDFBookmark_Find(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPWStr)] string title)",
+			"<seealso cref='PdfDocument.FindBookmark(string)'/>"
+		),
+		MethodDefinition.Public(
+		    "FPDF_DEST FPDFBookmark_GetDest(FPDF_DOCUMENT document, FPDF_BOOKMARK bookmark)",
+			"<seealso cref='PdfBookmark.Destination'/>"
+		),
+        MethodDefinition.Public(
+            "FPDF_ACTION FPDFBookmark_GetAction(FPDF_BOOKMARK bookmark)",
+			"<seealso cref='PdfBookmark.Action'/>"
+		),
+        MethodDefinition.Public(
+            "ActionTypes FPDFAction_GetType(FPDF_ACTION action)",
+			"<seealso cref='PdfAction.Type'/>"
+		),
+        MethodDefinition.Public(
+            "FPDF_DEST FPDFAction_GetDest(FPDF_DOCUMENT document, FPDF_ACTION action)",
+			"<seealso cref='PdfAction.Destination'/>"
+		),
+        MethodDefinition.Private(
+            "uint FPDFAction_GetFilePath(FPDF_ACTION action, ref byte buffer, uint buflen)",
+			"<seealso cref='Pdfium.FPDFAction_GetFilePath(FPDF_ACTION)'/>"
+		),
+        MethodDefinition.Private(
+            "uint FPDFAction_GetURIPath(FPDF_DOCUMENT document, FPDF_ACTION action, ref byte buffer, uint buflen)",
+			"<seealso cref='Pdfium.FPDFAction_GetURIPath(FPDF_DOCUMENT, FPDF_ACTION)'/>"
+		),
+        MethodDefinition.Public(
+            "int FPDFDest_GetDestPageIndex(FPDF_DOCUMENT document, FPDF_DEST dest)",
+			"<seealso cref='PdfDestination.PageIndex'/>", 
+            "<seealso cref='PdfDocument.Destinations'/>"
+		),
+        MethodDefinition.Public("ZoomModes FPDFDest_GetView(FPDF_DEST dest, out uint pNumParams, float pParams)"),
+        MethodDefinition.Public(
+            "bool FPDFDest_GetLocationInPage(FPDF_DEST dest, out bool hasXCoord, out bool hasYCoord, out bool hasZoom, out float x, out float y, out float zoom)",
+			"<seealso cref='PdfDestination.LocationInPage'/>", 
+            "<seealso cref='PdfDocument.Destinations'/>"
+		),
+        MethodDefinition.Public("FPDF_LINK FPDFLink_GetLinkAtPoint(FPDF_PAGE page, double x, double y)"),
+        MethodDefinition.Public("int FPDFLink_GetLinkZOrderAtPoint(FPDF_PAGE page, double x, double y)"),
+        MethodDefinition.Public("FPDF_DEST FPDFLink_GetDest(FPDF_DOCUMENT document, FPDF_LINK link)"),
+        MethodDefinition.Public("FPDF_ACTION FPDFLink_GetAction(FPDF_LINK link)"),
+        MethodDefinition.Private("bool FPDFLink_Enumerate(FPDF_PAGE page, ref int startPos, out FPDF_LINK linkAnnot)"),
+        MethodDefinition.Public("bool FPDFLink_GetAnnotRect(FPDF_LINK linkAnnot, out FS_RECTF rect)"),
+        MethodDefinition.Public("int FPDFLink_CountQuadPoints(FPDF_LINK linkAnnot)"),
+        MethodDefinition.Public("bool FPDFLink_GetQuadPoints(FPDF_LINK linkAnnot, int quadIndex, out FS_QUADPOINTSF quadPoints)"),
+        MethodDefinition.Public
+        (
+            "uint FPDF_GetMetaText(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string tag, ref byte buffer, uint buflen)",
+			"<seealso cref='Pdfium.FPDF_GetMetaText(FPDF_DOCUMENT, string)'/>", 
+            "<seealso cref='Pdfium.FPDF_GetMetaText(FPDF_DOCUMENT, MetadataTags)'/>"
+		),
+
+		// Entry point not found
+        MethodDefinition.Private
+        (
+            "uint FPDF_GetPageLabel(FPDF_DOCUMENT document, int page_index, ref byte buffer, uint buflen)",
+			"<seealso cref='Pdfium.FPDF_GetPageLabel(FPDF_DOCUMENT, int)'/>"
+		),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_edit.h
+        MethodDefinition.Public
+        (
+            "FPDF_DOCUMENT FPDF_CreateNewDocument()",
+			"<seealso cref='PdfDocument'/>"
+		),
+        MethodDefinition.Public(
+            "FPDF_PAGE FPDFPage_New(FPDF_DOCUMENT document, int page_index, double width, double height)",
+			"<seealso cref='PdfPageCollection.Add(double, double)'/>", 
+            "<seealso cref='PdfPageCollection.Insert(int, double, double)'/>", 
+            "<seealso cref='PdfDocument.Pages'/>"
+		),
+        MethodDefinition.Public(
+            "void FPDFPage_Delete(FPDF_DOCUMENT document, int page_index)",
+			"<seealso cref='PdfPageCollection.RemoveAt(int)'/>", 
+            "<seealso cref='PdfDocument.Pages'/>"
+		),
+        MethodDefinition.Public(
+            "PageOrientations FPDFPage_GetRotation(FPDF_PAGE page)",
+			"<seealso cref='PdfPage.Orientation'/>"
+		),
+        MethodDefinition.Public(
+            "void FPDFPage_SetRotation(FPDF_PAGE page, PageOrientations rotation)",
+			"<seealso cref='PdfPage.Orientation'/>"
+		),
+
+		// The |page_obj| will be automatically freed.
+        MethodDefinition.Private("void FPDFPage_InsertObject(FPDF_PAGE page, FPDF_PAGEOBJECT page_obj)"),
+        MethodDefinition.Public("bool FPDFPage_RemoveObject(FPDF_PAGE page, FPDF_PAGEOBJECT page_obj)"),
+        MethodDefinition.Public("int FPDFPage_CountObjects(FPDF_PAGE page)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECT FPDFPage_GetObject(FPDF_PAGE page, int index)"),
+        MethodDefinition.Public("bool FPDFPage_HasTransparency(FPDF_PAGE page)"),
+        MethodDefinition.Public("bool FPDFPage_GenerateContent(FPDF_PAGE page)"),
+        MethodDefinition.Public("void FPDFPageObj_Destroy(FPDF_PAGEOBJECT page_obj)"),
+        MethodDefinition.Public("bool FPDFPageObj_HasTransparency(FPDF_PAGEOBJECT pageObject)"),
+        MethodDefinition.Public("PageObjTypes FPDFPageObj_GetType(FPDF_PAGEOBJECT page_object)"),
+        MethodDefinition.Public("void FPDFPageObj_Transform(FPDF_PAGEOBJECT page_object, double a, double b, double c, double d, double e, double f)"),
+        MethodDefinition.Public("void FPDFPage_TransformAnnots(FPDF_PAGE page, double a, double b, double c, double d, double e, double f)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECT FPDFPageObj_NewImageObj(FPDF_DOCUMENT document)"),
+        MethodDefinition.Public("int FPDFPageObj_CountMarks(FPDF_PAGEOBJECT page_object)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECTMARK FPDFPageObj_GetMark(FPDF_PAGEOBJECT page_object, uint index)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECTMARK FPDFPageObj_AddMark(FPDF_PAGEOBJECT page_object, [MarshalAs(UnmanagedType.LPStr)] string name)"),
+        MethodDefinition.Public("bool FPDFPageObj_RemoveMark(FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_GetName(FPDF_PAGEOBJECTMARK mark, ref byte buffer, uint buflen, out uint out_buflen)"),
+        MethodDefinition.Public("int FPDFPageObjMark_CountParams(FPDF_PAGEOBJECTMARK mark)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_GetParamKey(FPDF_PAGEOBJECTMARK mark, uint index, ref byte buffer, uint buflen, out uint out_buflen)"),
+        MethodDefinition.Public("ObjectTypes FPDFPageObjMark_GetParamValueType(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_GetParamIntValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, out int out_value)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_GetParamStringValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint buflen, out uint out_buflen)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_GetParamBlobValue(FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte buffer, uint buflen, out uint out_buflen)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_SetIntParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, int value)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_SetStringParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_SetBlobParam(FPDF_DOCUMENT document, FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key, ref byte value, uint value_len)"),
+        MethodDefinition.Public("bool FPDFPageObjMark_RemoveParam(FPDF_PAGEOBJECT page_object, FPDF_PAGEOBJECTMARK mark, [MarshalAs(UnmanagedType.LPStr)] string key)"),
+        MethodDefinition.Private("bool FPDFImageObj_LoadJpegFile(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_FILEREAD fileRead)"),
+        MethodDefinition.Public("bool FPDFImageObj_LoadJpegFileInline(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_FILEREAD fileRead)"),
+        MethodDefinition.Public("bool FPDFImageObj_GetMatrix(FPDF_PAGEOBJECT image_object, out double a, out double b, out double c, out double d, out double e, out double f)"),
+        MethodDefinition.Public("bool FPDFImageObj_SetMatrix(FPDF_PAGEOBJECT image_object, double a, double b, double c, double d, double e, double f)"),
+        MethodDefinition.Public("bool FPDFImageObj_SetBitmap(ref FPDF_PAGE pages, int nCount, FPDF_PAGEOBJECT image_object, FPDF_BITMAP bitmap)"),
+        MethodDefinition.Public("FPDF_BITMAP FPDFImageObj_GetBitmap(FPDF_PAGEOBJECT image_object)"),
+        MethodDefinition.Public("uint FPDFImageObj_GetImageDataDecoded(FPDF_PAGEOBJECT image_object, ref byte buffer, uint buflen)"),
+        MethodDefinition.Public("uint FPDFImageObj_GetImageDataRaw(FPDF_PAGEOBJECT image_object, ref byte buffer, uint buflen)"),
+        MethodDefinition.Public("int FPDFImageObj_GetImageFilterCount(FPDF_PAGEOBJECT image_object)"),
+        MethodDefinition.Public("uint FPDFImageObj_GetImageFilter(FPDF_PAGEOBJECT image_object, int index, ref byte buffer, uint buflen)"),
+        MethodDefinition.Public("bool FPDFImageObj_GetImageMetadata(FPDF_PAGEOBJECT image_object, FPDF_PAGE page, out FPDF_IMAGEOBJ_METADATA metadata)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECT FPDFPageObj_CreatenewPath(float x, float y)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECT FPDFPageObj_CreatenewRect(float x, float y, float w, float h)"),
+        MethodDefinition.Public("bool FPDFPageObj_GetBounds(FPDF_PAGEOBJECT page_object, out float left, out float bottom, out float right, out float top)"),
+        MethodDefinition.Public("void FPDFPageObj_SetBlendMode(FPDF_PAGEOBJECT page_object, [MarshalAs(UnmanagedType.LPStr)] string blend_mode)"),
+        MethodDefinition.Public("bool FPDFPageObj_SetStrokeColor(FPDF_PAGEOBJECT page_object, uint R, uint G, uint B, uint A)"),
+        MethodDefinition.Public("bool FPDFPageObj_GetStrokeColor(FPDF_PAGEOBJECT page_object, out uint R, out uint G, out uint B, out uint A)"),
+        MethodDefinition.Public("bool FPDFPageObj_SetStrokeWidth(FPDF_PAGEOBJECT page_object, float width)"),
+        MethodDefinition.Public("bool FPDFPageObj_GetStrokeWidth(FPDF_PAGEOBJECT page_object, out float width)"),
+        MethodDefinition.Public("int FPDFPageObj_GetLineJoin(FPDF_PAGEOBJECT page_object)"),
+        MethodDefinition.Public("bool FPDFPageObj_SetLineJoin(FPDF_PAGEOBJECT page_object, int line_join)"),
+        MethodDefinition.Public("int FPDFPageObj_GetLineCap(FPDF_PAGEOBJECT page_object)"),
+        MethodDefinition.Public("bool FPDFPageObj_SetLineCap(FPDF_PAGEOBJECT page_object, int line_cap)"),
+        MethodDefinition.Public("bool FPDFPageObj_SetFillColor(FPDF_PAGEOBJECT page_object, uint R, uint G, uint B, uint A)"),
+        MethodDefinition.Public("bool FPDFPageObj_GetFillColor(FPDF_PAGEOBJECT page_object, out uint R, out uint G, out uint B, out uint A)"),
+        MethodDefinition.Public("int FPDFPath_CountSegments(FPDF_PAGEOBJECT path)"),
+        MethodDefinition.Public("FPDF_PATHSEGMENT FPDFPath_GetPathSegment(FPDF_PAGEOBJECT path, int index)"),
+        MethodDefinition.Public("bool FPDFPathSegment_GetPoint(FPDF_PATHSEGMENT segment, out float x, out float y)"),
+        MethodDefinition.Public("int FPDFPathSegment_GetType(FPDF_PATHSEGMENT segment)"),
+        MethodDefinition.Public("bool FPDFPathSegment_GetClose(FPDF_PATHSEGMENT segment)"),
+        MethodDefinition.Public("bool FPDFPath_MoveTo(FPDF_PAGEOBJECT path, float x, float y)"),
+        MethodDefinition.Public("bool FPDFPath_LineTo(FPDF_PAGEOBJECT path, float x, float y)"),
+        MethodDefinition.Public("bool FPDFPath_BezierTo(FPDF_PAGEOBJECT path, float x1, float y1, float x2, float y2, float x3, float y3)"),
+        MethodDefinition.Public("bool FPDFPath_Close(FPDF_PAGEOBJECT path)"),
+        MethodDefinition.Public("bool FPDFPath_SetDrawMode(FPDF_PAGEOBJECT path, PathFillModes fillmode, bool stroke)"),
+        MethodDefinition.Public("bool FPDFPath_GetDrawMode(FPDF_PAGEOBJECT path, out PathFillModes fillmode, out bool stroke)"),
+        MethodDefinition.Public("bool FPDFPath_GetMatrix(FPDF_PAGEOBJECT path, FS_MATRIX matrix)"),
+        MethodDefinition.Public("bool FPDFPath_SetMatrix(FPDF_PAGEOBJECT path, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECT FPDFPageObj_NewTextObj(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string font, float font_size)"),
+        MethodDefinition.Public("bool FPDFText_SetText(FPDF_PAGEOBJECT text_object, [MarshalAs(UnmanagedType.LPWStr)] string text)"),
+        MethodDefinition.Private("FPDF_FONT FPDFText_LoadFont(FPDF_DOCUMENT document, ref byte data, uint size, FontTypes font_type, bool cid)"),
+        MethodDefinition.Public("FPDF_FONT FPDFText_LoadStandardFont(FPDF_DOCUMENT document, [MarshalAs(UnmanagedType.LPStr)] string font)"),
+        MethodDefinition.Public("bool FPDFTextObj_GetMatrix(FPDF_PAGEOBJECT text, FS_MATRIX matrix)"),
+        MethodDefinition.Public("float FPDFTextObj_GetFontSize(FPDF_PAGEOBJECT text)"),
+        MethodDefinition.Public("void FPDFFont_Close(FPDF_FONT font)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECT FPDFPageObj_CreateTextObj(FPDF_DOCUMENT document, FPDF_FONT font, float font_size)"),
+        MethodDefinition.Public("FPDF_TEXT_RENDERMODE FPDFTextObj_GetTextRenderMode(FPDF_PAGEOBJECT text)"),
+        MethodDefinition.Public("bool FPDFTextObj_SetTextRenderMode(FPDF_PAGEOBJECT text, FPDF_TEXT_RENDERMODE render_mode)"),
+        MethodDefinition.Public("uint FPDFTextObj_GetFontName(FPDF_PAGEOBJECT text, ref byte buffer, uint length)"),
+        MethodDefinition.Public("uint FPDFTextObj_GetText(FPDF_PAGEOBJECT text_object, FPDF_TEXTPAGE text_page, ref byte buffer, uint length)"),
+        MethodDefinition.Public("int FPDFFormObj_CountObjects(FPDF_PAGEOBJECT form_object)"),
+        MethodDefinition.Public("FPDF_PAGEOBJECT FPDFFormObj_GetObject(FPDF_PAGEOBJECT form_object, uint index)"),
+        MethodDefinition.Public("bool FPDFFormObj_GetMatrix(FPDF_PAGEOBJECT form_object, FS_MATRIX matrix)"),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_ext.h
+        MethodDefinition.Public(
+            "PageModes FPDFDoc_GetPageMode(FPDF_DOCUMENT document)",
+			"<seealso cref='PdfDocument.PageMode'/>"
+		),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_flatten.h
+        MethodDefinition.Public(
+            "FlattenResults FPDFPage_Flatten(FPDF_PAGE page, FlattenFlags nFlag)",
+			"<seealso cref='PdfPage.Flatten(FlattenFlags)'/>"
+		),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_ppo.h
+        MethodDefinition.Public(
+            "bool FPDF_ImportPages(FPDF_DOCUMENT dest_doc, FPDF_DOCUMENT src_doc, [MarshalAs(UnmanagedType.LPStr)] string pagerange, int index)",
+			"<seealso cref='PdfPageCollection.Insert(int, PdfDocument, int[])'/>", "<seealso cref='PdfPageCollection.Add(PdfDocument, int[])'/>", "<seealso cref='PdfDocument.Pages'/>"
+		),
+
+        MethodDefinition.Public("FPDF_DOCUMENT FPDF_ImportNPagesToOne(FPDF_DOCUMENT src_doc, float output_width, float output_height, int num_pages_on_x_axis, int num_pages_on_y_axis)"),
+        MethodDefinition.Public(
+            "bool FPDF_CopyViewerPreferences(FPDF_DOCUMENT dest_doc, FPDF_DOCUMENT src_doc)",
+			"<seealso cref='PdfDocument.CopyViewerPreferencesFrom(PdfDocument)'/>"
+		),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_progressive.h
+        MethodDefinition.Public("RenderingStatus FPDF_RenderPageBitmap_Start(FPDF_BITMAP bitmap, FPDF_PAGE page, int start_x, int start_y, int size_x, int size_y, PageOrientations rotate, RenderingFlags flags, IFSDK_PAUSE pause)"),
+        MethodDefinition.Public("RenderingStatus FPDF_RenderPage_Continue(FPDF_PAGE page, IFSDK_PAUSE pause)"),
+        MethodDefinition.Public("void FPDF_RenderPage_Close(FPDF_PAGE page)"),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_save.h
+        MethodDefinition.Public(
+            "bool FPDF_SaveAsCopy(FPDF_DOCUMENT document, FPDF_FILEWRITE fileWrite, SaveFlags flags)",
+			"<seealso cref='Pdfium.FPDF_SaveAsCopy(FPDF_DOCUMENT, System.IO.Stream, SaveFlags, int)'/>", 
+            "<seealso cref='PdfDocument.Save(System.IO.Stream, SaveFlags, int)'/>"
+        ),
+        MethodDefinition.Public(
+            "bool FPDF_SaveWithVersion(FPDF_DOCUMENT document, FPDF_FILEWRITE fileWrite, SaveFlags flags, int fileVersion)",
+			"<seealso cref='Pdfium.FPDF_SaveAsCopy(FPDF_DOCUMENT, System.IO.Stream, SaveFlags, int)'/>", 
+            "<seealso cref='PdfDocument.Save(System.IO.Stream, SaveFlags, int)'/>"
+        ),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_searchex.h
+        MethodDefinition.Public("int FPDFText_GetCharIndexFromTextIndex(FPDF_TEXTPAGE text_page, int nTextIndex)"),
+        MethodDefinition.Public("int FPDFText_GetTextIndexFromCharIndex(FPDF_TEXTPAGE text_page, int nCharIndex)"),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_structtree.h
+        MethodDefinition.Public("FPDF_STRUCTTREE FPDF_StructTree_GetForPage(FPDF_PAGE page)"),
+        MethodDefinition.Public("void FPDF_StructTree_Close(FPDF_STRUCTTREE struct_tree)"),
+        MethodDefinition.Public("int FPDF_StructTree_CountChildren(FPDF_STRUCTTREE struct_tree)"),
+        MethodDefinition.Public("FPDF_STRUCTELEMENT FPDF_StructTree_GetChildAtIndex(FPDF_STRUCTTREE struct_tree, int index)"),
+        MethodDefinition.Private("uint FPDF_StructElement_GetAltText(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen)"),
+        MethodDefinition.Public("int FPDF_StructElement_GetMarkedContentID(FPDF_STRUCTELEMENT struct_element)"),
+        MethodDefinition.Public("uint FPDF_StructElement_GetType(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen)"),
+        MethodDefinition.Public("uint FPDF_StructElement_GetTitle(FPDF_STRUCTELEMENT struct_element, ref byte buffer, uint buflen)"),
+        MethodDefinition.Public("int FPDF_StructElement_CountChildren(FPDF_STRUCTELEMENT struct_element)"),
+        MethodDefinition.Public("FPDF_STRUCTELEMENT FPDF_StructElement_GetChildAtIndex(FPDF_STRUCTELEMENT struct_element, int index)"),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_text.h
+        MethodDefinition.Public("FPDF_TEXTPAGE FPDFText_LoadPage(FPDF_PAGE page)"),
+        MethodDefinition.Public("void FPDFText_ClosePage(FPDF_TEXTPAGE text_page)"),
+        MethodDefinition.Public("int FPDFText_CountChars(FPDF_TEXTPAGE text_page)"),
+        MethodDefinition.Public(
+            "char FPDFText_GetUnicode(FPDF_TEXTPAGE text_page, int index)",
+            new[] { "[return: MarshalAs(UnmanagedType.U4)]" },
+            null
+		),
+        MethodDefinition.Public("double FPDFText_GetFontSize(FPDF_TEXTPAGE text_page, int index)"),
+        MethodDefinition.Public("uint FPDFText_GetFontInfo(FPDF_TEXTPAGE text_page, int index, ref byte buffer, uint buflen, out int flags)"),
+        MethodDefinition.Public("int FPDFText_GetFontWeight(FPDF_TEXTPAGE text_page, int index)"),
+        MethodDefinition.Public("FPDF_TEXT_RENDERMODE FPDFText_GetTextRenderMode(FPDF_TEXTPAGE text_page, int index)"),
+        MethodDefinition.Public("bool FPDFText_GetFillColor(FPDF_TEXTPAGE text_page, int index, out uint R, out uint G, out uint B, out uint A)"),
+        MethodDefinition.Public("bool FPDFText_GetStrokeColor(FPDF_TEXTPAGE text_page, int index, out uint R, out uint G, out uint B, out uint A)"),
+        MethodDefinition.Public("float FPDFText_GetCharAngle(FPDF_TEXTPAGE text_page, int index)"),
+        MethodDefinition.Public("bool FPDFText_GetCharBox(FPDF_TEXTPAGE text_page, int index, out double left, out double right, out double bottom, out double top)"),
+        MethodDefinition.Public("bool FPDFText_GetLooseCharBox(FPDF_TEXTPAGE text_page, int index, FS_RECTF rect)"),
+        MethodDefinition.Public("bool FPDFText_GetMatrix(FPDF_TEXTPAGE text_page, int index, FS_MATRIX matrix)"),
+        MethodDefinition.Public("bool FPDFText_GetCharOrigin(FPDF_TEXTPAGE text_page, int index, out double x, out double y)"),
+        MethodDefinition.Public("int FPDFText_GetCharIndexAtPos(FPDF_TEXTPAGE text_page, double x, double y, double xTolerance, double yTolerance)"),
+        MethodDefinition.Private("int FPDFText_GetText(FPDF_TEXTPAGE text_page, int start_index, int count, ref byte result)"),
+        MethodDefinition.Public("int FPDFText_CountRects(FPDF_TEXTPAGE text_page, int start_index, int count)"),
+        MethodDefinition.Public("bool FPDFText_GetRect(FPDF_TEXTPAGE text_page, int rect_index, out double left, out double top, out double right, out double bottom)"),
+        MethodDefinition.Private("int FPDFText_GetBoundedText(FPDF_TEXTPAGE text_page, double left, double top, double right, double bottom, ref byte buffer, int buflen)"),
+        MethodDefinition.Public("FPDF_SCHHANDLE FPDFText_FindStart(FPDF_TEXTPAGE text_page, [MarshalAs(UnmanagedType.LPWStr)] string findwhat, SearchFlags flags, int start_index)"),
+		MethodDefinition.Public("bool FPDFText_FindNext(FPDF_SCHHANDLE handle)"),
+        MethodDefinition.Public("bool FPDFText_FindPrev(FPDF_SCHHANDLE handle)"),
+		MethodDefinition.Public("int FPDFText_GetSchResultIndex(FPDF_SCHHANDLE handle)"),
+		MethodDefinition.Public("int FPDFText_GetSchCount(FPDF_SCHHANDLE handle)"),
+		MethodDefinition.Public("void FPDFText_FindClose(FPDF_SCHHANDLE handle)"),
+		MethodDefinition.Public("FPDF_PAGELINK FPDFLink_LoadWebLinks(FPDF_TEXTPAGE text_page)"),
+		MethodDefinition.Public("int FPDFLink_CountWebLinks(FPDF_PAGELINK link_page)"),
+		MethodDefinition.Private("int FPDFLink_GetURL(FPDF_PAGELINK link_page, int link_index, ref byte buffer, int buflen)"),
+		MethodDefinition.Public("int FPDFLink_CountRects(FPDF_PAGELINK link_page, int link_index)"),
+		MethodDefinition.Public("bool FPDFLink_GetRect(FPDF_PAGELINK link_page, int link_index, int rect_index, out double left, out double top, out double right, out double bottom)"),
+		MethodDefinition.Public("bool FPDFLink_GetTextRange(FPDF_PAGELINK link_page, int link_index, out int start_char_index, out int char_count)"),
+		MethodDefinition.Public("void FPDFLink_CloseWebLinks(FPDF_PAGELINK link_page)"),
+
+		// https://Pdfium.googlesource.com/pdfium/+/master/public/fpdf_transformpage.h
+		MethodDefinition.Public("void FPDFPage_SetMediaBox(FPDF_PAGE page, float left, float bottom, float right, float top)"),
+		MethodDefinition.Public("void FPDFPage_SetCropBox(FPDF_PAGE page, float left, float bottom, float right, float top)"),
+		MethodDefinition.Public("void FPDFPage_SetBleedBox(FPDF_PAGE page, float left, float bottom, float right, float top)"),
+		MethodDefinition.Public("void FPDFPage_SetTrimBox(FPDF_PAGE page, float left, float bottom, float right, float top)"),
+		MethodDefinition.Public("void FPDFPage_SetArtBox(FPDF_PAGE page, float left, float bottom, float right, float top)"),
+		MethodDefinition.Public("bool FPDFPage_GetMediaBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)"),
+		MethodDefinition.Public("bool FPDFPage_GetCropBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)"),
+        MethodDefinition.Public("bool FPDFPage_GetBleedBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)"),  
+		MethodDefinition.Public("bool FPDFPage_GetTrimBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)"),
+		MethodDefinition.Public("bool FPDFPage_GetArtBox(FPDF_PAGE page, out float left, out float bottom, out float right, out float top)"),
+		MethodDefinition.Public("bool FPDFPage_TransFormWithClip(FPDF_PAGE page, [MarshalAs(UnmanagedType.LPStruct)] FS_MATRIX matrix, [MarshalAs(UnmanagedType.LPStruct)] FS_RECTF clipRect)"),
+		MethodDefinition.Public("void FPDFPageObj_TransformClipPath(FPDF_PAGEOBJECT page_object, double a, double b, double c, double d, double e, double f)"),
+		MethodDefinition.Public("FPDF_CLIPPATH FPDFPageObj_GetClipPath(FPDF_PAGEOBJECT page_object)"),
+		MethodDefinition.Public("int FPDFClipPath_CountPaths(FPDF_CLIPPATH clip_path)"),
+		MethodDefinition.Public("int FPDFClipPath_CountPathSegments(FPDF_CLIPPATH clip_path, int path_index)"),
+		MethodDefinition.Public("FPDF_PATHSEGMENT FPDFClipPath_GetPathSegment(FPDF_CLIPPATH clip_path, int path_index, int segment_index)"),
+        MethodDefinition.Public("FPDF_CLIPPATH FPDF_CreateClipPath(float left, float bottom, float right, float top)"),
+        MethodDefinition.Public("void FPDF_DestroyClipPath(FPDF_CLIPPATH clipPath)"),
+        MethodDefinition.Public("void FPDFPage_InsertClipPath(FPDF_PAGE page, FPDF_CLIPPATH clipPath)")
+	};
+    
+    internal readonly struct MethodDefinition
+    {
+        public string Method { get; }
+        public string Name { get; }
+        public string ReturnType { get; }
+        public string ArgumentList { get; }
+        public string Arguments { get; }
+        public string AccessModifier { get; }
+        public IEnumerable<string> Documentation { get; }
+        public IEnumerable<string> Attributes { get; }
+
+        internal static MethodDefinition Public(string method, params string[] documentation) => Public(method, null, documentation);
+        internal static MethodDefinition Public(string method, IEnumerable<string> attributes, params string[] documentation) => new(method, attributes, "public", documentation);
+        internal static MethodDefinition Private(string method, params string[] documentation) => Private(method, null, documentation);
+        internal static MethodDefinition Private(string method, IEnumerable<string> attributes, params string[] documentation) => new(method, attributes, "private", documentation);
+        
+        private MethodDefinition(string method, IEnumerable<string> attributes, string accessModifier, IEnumerable<string> documentation = null)
+        {
+            Method = method;
+            AccessModifier = accessModifier;
+            Documentation = documentation ?? new List<string>();
+            Attributes = attributes ?? new List<string>();
+
+            var index = method.IndexOf(' ');
+            ReturnType = method.Substring(0, index);
+            index = method.IndexOf('(');
+            ArgumentList = method.Substring(index);
+            Name = method.Substring(ReturnType.Length + 1, index - ReturnType.Length - 1);
+            
+            var tmpArgList = method.Substring(index).TrimStart('(').TrimEnd(')').Split(',');
+            Arguments = string.Empty;
+            foreach (var tmp in tmpArgList)
+            {
+                var argDecl = tmp.Split('=')[0].TrimEnd();
+                if (argDecl.Contains("ref "))
+                {
+                    Arguments += "ref ";
+                }
+                else if (argDecl.Contains("out "))
+                {
+                    Arguments += "out ";
+                }
+                Arguments += argDecl.Split(' ').Last() + ", ";
+            }
+            
+            if (!string.IsNullOrEmpty(Arguments))
+            {
+                Arguments = Arguments.Substring(0, Arguments.Length - 2);
+            }
+        }
+    }
+#>
