@@ -16,6 +16,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfLibCore.UnitTests", "src\UnitTests\PdfLibCore.UnitTests\PdfLibCore.UnitTests.csproj", "{AFCCC5F8-6BB1-466E-A69F-2EE2ADC59CFC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4781BB81-D064-44FC-994D-9C2568A05560}"
+ProjectSection(SolutionItems) = preProject
+	LICENSE.txt = LICENSE.txt
+	README.md = README.md
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
