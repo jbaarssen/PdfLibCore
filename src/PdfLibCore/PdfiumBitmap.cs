@@ -67,11 +67,6 @@ namespace PdfLibCore
 		public Stream AsBmpStream(double dpiX = 72, double dpiY = 72)
 		{
 			var stream = new BmpStream(this, dpiX, dpiY);
-			if (stream == null)
-			{
-				throw new ArgumentNullException(nameof(stream));
-			}
-
 			stream.Position = 0;
 			return stream;
 		}
