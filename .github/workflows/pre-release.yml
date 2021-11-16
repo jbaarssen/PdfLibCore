@@ -43,6 +43,7 @@ jobs:
       uses: drusellers/publish-nuget@master
       with:
         project-file-path: src/PdfLibCore/PdfLibCore.csproj
+        version: ${{ steps.regex-match.outputs.match }}
         tag-commit: false
         nuget-key: ${{secrets.NUGET_API_KEY}}
     
@@ -50,6 +51,7 @@ jobs:
       uses: drusellers/publish-nuget@master
       with:
         project-file-path: src/PdfLibCore.FreeImage/PdfLibCore.FreeImage.csproj
+        version: ${{ steps.regex-match.outputs.match }}
         tag-commit: false
         nuget-key: ${{secrets.NUGET_API_KEY}}
     
@@ -57,6 +59,7 @@ jobs:
       uses: drusellers/publish-nuget@master
       with:
         project-file-path: src/PdfLibCore.ImageSharp/PdfLibCore.ImageSharp.csproj
+        version: ${{ steps.regex-match.outputs.match }}
         tag-commit: false
         nuget-key: ${{secrets.NUGET_API_KEY}}
         
@@ -64,6 +67,7 @@ jobs:
       uses: drusellers/publish-nuget@master
       with:
         project-file-path: src/PdfLibCore.MagickNet/PdfLibCore.MagickNet.csproj
+        version: ${{ steps.regex-match.outputs.match }}
         tag-commit: false
         nuget-key: ${{secrets.NUGET_API_KEY}}
     
@@ -71,5 +75,6 @@ jobs:
       uses: drusellers/publish-nuget@master
       with:
         project-file-path: src/PdfLibCore.SkiaSharp/PdfLibCore.SkiaSharp.csproj
+        version: ${{ steps.regex-match.outputs.match }}
         tag-commit: false
         nuget-key: ${{secrets.NUGET_API_KEY}}
