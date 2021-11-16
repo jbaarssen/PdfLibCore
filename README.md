@@ -19,6 +19,7 @@ foreach (var page in pdfDocument.Pages)
     var pageHeight = (int) (dpiY * pdfPage.Size.Height / 72);
 
     using var bitmap = new PdfiumBitmap(pageWidth, pageHeight, true);
+    pdfPage.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
     using var stream = bitmap.AsBmpStream(dpiX, dpiY);
     
     // <<< do something with your stream...>>> 
