@@ -21,7 +21,7 @@ namespace PdfLibCore.UnitTests
         }
 
         [Fact]
-        public void Render_Page_To_PdfiumBitmap()
+        public void Render_Page_To_PdfiumBitmap_With_Alpha()
         {
             var page = _pdfDocument.Pages[0];
             page.Should().NotBeNull();
@@ -29,6 +29,23 @@ namespace PdfLibCore.UnitTests
             using var bitmap = new PdfiumBitmap((int)page.Width, (int)page.Height, true);
             page.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
             bitmap.Format.Should().Be(BitmapFormats.RGBA);
+            bitmap.Width.Should().Be((int)page.Width);
+            bitmap.Height.Should().Be((int)page.Height);
+            bitmap.Stride.Should().BeGreaterThanOrEqualTo(0);
+            bitmap.Scan0.Should().BeGreaterThanOrEqualTo(0);
+            bitmap.BytesPerPixel.Should().Be(4);
+            bitmap.Dispose();
+        }
+        
+        [Fact]
+        public void Render_Page_To_PdfiumBitmap_Without_Alpha()
+        {
+            var page = _pdfDocument.Pages[0];
+            page.Should().NotBeNull();
+            
+            using var bitmap = new PdfiumBitmap((int)page.Width, (int)page.Height, false);
+            page.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
+            bitmap.Format.Should().Be(BitmapFormats.RGBx);
             bitmap.Width.Should().Be((int)page.Width);
             bitmap.Height.Should().Be((int)page.Height);
             bitmap.Stride.Should().BeGreaterThanOrEqualTo(0);
