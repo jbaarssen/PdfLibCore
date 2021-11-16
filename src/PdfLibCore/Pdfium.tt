@@ -10,6 +10,7 @@ License: Microsoft Reciprocal License (MS-RL)
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ output extension=".g.cs" #>
+<#@ import namespace="System.Collections.Generic" #>
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.ExceptionServices;
