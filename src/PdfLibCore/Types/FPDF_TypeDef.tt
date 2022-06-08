@@ -1,8 +1,5 @@
 <#@ template language="C#" hostspecific="true"#>
-<#@ import namespace="System.Text" #>
-<#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
-<#@ import namespace="System.IO" #>
 <# // ------------------------------------------------------ Code Start ------------------------------------------------------
 //This types from here: https://pdfium.googlesource.com/pdfium/+/master/public/fpdfview.h from line: // PDF types - use incomplete types (never completed) just for API type safety.
     string[] names =

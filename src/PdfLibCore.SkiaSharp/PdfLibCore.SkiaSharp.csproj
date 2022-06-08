@@ -27,8 +27,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="SkiaSharp" Version="2.80.3" />
-      <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.80.3" />
+      <PackageReference Include="SkiaSharp" Version="2.88.0" />
+      <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -47,7 +47,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <PackageReference Include="MinVer" Version="2.5.0">
+      <PackageReference Include="MinVer" Version="4.0.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
