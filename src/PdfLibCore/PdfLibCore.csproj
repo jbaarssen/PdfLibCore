@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
         <LangVersion>8</LangVersion>
-        <PlatformTarget>x64</PlatformTarget>
+        <PlatformTarget>any</PlatformTarget>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Authors>Jan Baarssen, Jan Kokenberg</Authors>
         <Product>PdfLib.Core</Product>
