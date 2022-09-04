@@ -52,15 +52,6 @@
             <PackagePath>icon.png</PackagePath>
             <Link>icon.png</Link>
         </Content>
-        <Content Include="runtimes/linux-x64/native/pdfium.so">
-            <PackagePath>runtimes/linux-x64/native/</PackagePath>
-        </Content>
-        <Content Include="runtimes/osx-univ/native/pdfium.dylib">
-            <PackagePath>runtimes/osx-univ/native/</PackagePath>
-        </Content>
-        <Content Include="runtimes/win-x64/native/pdfium.dll">
-            <PackagePath>runtimes/win-x64/native/pdfium.dll</PackagePath>
-        </Content>
         <None Update="common.ttinclude">
           <DependentUpon>Pdfium.tt</DependentUpon>
         </None>
@@ -83,6 +74,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="bblanchon.PDFium.Linux" Version="107.0.5268" />
+      <PackageReference Include="bblanchon.PDFium.macOS" Version="107.0.5268" />
+      <PackageReference Include="bblanchon.PDFium.Win32" Version="107.0.5268" />
       <PackageReference Include="MinVer" Version="4.0.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

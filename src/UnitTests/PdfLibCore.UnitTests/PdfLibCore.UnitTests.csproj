@@ -28,21 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\PdfLibCore\runtimes\linux-x64\native\pdfium.so">
-        <Link>pdfium.so</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="..\..\PdfLibCore\runtimes\mac-univ\native\pdfium.dylib">
-        <Link>pdfium.dylib</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="..\..\PdfLibCore\runtimes\win-x64\native\pdfium.dll">
-        <Link>pdfium.dll</Link>
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <Folder Include="Data" />
     </ItemGroup>
 
