@@ -26,6 +26,14 @@
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="SkiaSharp" Version="2.88.0" />
       <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.0" />

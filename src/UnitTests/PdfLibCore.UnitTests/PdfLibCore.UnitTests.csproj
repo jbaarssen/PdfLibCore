@@ -5,6 +5,14 @@
         <LangVersion>9</LangVersion>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="FluentAssertions" Version="6.7.0" />
       <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
@@ -24,7 +32,7 @@
         <Link>pdfium.so</Link>
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="..\..\PdfLibCore\runtimes\osx-x64\native\pdfium.dylib">
+      <Content Include="..\..\PdfLibCore\runtimes\mac-univ\native\pdfium.dylib">
         <Link>pdfium.dylib</Link>
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

@@ -25,6 +25,14 @@
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
     
     <ItemGroup>
         <PackageReference Include="SixLabors.ImageSharp" Version="2.1.2" />

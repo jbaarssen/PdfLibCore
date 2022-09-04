@@ -26,6 +26,14 @@
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="11.1.2" />
     </ItemGroup>

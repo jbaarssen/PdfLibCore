@@ -27,6 +27,14 @@
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
         <None Update="Types\FPDF_TypeDef.tt">
           <Generator>TextTemplatingFileGenerator</Generator>
@@ -47,8 +55,8 @@
         <Content Include="runtimes/linux-x64/native/pdfium.so">
             <PackagePath>runtimes/linux-x64/native/</PackagePath>
         </Content>
-        <Content Include="runtimes/osx-x64/native/pdfium.dylib">
-            <PackagePath>runtimes/osx-x64/native/</PackagePath>
+        <Content Include="runtimes/osx-univ/native/pdfium.dylib">
+            <PackagePath>runtimes/osx-univ/native/</PackagePath>
         </Content>
         <Content Include="runtimes/win-x64/native/pdfium.dll">
             <PackagePath>runtimes/win-x64/native/pdfium.dll</PackagePath>
