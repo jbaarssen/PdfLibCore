@@ -26,3 +26,6 @@ foreach (var page in pdfDocument.Pages)
     // <<< do something with your stream...>>> 
 }
 ```
+
+## Notes
+If you encounter errors in T4 generation on Windows VS, convert the line endings to CRLF and it will work.
