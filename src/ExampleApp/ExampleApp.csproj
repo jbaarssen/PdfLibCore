@@ -6,6 +6,14 @@
         <LangVersion>9</LangVersion>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\PdfLibCore.FreeImage\PdfLibCore.FreeImage.csproj" />
       <ProjectReference Include="..\PdfLibCore.ImageSharp\PdfLibCore.ImageSharp.csproj" />

@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using FluentAssertions;
 using PdfLibCore.Enums;
+using PdfLibCore.ImageSharp;
+using SixLabors.ImageSharp;
 using Xunit;
 
 namespace PdfLibCore.UnitTests
@@ -65,7 +67,23 @@ namespace PdfLibCore.UnitTests
             var stream = bitmap.AsBmpStream();
             stream.Should().NotBeNull();
         }
-
+        [Fact]
+        public void Get_PngStream_From_PdfiumBitmap()
+        {
+            var page = _pdfDocument.Pages[0];
+            page.Should().NotBeNull();
+            
+            using var bitmap = new PdfiumBitmap((int)page.Width * 3, (int)page.Height * 3, true);
+            page.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
+            var stream = bitmap.AsBmpStream();
+            stream.Should().NotBeNull();
+            
+            var path = Path.Combine(Environment.CurrentDirectory, "Data", "test.png");
+            
+            bitmap.AsImage().SaveAsPng(path);
+            Image.Load(path).Height.Should().Be(792*3);
+        }
+        
         public void Dispose()
         {
             ((IDisposable)_pdfDocument)?.Dispose();
