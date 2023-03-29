@@ -35,7 +35,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="11.1.2" />
+      <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.0.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -54,7 +54,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MinVer" Version="4.0.0">
+      <PackageReference Include="MinVer" Version="4.3.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
