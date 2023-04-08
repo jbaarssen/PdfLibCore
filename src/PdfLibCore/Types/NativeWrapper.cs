@@ -12,7 +12,7 @@ namespace PdfLibCore.Types
         /// <summary>
         /// Handle which can be used with the native <see cref="Pdfium"/> functions.
         /// </summary>
-        public T Handle => _handle.IsNull ? throw new ObjectDisposedException(GetType().FullName) : _handle;
+        public T Handle => IsDisposed ? throw new ObjectDisposedException(GetType().FullName) : _handle;
 
         /// <summary>
         /// Gets a value indicating whether <see cref="IDisposable.Dispose"/> was already
@@ -30,7 +30,9 @@ namespace PdfLibCore.Types
         /// <summary>
         /// Implementors should clean up here. This method is guaranteed to only be called once.
         /// </summary>
-        protected virtual void Dispose(T handle) { }
+        protected virtual void Dispose(T handle)
+        {
+        }
 
         void IDisposable.Dispose()
         {

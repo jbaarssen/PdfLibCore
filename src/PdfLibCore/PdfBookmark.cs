@@ -20,9 +20,9 @@ namespace PdfLibCore
 
         public string Title => Pdfium.FPDFBookmark_GetTitle(Handle);
 
-        public PdfDestination Destination => new PdfDestination(Document, Pdfium.FPDFBookmark_GetDest(Document.Handle, Handle), null);
+        public PdfDestination Destination => new(Document, Pdfium.FPDFBookmark_GetDest(Document.Handle, Handle), null);
 
-        public PdfAction Action => new PdfAction(Document, Pdfium.FPDFBookmark_GetAction(Handle));
+        public PdfAction Action => new(Document, Pdfium.FPDFBookmark_GetAction(Handle));
 
         internal PdfBookmark(PdfDocument doc, FPDF_BOOKMARK handle)
             : base(doc, handle)

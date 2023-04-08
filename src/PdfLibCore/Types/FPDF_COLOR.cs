@@ -41,6 +41,6 @@ namespace PdfLibCore.Types
             ARGB = argb;
         }
 
-        public static implicit operator FPDF_COLOR(uint argb) => new FPDF_COLOR(argb);
+        public static implicit operator FPDF_COLOR(uint argb) => new(argb);
     }
 }

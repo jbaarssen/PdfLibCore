@@ -34,9 +34,9 @@ namespace PdfLibCore
         public override long Position
         {
             get => _pos;
-            set => _pos = (uint)value;
+            set => _pos = (uint) value;
         }
-        
+
         public BmpStream(PdfiumBitmap bitmap, double dpiX, double dpiY)
         {
             if (bitmap.Format == BitmapFormats.Gray)
@@ -45,9 +45,9 @@ namespace PdfLibCore
             }
 
             _bitmap = bitmap;
-            _rowLength = (uint)bitmap.BytesPerPixel * (uint)bitmap.Width;
-            _stride = ((uint)bitmap.BytesPerPixel * 8 * (uint)bitmap.Width + 31) / 32 * 4;
-            _length = PixelArrayOffset + _stride * (uint)bitmap.Height;
+            _rowLength = (uint) bitmap.BytesPerPixel * (uint) bitmap.Width;
+            _stride = ((uint) bitmap.BytesPerPixel * 8 * (uint) bitmap.Width + 31) / 32 * 4;
+            _length = PixelArrayOffset + _stride * (uint) bitmap.Height;
             _header = GetHeader(_length, _bitmap, dpiX, dpiY);
             _pos = 0;
         }
@@ -59,20 +59,20 @@ namespace PdfLibCore
 
             using var ms = new MemoryStream(header);
             using var writer = new BinaryWriter(ms);
-            writer.Write((byte)'B');
-            writer.Write((byte)'M');
+            writer.Write((byte) 'B');
+            writer.Write((byte) 'M');
             writer.Write(fileSize);
             writer.Write(0u);
             writer.Write(PixelArrayOffset);
             writer.Write(DibHeaderSize);
             writer.Write(bitmap.Width);
             writer.Write(-bitmap.Height); // top-down image
-            writer.Write((ushort)1);
-            writer.Write((ushort)(bitmap.BytesPerPixel * 8));
+            writer.Write((ushort) 1);
+            writer.Write((ushort) (bitmap.BytesPerPixel * 8));
             writer.Write(CompressionMethod);
             writer.Write(0);
-            writer.Write((int)Math.Round(dpiX / metersPerInch));
-            writer.Write((int)Math.Round(dpiY / metersPerInch));
+            writer.Write((int) Math.Round(dpiX / metersPerInch));
+            writer.Write((int) Math.Round(dpiY / metersPerInch));
             writer.Write(0L);
             writer.Write(MaskR);
             writer.Write(MaskG);
@@ -94,9 +94,9 @@ namespace PdfLibCore
             var returnValue = 0;
             if (_pos < PixelArrayOffset)
             {
-                returnValue = Math.Min(count, (int)(PixelArrayOffset - _pos));
-                Buffer.BlockCopy(_header, (int)_pos, buffer, offset, returnValue);
-                _pos += (uint)returnValue;
+                returnValue = Math.Min(count, (int) (PixelArrayOffset - _pos));
+                Buffer.BlockCopy(_header, (int) _pos, buffer, offset, returnValue);
+                _pos += (uint) returnValue;
                 offset += returnValue;
                 bytesToRead -= returnValue;
             }
@@ -106,29 +106,29 @@ namespace PdfLibCore
                 return returnValue;
             }
 
-            bytesToRead = Math.Min(bytesToRead, (int)(_length - _pos));
+            bytesToRead = Math.Min(bytesToRead, (int) (_length - _pos));
             var idxBuffer = _pos - PixelArrayOffset;
 
             if (_stride == _bitmap.Stride)
             {
-                Marshal.Copy(_bitmap.Scan0 + (int)idxBuffer, buffer, offset, bytesToRead);
+                Marshal.Copy(_bitmap.Scan0 + (int) idxBuffer, buffer, offset, bytesToRead);
                 returnValue += bytesToRead;
-                _pos += (uint)bytesToRead;
+                _pos += (uint) bytesToRead;
                 return returnValue;
             }
 
             while (bytesToRead > 0)
             {
-                var idxInStride = (int)(idxBuffer / _stride);
-                var leftInRow = Math.Max(0, (int)_rowLength - idxInStride);
-                var paddingBytes = (int)(_stride - _rowLength);
+                var idxInStride = (int) (idxBuffer / _stride);
+                var leftInRow = Math.Max(0, (int) _rowLength - idxInStride);
+                var paddingBytes = (int) (_stride - _rowLength);
                 var read = Math.Min(bytesToRead, leftInRow);
                 if (read > 0)
                 {
-                    Marshal.Copy(_bitmap.Scan0 + (int)idxBuffer, buffer, offset, read);
+                    Marshal.Copy(_bitmap.Scan0 + (int) idxBuffer, buffer, offset, read);
                 }
                 offset += read;
-                idxBuffer += (uint)read;
+                idxBuffer += (uint) read;
                 bytesToRead -= read;
                 returnValue += read;
                 read = Math.Min(bytesToRead, paddingBytes);
@@ -137,7 +137,7 @@ namespace PdfLibCore
                     buffer[offset + i] = 0;
                 }
                 offset += read;
-                idxBuffer += (uint)read;
+                idxBuffer += (uint) read;
                 bytesToRead -= read;
                 returnValue += read;
             }
@@ -145,22 +145,13 @@ namespace PdfLibCore
             return returnValue;
         }
 
-        public override long Seek(long offset, SeekOrigin origin)
+        public override long Seek(long offset, SeekOrigin origin) => Position = origin switch
         {
-            switch (origin)
-            {
-                case SeekOrigin.Begin:
-                    Position = offset;
-                    break;
-                case SeekOrigin.Current:
-                    Position += offset;
-                    break;
-                case SeekOrigin.End:
-                    Position = Length + offset;
-                    break;
-            }
-            return Position;
-        }
+            SeekOrigin.Begin => offset,
+            SeekOrigin.Current => Position + offset,
+            SeekOrigin.End => Length + offset,
+            _ => throw new ArgumentOutOfRangeException(nameof(origin), origin, null)
+        };
 
         public override void SetLength(long value) =>
             throw new NotSupportedException();

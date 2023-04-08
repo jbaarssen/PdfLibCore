@@ -53,11 +53,9 @@ namespace PdfLibCore
 			Index = index;
 		}
 
-		internal static PdfPage Load(PdfDocument doc, int index) => 
-			new PdfPage(doc, Pdfium.FPDF_LoadPage(doc.Handle, index), index);
+		internal static PdfPage Load(PdfDocument doc, int index) => new(doc, Pdfium.FPDF_LoadPage(doc.Handle, index), index);
 
-		internal static PdfPage New(PdfDocument doc, int index, double width, double height) => 
-			new PdfPage(doc, Pdfium.FPDFPage_New(doc.Handle, index, width, height), index);
+		internal static PdfPage New(PdfDocument doc, int index, double width, double height) => new(doc, Pdfium.FPDFPage_New(doc.Handle, index, width, height), index);
 
 		/// <summary>
 		/// Renders the page to a <see cref="PdfiumBitmap"/>
@@ -76,7 +74,7 @@ namespace PdfLibCore
 		/// <param name="orientation">The orientation at which the page is to be rendered.</param>
 		/// <param name="flags">The flags specifying how the page is to be rendered.</param>
 		public void Render(PdfiumBitmap renderTarget, (int left, int top, int width, int height) rectDest, PageOrientations orientation = PageOrientations.Normal, RenderingFlags flags = RenderingFlags.None) => 
-			Pdfium.FPDF_RenderPageBitmap(renderTarget.Handle, Handle, 0, 0, rectDest.width, rectDest.height, orientation, flags);
+			Pdfium.FPDF_RenderPageBitmap(renderTarget.Handle, Handle, rectDest.left, rectDest.top, rectDest.width, rectDest.height, orientation, flags);
 		
 		public (double X, double Y) DeviceToPage((int left, int top, int width, int height) displayArea, int deviceX, int deviceY, PageOrientations orientation = PageOrientations.Normal)
 		{

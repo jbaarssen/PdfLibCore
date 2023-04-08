@@ -2,12 +2,12 @@
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-        <LangVersion>8</LangVersion>
+        <LangVersion>latest</LangVersion>
         <PlatformTarget>any</PlatformTarget>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Authors>Jan Baarssen, Jan Kokenberg</Authors>
         <Product>PdfLib.Core</Product>
-        <Description>PdfLib CORE is a fast PDF editing and reading library for modern .NET core applications.</Description>
+        <Description>PdfLib CORE is a fast library for reading PDF documents for modern .NET core applications.</Description>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1701;1702;1591;0649</NoWarn>
         <Copyright>MIT</Copyright>
@@ -74,9 +74,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="bblanchon.PDFium.Linux" Version="114.0.5677" />
-      <PackageReference Include="bblanchon.PDFium.macOS" Version="114.0.5677" />
-      <PackageReference Include="bblanchon.PDFium.Win32" Version="114.0.5677" />
+      <PackageReference Include="bblanchon.PDFium.Linux" Version="114.*" />
+      <PackageReference Include="bblanchon.PDFium.macOS" Version="114.*" />
+      <PackageReference Include="bblanchon.PDFium.Win32" Version="114.*" />
       <PackageReference Include="MinVer" Version="4.3.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

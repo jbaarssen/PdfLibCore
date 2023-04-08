@@ -1,98 +1,101 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Threading.Tasks;
 using PdfLibCore;
 using PdfLibCore.Enums;
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Processing;
+
+// ReSharper disable UnusedMember.Local
 
 namespace ExampleApp
 {
     [ExcludeFromCodeCoverage]
     public static class Program
     {
-        public static void Main(string[] args)
+        private const int Max = 865;
+        private const string Destination = "c:/temp/output";
+
+        public static async Task Main(string[] args)
         {
+            Console.WriteLine("Start...");
+
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            
-            var destination = Path.Combine("c:/temp/output");
-            
-            using var pdfDocument = new PdfDocument(File.Open("c:/temp/IR.pdf", FileMode.Open));
-            //using var pdfDocument = new PdfDocument(File.ReadAllBytes("c:/temp/IR.pdf"));
 
-            var i = 0;
-            foreach (var page in pdfDocument.Pages)
-            {
-                using var pdfPage = page;
-                var pageWidth = (int) (300 * pdfPage.Size.Width / 72);
-                var pageHeight = (int) (300 * pdfPage.Size.Height / 72);
+            await Task.WhenAll(
+                Run("A17_FlightPlan.pdf", Path.Combine(Destination, "lightplan")),
+                Run("sample-10-mb.pdf", Path.Combine(Destination, "sample-10")),
+                Run("A17_FlightPlan.pdf", Path.Combine(Destination, "flightplan2")),
+                Run("sample-images.pdf", Path.Combine(Destination, "sample-images")));
 
-                using var bitmap = new PdfiumBitmap(pageWidth, pageHeight, true);
-                pdfPage.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
-
-                i++;
-                SaveUsingImageSharp(bitmap, destination, i);
-                SaveUsingMagickNet(bitmap, destination, i);
-                SaveUsingSkiaSharp(bitmap, destination, i);
-                SaveUsingFreeImage(bitmap, destination, i);
-
-                //ResizeAndSaveToJpeg(bitmap.AsImage(196D, 196D), Path.Combine(destination, $"{i++}.jpeg"));
-            }
-            
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
             var ts = stopWatch.Elapsed;
 
             // Format and display the TimeSpan value.
             Console.WriteLine("RunTime " + $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}");
-            //Console.ReadKey();
         }
 
-        private static void SaveUsingImageSharp(PdfiumBitmap bitmap, string destination, int i)
+        private static async Task Run(string name, string destination)
         {
-            using var ms = new MemoryStream();
-            PdfLibCore.ImageSharp.PdfiumBitmapExtensions.AsImage(bitmap, 196D, 196D).SaveAsJpeg(ms);
-            File.WriteAllBytes(Path.Combine(destination, $"{i}-ImageSharp.jpeg"), ms.ToArray());
-        }
-        
-        private static void SaveUsingMagickNet(PdfiumBitmap bitmap, string destination, int i)
-        {
-            using var ms = new MemoryStream();
-            PdfLibCore.ImageSharp.PdfiumBitmapExtensions.AsImage(bitmap, 196D, 196D).SaveAsJpeg(ms);
-            File.WriteAllBytes(Path.Combine(destination, $"{i}-MagickNet.jpeg"), ms.ToArray());
-        }
-        
-        private static void SaveUsingSkiaSharp(PdfiumBitmap bitmap, string destination, int i)
-        {
-            using var ms = new MemoryStream();
-            PdfLibCore.ImageSharp.PdfiumBitmapExtensions.AsImage(bitmap, 196D, 196D).SaveAsJpeg(ms);
-            File.WriteAllBytes(Path.Combine(destination, $"{i}-SkiaSharp.jpeg"), ms.ToArray());
-        }
-        
-        private static void SaveUsingFreeImage(PdfiumBitmap bitmap, string destination, int i)
-        {
-            using var ms = new MemoryStream();
-            PdfLibCore.ImageSharp.PdfiumBitmapExtensions.AsImage(bitmap, 196D, 196D).SaveAsJpeg(ms);
-            File.WriteAllBytes(Path.Combine(destination, $"{i}-FreeImage.jpeg"), ms.ToArray());
+            if (Directory.Exists(destination))
+            {
+                Directory.Delete(destination, true);
+            }
+            Directory.CreateDirectory(destination!);
+
+            Console.WriteLine($"Starting with {name}");
+            await foreach (var page in GetImagesFromPdf(name))
+            {
+                using var image = await Image.LoadAsync(page.Item2, new BmpDecoder());
+                var data = await ResizeAndSaveToJpeg(image);
+                await File.WriteAllBytesAsync(Path.Combine(destination, $"{page.i}.jpeg"), data);
+            }
+
+            Console.WriteLine($"Done with {name}");
         }
 
-        public static void ResizeAndSaveToJpeg(Image image, string destination)
+        private static async IAsyncEnumerable<(int i, Stream)> GetImagesFromPdf(string name)
         {
-            var width = (int) (image.Width * 0.5D);
-            var height = (int) (image.Height * 0.5D);
-            image.Mutate(context => context.Resize(new ResizeOptions
+            var input = DataProvider.GetEmbeddedResource(name);
+            using var pdfDocument = new PdfDocument(input);
+
+            Console.WriteLine($"Getting {pdfDocument.Pages.Count} images for {name}");
+
+            foreach (var page in pdfDocument.Pages)
+            {
+                using var bitmap = new PdfiumBitmap(
+                    (int) (page.Size.Width / 72 * 144D),
+                    (int) (page.Size.Height / 72 * 144D),
+                    true);
+                page.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
+                yield return (page.Index, bitmap.AsBmpStream());
+            }
+
+            Console.WriteLine($"Done getting images for {name}");
+        }
+
+        private static async Task<byte[]> ResizeAndSaveToJpeg(Image image)
+        {
+            var isPortrait = image.Width <= image.Height;
+            using var clone = image.Clone(src => src.Resize(new ResizeOptions
             {
                 Mode = ResizeMode.Max,
-                Size = new Size(width, height)
+                Size = isPortrait
+                    ? new Size(Max, 0)
+                    : new Size(0, Max),
+                Sampler = KnownResamplers.Lanczos3,
+                Compand = true
             }));
-            
+
             using var ms = new MemoryStream();
-            image.SaveAsJpeg(ms);
-            image.Dispose();
-            
-            File.WriteAllBytes(destination, ms.ToArray());
+            await clone.SaveAsJpegAsync(ms);
+            return ms.ToArray();
         }
     }
 }

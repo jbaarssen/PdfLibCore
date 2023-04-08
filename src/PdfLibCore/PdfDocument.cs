@@ -38,7 +38,7 @@ namespace PdfLibCore
 
         public DuplexTypes DuplexType => Pdfium.FPDF_VIEWERREF_GetDuplex(Handle);
 
-        public PdfPageRange PageRange => new PdfPageRange(this, Pdfium.FPDF_VIEWERREF_GetPrintPageRange(Handle));
+        public PdfPageRange PageRange => new(this, Pdfium.FPDF_VIEWERREF_GetPrintPageRange(Handle));
 
         public IEnumerable<PdfBookmark> Bookmarks
         {

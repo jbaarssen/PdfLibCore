@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 namespace PdfLibCore
 {
     public sealed class PdfPageCollection : List<PdfPage>, IDisposable
 	{
 		private readonly PdfDocument _doc;
-		private readonly object _lock = new object();
+		private readonly object _lock = new();
 
 		public new int Count => Pdfium.FPDF_GetPageCount(_doc.Handle);
 		
@@ -60,7 +61,13 @@ namespace PdfLibCore
 		/// <seealso cref="Pdfium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
 		public bool Add(PdfDocument sourceDocument, params int[] srcPageIndices) => 
 			Insert(Count, sourceDocument, srcPageIndices);
-		
+
+		/// <summary>
+		/// Adds a new page to the end of the document.
+		/// </summary>
+		public PdfPage Add(double width, double height) =>
+			Insert(Count, width, height);
+
 		/// <summary>
 		/// Imports pages of <paramref name="sourceDocument"/> into the current <see cref="PdfDocument"/>.
 		/// </summary>
@@ -91,12 +98,6 @@ namespace PdfLibCore
             return true;
 		}
 
-		/// <summary>
-		/// Adds a new page to the end of the document.
-		/// </summary>
-		public PdfPage Add(double width, double height) => 
-			Insert(Count, width, height);
-		
 		/// <summary>
 		/// Inserts a new page at <paramref name="index"/>.
 		/// </summary>
