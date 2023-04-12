@@ -7,23 +7,29 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <PlatformTarget>AnyCPU</PlatformTarget>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <PlatformTarget>AnyCPU</PlatformTarget>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PdfLibCore.FreeImage\PdfLibCore.FreeImage.csproj" />
-      <ProjectReference Include="..\PdfLibCore.ImageSharp\PdfLibCore.ImageSharp.csproj" />
-      <ProjectReference Include="..\PdfLibCore.MagickNet\PdfLibCore.MagickNet.csproj" />
-      <ProjectReference Include="..\PdfLibCore.SkiaSharp\PdfLibCore.SkiaSharp.csproj" />
-      <ProjectReference Include="..\PdfLibCore\PdfLibCore.csproj" />
+        <ProjectReference Include="..\PdfLibCore.FreeImage\PdfLibCore.FreeImage.csproj" />
+        <ProjectReference Include="..\PdfLibCore.ImageSharp\PdfLibCore.ImageSharp.csproj" />
+        <ProjectReference Include="..\PdfLibCore.MagickNet\PdfLibCore.MagickNet.csproj" />
+        <ProjectReference Include="..\PdfLibCore.SkiaSharp\PdfLibCore.SkiaSharp.csproj" />
+        <ProjectReference Include="..\PdfLibCore\PdfLibCore.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="SixLabors.ImageSharp" Version="2.1.2" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="2.1.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Data\A17_FlightPlan.pdf" />
+        <EmbeddedResource Include="Data\sample-10-mb.pdf" />
+        <EmbeddedResource Include="Data\sample-images.pdf" />
     </ItemGroup>
 
 </Project>

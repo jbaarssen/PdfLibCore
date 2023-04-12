@@ -18,7 +18,7 @@ namespace PdfLibCore
             _handle = handle;
         }
 
-        public static PinnedGcHandle Pin(object obj) => new PinnedGcHandle(GCHandle.Alloc(obj, GCHandleType.Pinned));
+        public static PinnedGcHandle Pin(object obj) => new(GCHandle.Alloc(obj, GCHandleType.Pinned));
 
         public void Free() => _handle.Free();
 

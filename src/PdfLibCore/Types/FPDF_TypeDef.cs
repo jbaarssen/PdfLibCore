@@ -25,11 +25,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_ACTION Null => new FPDF_ACTION();
+		public static FPDF_ACTION Null => new();
 
 		private FPDF_ACTION(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_ACTION IHandle<FPDF_ACTION>.SetToNull() => new FPDF_ACTION(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_ACTION IHandle<FPDF_ACTION>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_ACTION: 0x{_pointer.ToString("X16")}";
     }
@@ -44,11 +44,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_ANNOTATION Null => new FPDF_ANNOTATION();
+		public static FPDF_ANNOTATION Null => new();
 
 		private FPDF_ANNOTATION(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_ANNOTATION IHandle<FPDF_ANNOTATION>.SetToNull() => new FPDF_ANNOTATION(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_ANNOTATION IHandle<FPDF_ANNOTATION>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_ANNOTATION: 0x{_pointer.ToString("X16")}";
     }
@@ -63,11 +63,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_ATTACHMENT Null => new FPDF_ATTACHMENT();
+		public static FPDF_ATTACHMENT Null => new();
 
 		private FPDF_ATTACHMENT(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_ATTACHMENT IHandle<FPDF_ATTACHMENT>.SetToNull() => new FPDF_ATTACHMENT(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_ATTACHMENT IHandle<FPDF_ATTACHMENT>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_ATTACHMENT: 0x{_pointer.ToString("X16")}";
     }
@@ -82,11 +82,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_BITMAP Null => new FPDF_BITMAP();
+		public static FPDF_BITMAP Null => new();
 
 		private FPDF_BITMAP(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_BITMAP IHandle<FPDF_BITMAP>.SetToNull() => new FPDF_BITMAP(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_BITMAP IHandle<FPDF_BITMAP>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_BITMAP: 0x{_pointer.ToString("X16")}";
     }
@@ -101,11 +101,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_BOOKMARK Null => new FPDF_BOOKMARK();
+		public static FPDF_BOOKMARK Null => new();
 
 		private FPDF_BOOKMARK(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_BOOKMARK IHandle<FPDF_BOOKMARK>.SetToNull() => new FPDF_BOOKMARK(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_BOOKMARK IHandle<FPDF_BOOKMARK>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_BOOKMARK: 0x{_pointer.ToString("X16")}";
     }
@@ -120,11 +120,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_CLIPPATH Null => new FPDF_CLIPPATH();
+		public static FPDF_CLIPPATH Null => new();
 
 		private FPDF_CLIPPATH(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_CLIPPATH IHandle<FPDF_CLIPPATH>.SetToNull() => new FPDF_CLIPPATH(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_CLIPPATH IHandle<FPDF_CLIPPATH>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_CLIPPATH: 0x{_pointer.ToString("X16")}";
     }
@@ -139,11 +139,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_DEST Null => new FPDF_DEST();
+		public static FPDF_DEST Null => new();
 
 		private FPDF_DEST(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_DEST IHandle<FPDF_DEST>.SetToNull() => new FPDF_DEST(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_DEST IHandle<FPDF_DEST>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_DEST: 0x{_pointer.ToString("X16")}";
     }
@@ -158,11 +158,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_DOCUMENT Null => new FPDF_DOCUMENT();
+		public static FPDF_DOCUMENT Null => new();
 
 		private FPDF_DOCUMENT(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_DOCUMENT IHandle<FPDF_DOCUMENT>.SetToNull() => new FPDF_DOCUMENT(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_DOCUMENT IHandle<FPDF_DOCUMENT>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_DOCUMENT: 0x{_pointer.ToString("X16")}";
     }
@@ -177,11 +177,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_FONT Null => new FPDF_FONT();
+		public static FPDF_FONT Null => new();
 
 		private FPDF_FONT(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_FONT IHandle<FPDF_FONT>.SetToNull() => new FPDF_FONT(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_FONT IHandle<FPDF_FONT>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_FONT: 0x{_pointer.ToString("X16")}";
     }
@@ -196,11 +196,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_FORMHANDLE Null => new FPDF_FORMHANDLE();
+		public static FPDF_FORMHANDLE Null => new();
 
 		private FPDF_FORMHANDLE(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_FORMHANDLE IHandle<FPDF_FORMHANDLE>.SetToNull() => new FPDF_FORMHANDLE(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_FORMHANDLE IHandle<FPDF_FORMHANDLE>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_FORMHANDLE: 0x{_pointer.ToString("X16")}";
     }
@@ -215,11 +215,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_JAVASCRIPT_ACTION Null => new FPDF_JAVASCRIPT_ACTION();
+		public static FPDF_JAVASCRIPT_ACTION Null => new();
 
 		private FPDF_JAVASCRIPT_ACTION(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_JAVASCRIPT_ACTION IHandle<FPDF_JAVASCRIPT_ACTION>.SetToNull() => new FPDF_JAVASCRIPT_ACTION(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_JAVASCRIPT_ACTION IHandle<FPDF_JAVASCRIPT_ACTION>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_JAVASCRIPT_ACTION: 0x{_pointer.ToString("X16")}";
     }
@@ -234,11 +234,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_LINK Null => new FPDF_LINK();
+		public static FPDF_LINK Null => new();
 
 		private FPDF_LINK(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_LINK IHandle<FPDF_LINK>.SetToNull() => new FPDF_LINK(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_LINK IHandle<FPDF_LINK>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_LINK: 0x{_pointer.ToString("X16")}";
     }
@@ -253,11 +253,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_PAGE Null => new FPDF_PAGE();
+		public static FPDF_PAGE Null => new();
 
 		private FPDF_PAGE(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_PAGE IHandle<FPDF_PAGE>.SetToNull() => new FPDF_PAGE(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_PAGE IHandle<FPDF_PAGE>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_PAGE: 0x{_pointer.ToString("X16")}";
     }
@@ -272,11 +272,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_PAGELINK Null => new FPDF_PAGELINK();
+		public static FPDF_PAGELINK Null => new();
 
 		private FPDF_PAGELINK(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_PAGELINK IHandle<FPDF_PAGELINK>.SetToNull() => new FPDF_PAGELINK(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_PAGELINK IHandle<FPDF_PAGELINK>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_PAGELINK: 0x{_pointer.ToString("X16")}";
     }
@@ -291,11 +291,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_PAGEOBJECT Null => new FPDF_PAGEOBJECT();
+		public static FPDF_PAGEOBJECT Null => new();
 
 		private FPDF_PAGEOBJECT(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_PAGEOBJECT IHandle<FPDF_PAGEOBJECT>.SetToNull() => new FPDF_PAGEOBJECT(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_PAGEOBJECT IHandle<FPDF_PAGEOBJECT>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_PAGEOBJECT: 0x{_pointer.ToString("X16")}";
     }
@@ -310,11 +310,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_PAGEOBJECTMARK Null => new FPDF_PAGEOBJECTMARK();
+		public static FPDF_PAGEOBJECTMARK Null => new();
 
 		private FPDF_PAGEOBJECTMARK(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_PAGEOBJECTMARK IHandle<FPDF_PAGEOBJECTMARK>.SetToNull() => new FPDF_PAGEOBJECTMARK(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_PAGEOBJECTMARK IHandle<FPDF_PAGEOBJECTMARK>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_PAGEOBJECTMARK: 0x{_pointer.ToString("X16")}";
     }
@@ -329,11 +329,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_PAGERANGE Null => new FPDF_PAGERANGE();
+		public static FPDF_PAGERANGE Null => new();
 
 		private FPDF_PAGERANGE(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_PAGERANGE IHandle<FPDF_PAGERANGE>.SetToNull() => new FPDF_PAGERANGE(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_PAGERANGE IHandle<FPDF_PAGERANGE>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_PAGERANGE: 0x{_pointer.ToString("X16")}";
     }
@@ -348,11 +348,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_PATHSEGMENT Null => new FPDF_PATHSEGMENT();
+		public static FPDF_PATHSEGMENT Null => new();
 
 		private FPDF_PATHSEGMENT(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_PATHSEGMENT IHandle<FPDF_PATHSEGMENT>.SetToNull() => new FPDF_PATHSEGMENT(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_PATHSEGMENT IHandle<FPDF_PATHSEGMENT>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_PATHSEGMENT: 0x{_pointer.ToString("X16")}";
     }
@@ -367,11 +367,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_RECORDER Null => new FPDF_RECORDER();
+		public static FPDF_RECORDER Null => new();
 
 		private FPDF_RECORDER(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_RECORDER IHandle<FPDF_RECORDER>.SetToNull() => new FPDF_RECORDER(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_RECORDER IHandle<FPDF_RECORDER>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_RECORDER: 0x{_pointer.ToString("X16")}";
     }
@@ -386,11 +386,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_SCHHANDLE Null => new FPDF_SCHHANDLE();
+		public static FPDF_SCHHANDLE Null => new();
 
 		private FPDF_SCHHANDLE(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_SCHHANDLE IHandle<FPDF_SCHHANDLE>.SetToNull() => new FPDF_SCHHANDLE(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_SCHHANDLE IHandle<FPDF_SCHHANDLE>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_SCHHANDLE: 0x{_pointer.ToString("X16")}";
     }
@@ -405,11 +405,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_STRUCTELEMENT Null => new FPDF_STRUCTELEMENT();
+		public static FPDF_STRUCTELEMENT Null => new();
 
 		private FPDF_STRUCTELEMENT(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_STRUCTELEMENT IHandle<FPDF_STRUCTELEMENT>.SetToNull() => new FPDF_STRUCTELEMENT(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_STRUCTELEMENT IHandle<FPDF_STRUCTELEMENT>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_STRUCTELEMENT: 0x{_pointer.ToString("X16")}";
     }
@@ -424,11 +424,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_STRUCTTREE Null => new FPDF_STRUCTTREE();
+		public static FPDF_STRUCTTREE Null => new();
 
 		private FPDF_STRUCTTREE(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_STRUCTTREE IHandle<FPDF_STRUCTTREE>.SetToNull() => new FPDF_STRUCTTREE(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_STRUCTTREE IHandle<FPDF_STRUCTTREE>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_STRUCTTREE: 0x{_pointer.ToString("X16")}";
     }
@@ -443,11 +443,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_TEXTPAGE Null => new FPDF_TEXTPAGE();
+		public static FPDF_TEXTPAGE Null => new();
 
 		private FPDF_TEXTPAGE(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_TEXTPAGE IHandle<FPDF_TEXTPAGE>.SetToNull() => new FPDF_TEXTPAGE(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_TEXTPAGE IHandle<FPDF_TEXTPAGE>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_TEXTPAGE: 0x{_pointer.ToString("X16")}";
     }
@@ -462,11 +462,11 @@ namespace PdfLibCore.Types
 		public bool IsNull => _pointer == IntPtr.Zero;
 
 		/// <summary>Gets a handle representing <c>null</c>.</summary>
-		public static FPDF_WIDGET Null => new FPDF_WIDGET();
+		public static FPDF_WIDGET Null => new();
 
 		private FPDF_WIDGET(IntPtr ptr) => _pointer = ptr;
 
-		FPDF_WIDGET IHandle<FPDF_WIDGET>.SetToNull() => new FPDF_WIDGET(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
+		FPDF_WIDGET IHandle<FPDF_WIDGET>.SetToNull() => new(Interlocked.Exchange(ref _pointer, IntPtr.Zero));
 
         public override string ToString() => $"FPDF_WIDGET: 0x{_pointer.ToString("X16")}";
     }
