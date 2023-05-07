@@ -1,10 +1,9 @@
-namespace PdfLibCore.Enums
+namespace PdfLibCore.Enums;
+
+public enum DuplexTypes
 {
-    public enum DuplexTypes
-    {
-        DuplexUndefined = 0,
-        Simplex,
-        DuplexFlipShortEdge,
-        DuplexFlipLongEdge
-    }
+    DuplexUndefined = 0,
+    Simplex,
+    DuplexFlipShortEdge,
+    DuplexFlipLongEdge
 }

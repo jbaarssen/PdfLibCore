@@ -52,11 +52,12 @@
             <PackagePath>icon.png</PackagePath>
             <Link>icon.png</Link>
         </Content>
-        <None Update="common.ttinclude">
-          <DependentUpon>Pdfium.tt</DependentUpon>
-        </None>
         <None Update="Pdfium.xml">
           <DependentUpon>Pdfium.tt</DependentUpon>
+        </None>
+        <None Update="PlatformInvoke.tt">
+          <Generator>TextTemplatingFileGenerator</Generator>
+          <LastGenOutput>PlatformInvoke.g.cs</LastGenOutput>
         </None>
     </ItemGroup>
 
@@ -70,6 +71,11 @@
         <AutoGen>True</AutoGen>
         <DesignTime>True</DesignTime>
         <DependentUpon>FPDF_TypeDef.tt</DependentUpon>
+      </Compile>
+      <Compile Update="PlatformInvoke.g.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>PlatformInvoke.tt</DependentUpon>
       </Compile>
     </ItemGroup>
 

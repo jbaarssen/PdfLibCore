@@ -1,8 +1,7 @@
-namespace PdfLibCore.Enums
+namespace PdfLibCore.Enums;
+
+public enum FontTypes
 {
-    public enum FontTypes
-    {
-        Type1 = 1,
-        TrueType = 2
-    }
+    Type1 = 1,
+    TrueType = 2
 }

@@ -1,10 +1,9 @@
-namespace PdfLibCore.Enums
+namespace PdfLibCore.Enums;
+
+public enum BitmapFormats
 {
-    public enum BitmapFormats
-    {
-        Gray = 1,
-        RGB = 2,
-        RGBx = 3, 
-        RGBA = 4
-    }
+    Gray = 1,
+    RGB = 2,
+    RGBx = 3, 
+    RGBA = 4
 }

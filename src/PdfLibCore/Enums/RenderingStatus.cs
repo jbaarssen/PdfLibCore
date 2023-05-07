@@ -1,13 +1,12 @@
-namespace PdfLibCore.Enums
+namespace PdfLibCore.Enums;
+
+public enum RenderingStatus : int
 {
-    public enum RenderingStatus : int
-    {
-        Reader = 0,
+    Reader = 0,
 
-        ToBeContinued = 1,
+    ToBeContinued = 1,
 
-        Done = 2,
+    Done = 2,
 
-        Failed = 3
-    }
+    Failed = 3
 }

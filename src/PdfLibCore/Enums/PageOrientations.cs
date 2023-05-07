@@ -1,10 +1,9 @@
-namespace PdfLibCore.Enums
+namespace PdfLibCore.Enums;
+
+public enum PageOrientations
 {
-    public enum PageOrientations
-    {
-        Normal = 0,
-        Rotated90CW = 1,
-        Rotated180 = 2,
-        Rotated90CCW = 3,
-    }
+    Normal = 0,
+    Rotated90CW = 1,
+    Rotated180 = 2,
+    Rotated90CCW = 3,
 }

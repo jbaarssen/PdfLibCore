@@ -1,15 +1,14 @@
-namespace PdfLibCore.Enums
-{
-    public enum SearchFlags : uint
-    {
-        /// <summary>
-        /// If not set, it will not match case by default.
-        /// </summary>
-        MatchCase = 0x00000001,
+namespace PdfLibCore.Enums;
 
-        /// <summary>
-        /// If not set, it will not match the whole word by default.
-        /// </summary>
-        MatchWholeWord = 0x00000002
-    }
+public enum SearchFlags : uint
+{
+    /// <summary>
+    /// If not set, it will not match case by default.
+    /// </summary>
+    MatchCase = 0x00000001,
+
+    /// <summary>
+    /// If not set, it will not match the whole word by default.
+    /// </summary>
+    MatchWholeWord = 0x00000002
 }

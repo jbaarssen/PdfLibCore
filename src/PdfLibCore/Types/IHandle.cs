@@ -1,9 +1,8 @@
-namespace PdfLibCore.Types
-{
-    public interface IHandle<out T>
-    {
-        bool IsNull { get; }
+namespace PdfLibCore.Types;
 
-        T SetToNull();
-    }
+public interface IHandle<out T>
+{
+    bool IsNull { get; }
+
+    T SetToNull();
 }

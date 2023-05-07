@@ -1,33 +1,32 @@
-namespace PdfLibCore.Enums
+namespace PdfLibCore.Enums;
+
+/// <summary>
+/// PDF Action Types
+/// </summary>
+public enum ActionTypes : uint
 {
     /// <summary>
-    /// PDF Action Types
+    /// Unsupported action type.
     /// </summary>
-    public enum ActionTypes : uint
-    {
-        /// <summary>
-        /// Unsupported action type.
-        /// </summary>
-        Unsupported = 0,
+    Unsupported = 0,
 
-        /// <summary>
-        /// Go to a destination within current document.
-        /// </summary>
-        GoTo = 1,
+    /// <summary>
+    /// Go to a destination within current document.
+    /// </summary>
+    GoTo = 1,
 
-        /// <summary>
-        /// Go to a destination within another document.
-        /// </summary>
-        RemoteGoTo = 2,
+    /// <summary>
+    /// Go to a destination within another document.
+    /// </summary>
+    RemoteGoTo = 2,
 
-        /// <summary>
-        /// URI, including web pages and other Internet resources.
-        /// </summary>
-        Uri = 3,
+    /// <summary>
+    /// URI, including web pages and other Internet resources.
+    /// </summary>
+    Uri = 3,
 
-        /// <summary>
-        /// Launch an application or open a file.
-        /// </summary>
-        Launch = 4
-    }
+    /// <summary>
+    /// Launch an application or open a file.
+    /// </summary>
+    Launch = 4
 }

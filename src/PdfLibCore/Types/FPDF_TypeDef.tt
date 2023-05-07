@@ -31,7 +31,7 @@
     };
 // --------------------------------------------------------- Code End ----------------------------------------------------- #>
 /*
-This file is part of PdfCoreLib, a wrapper around the PDFium library for the .NET.
+This file is part of PdfLibCore, a wrapper around the PDFium library for the .NET.
 Inspired by the awesome work of PDFiumSharp by Tobias Meyer.
 
 Copyright (C) 2021 Jan Baarsssen

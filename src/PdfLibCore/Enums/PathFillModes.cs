@@ -1,9 +1,8 @@
-namespace PdfLibCore.Enums
+namespace PdfLibCore.Enums;
+
+public enum PathFillModes
 {
-    public enum PathFillModes
-    {
-        NoFill = 0,
-        Alternate = 1,
-        Winding = 2
-    }
+    NoFill = 0,
+    Alternate = 1,
+    Winding = 2
 }

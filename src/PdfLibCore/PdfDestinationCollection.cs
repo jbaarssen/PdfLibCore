@@ -2,55 +2,57 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace PdfLibCore
+namespace PdfLibCore;
+
+public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
 {
-    public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
+    private readonly PdfDocument _doc;
+
+    public int Count => Pdfium.FPDF_CountNamedDests(_doc.Handle);
+
+    internal PdfDestinationCollection(PdfDocument doc) => 
+        _doc = doc;
+
+    public PdfDestination this[string name]
     {
-        private readonly PdfDocument _doc;
-
-        public int Count => Pdfium.FPDF_CountNamedDests(_doc.Handle);
-
-        internal PdfDestinationCollection(PdfDocument doc) => 
-            _doc = doc;
-
-        public PdfDestination this[string name]
+        get
         {
-            get
+            var handle = Pdfium.FPDF_GetNamedDestByName(_doc.Handle, name);
+            return handle.IsNull ? null : new PdfDestination(_doc, handle, name);
+        }
+    }
+
+    public PdfDestination this[int index]
+    {
+        get
+        {
+            if (index < 0 || index >= Count)
             {
-                var handle = Pdfium.FPDF_GetNamedDestByName(_doc.Handle, name);
-                return handle.IsNull ? null : new PdfDestination(_doc, handle, name);
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            var (handle, name) = Pdfium.FPDF_GetNamedDest(_doc.Handle, index);
+            return handle.IsNull ? null : new PdfDestination(_doc, handle, name);
+        }
+    }
+
+    IEnumerator<PdfDestination> IEnumerable<PdfDestination>.GetEnumerator()
+    {
+        var count = Count;
+        for (var i = 0; i < count; i++)
+        {
+            if (this[i] is { } destination)
+            {
+                yield return destination;
             }
         }
+    }
 
-        public PdfDestination this[int index]
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        var count = Count;
+        for (var i = 0; i < count; i++)
         {
-            get
-            {
-                if (index < 0 || index >= Count)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(index));
-                }
-                var (handle, name) = Pdfium.FPDF_GetNamedDest(_doc.Handle, index);
-                return handle.IsNull ? null : new PdfDestination(_doc, handle, name);
-            }
-        }
-
-        IEnumerator<PdfDestination> IEnumerable<PdfDestination>.GetEnumerator()
-        {
-            var count = Count;
-            for (var i = 0; i < count; i++)
-            {
-                yield return this[i];
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            var count = Count;
-            for (var i = 0; i < count; i++)
-            {
-                yield return this[i];
-            }
+            yield return this[i];
         }
     }
 }

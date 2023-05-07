@@ -1,14 +1,13 @@
-namespace PdfLibCore.Enums
+namespace PdfLibCore.Enums;
+
+public enum MetadataTags
 {
-    public enum MetadataTags
-    {
-        Title,
-        Author,
-        Subject,
-        Keywords,
-        Creator,
-        Producer,
-        CreationDate,
-        ModDate
-    }
+    Title,
+    Author,
+    Subject,
+    Keywords,
+    Creator,
+    Producer,
+    CreationDate,
+    ModDate
 }

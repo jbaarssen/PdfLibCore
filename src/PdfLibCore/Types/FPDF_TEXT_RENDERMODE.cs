@@ -1,20 +1,19 @@
 // ReSharper disable InconsistentNaming
-namespace PdfLibCore.Types
+namespace PdfLibCore.Types;
+
+/// <summary>
+/// PDF text rendering modes
+/// </summary>
+public enum FPDF_TEXT_RENDERMODE
 {
-    /// <summary>
-    /// PDF text rendering modes
-    /// </summary>
-    public enum FPDF_TEXT_RENDERMODE
-    {
-        UNKNOWN = -1,
-        FILL = 0,
-        STROKE = 1,
-        FILL_STROKE = 2,
-        INVISIBLE = 3,
-        FILL_CLIP = 4,
-        STROKE_CLIP = 5,
-        FILL_STROKE_CLIP = 6,
-        CLIP = 7,
-        LAST = CLIP,
-    }
+    FPDF_TEXT_RENDERMODE_UNKNOWN = -1,
+    FPDF_TEXT_RENDERMODE_FILL = 0,
+    FPDF_TEXT_RENDERMODE_STROKE = 1,
+    FPDF_TEXT_RENDERMODE_FILL_STROKE = 2,
+    FPDF_TEXT_RENDERMODE_INVISIBLE = 3,
+    FPDF_TEXT_RENDERMODE_FILL_CLIP = 4,
+    FPDF_TEXT_RENDERMODE_STROKE_CLIP = 5,
+    FPDF_TEXT_RENDERMODE_FILL_STROKE_CLIP = 6,
+    FPDF_TEXT_RENDERMODE_CLIP = 7,
+    FPDF_TEXT_RENDERMODE_LAST = FPDF_TEXT_RENDERMODE_CLIP,
 }

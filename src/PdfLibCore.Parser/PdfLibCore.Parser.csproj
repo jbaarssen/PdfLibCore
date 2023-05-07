@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CppAst" Version="0.11.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis" Version="4.5.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Generated\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Converters\CppClassConverter.PointerStruct.cs">
+        <DependentUpon>CppClassConverter.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Converters\CppClassConverter.ClassOrStruct.cs">
+        <DependentUpon>CppClassConverter.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <!-- Workaround for issue https://github.com/microsoft/ClangSharp/issues/129 -->
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' AND '$(PackAsTool)' != 'true'">$(NETCoreSdkRuntimeIdentifier)</RuntimeIdentifier>
+    </PropertyGroup>
+</Project>
