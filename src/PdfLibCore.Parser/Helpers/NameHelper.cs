@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PdfLibCore.Parser.Helpers;
 
@@ -10,24 +11,37 @@ public static class NameHelper
         return typeof(T).Name.Replace(nameof(Attribute), string.Empty);
     }
     
-    public static string ToCSharp(string filename)
+    public static string ToCSharp(string name)
     {
         var toUpper = false;
-        if (filename.StartsWith("_"))
+        if (name.StartsWith("_"))
         {
-            filename = filename[1..];
+            name = name[1..];
             toUpper = true;
         }
-        if (filename.EndsWith("_t__"))
+        if (name.EndsWith("_t__"))
         {
-            filename = filename[..^4];
+            name = name[..^4];
             toUpper = true;
         }
-        if (filename.EndsWith("_"))
+        if (name.EndsWith("_"))
         {
-            filename = filename[..^1];
+            name = name[..^1];
             toUpper = true;
         }
-        return toUpper ? filename.ToUpper() : filename;
+        return toUpper ? name.ToUpper() : name;
+    }
+
+    public static class Field
+    {
+        public static string ToCSharp(string name)
+        {
+            if (!name.Contains('_'))
+            {
+                return $"{char.ToUpper(name[0])}{name[1..]}";
+            }
+            var parts = name.Split('_');
+            return string.Join(string.Empty, parts.Select(p => $"{char.ToUpper(p[0])}{p[1..]}"));
+        }
     }
 }

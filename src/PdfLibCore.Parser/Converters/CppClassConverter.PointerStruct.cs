@@ -11,22 +11,19 @@ namespace PdfLibCore.Parser.Converters;
 public partial class CppClassConverter
 {
     private const string FieldName = "_pointer";
+    private const string VariableName = "ptr";
 
     private CompilationUnitSyntax CreatePointerStruct(CompilationUnitSyntax compilationUnitSyntax)
     {
-        return compilationUnitSyntax.AddUsings(UsingDirective(
-                    IdentifierName("System")),
-                UsingDirective(
-                    QualifiedName(
-                        IdentifierName("System"),
-                        IdentifierName("Threading"))))
+        return compilationUnitSyntax.AddMembers()
+            .AddUsings(AddUsingDirectives("System", "System.Threading"))
             .AddMembers(
-                StructDeclaration(NameHelper.ToCSharp(CppElement.Name))
+                StructDeclaration(ElementName)
                     .AddModifiers(CppElement.Visibility.ToCSharp())
                     .AddBaseListTypes(
                         SimpleBaseType(
                             GenericName(Identifier("IHandle"))
-                                .AddTypeArgumentListArguments(IdentifierName(NameHelper.ToCSharp(CppElement.Name)))))
+                                .AddTypeArgumentListArguments(IdentifierName(ElementName))))
                     .AddMembers(
                         CreateField(nameof(IntPtr), FieldName, CppVisibility.Private),
                         CreateProperty("bool", "IsNull", CppVisibility.Public, () => ArrowExpressionClause(
@@ -37,30 +34,30 @@ public partial class CppClassConverter
                                     SyntaxKind.SimpleMemberAccessExpression,
                                     IdentifierName(nameof(IntPtr)),
                                     IdentifierName(nameof(IntPtr.Zero)))))),
-                        CreateProperty(NameHelper.ToCSharp(CppElement.Name), "Null", CppVisibility.Public, () =>
+                        CreateProperty(ElementName, "Null", CppVisibility.Public, () =>
                                 ArrowExpressionClause(ImplicitObjectCreationExpression()))
                             .AddModifiers(Token(SyntaxKind.StaticKeyword)),
 
                         //CreateConstructor(),
                         ConstructorDeclaration(
-                                Identifier(NameHelper.ToCSharp(CppElement.Name)))
+                                Identifier(ElementName))
                             .AddModifiers(CppVisibility.Private.ToCSharp())
-                            .AddParameterListParameters(Parameter(Identifier("ptr")).WithType(IdentifierName(nameof(IntPtr))))
+                            .AddParameterListParameters(Parameter(Identifier(VariableName)).WithType(IdentifierName(nameof(IntPtr))))
                             .WithExpressionBody(
                                 ArrowExpressionClause(
                                     AssignmentExpression(
                                         SyntaxKind.SimpleAssignmentExpression,
                                         IdentifierName(FieldName),
-                                        IdentifierName("ptr"))))
+                                        IdentifierName(VariableName))))
                             .WithSemicolonToken(
                                 Token(SyntaxKind.SemicolonToken)),
                         MethodDeclaration(
-                                IdentifierName(NameHelper.ToCSharp(CppElement.Name)),
+                                IdentifierName(ElementName),
                                 Identifier("SetToNull"))
                             .WithExplicitInterfaceSpecifier(
                                 ExplicitInterfaceSpecifier(
                                     GenericName(Identifier("IHandle"))
-                                        .AddTypeArgumentListArguments(IdentifierName(NameHelper.ToCSharp(CppElement.Name)))))
+                                        .AddTypeArgumentListArguments(IdentifierName(ElementName))))
                             .WithExpressionBody(
                                 ArrowExpressionClause(
                                     ImplicitObjectCreationExpression()
@@ -98,7 +95,7 @@ public partial class CppClassConverter
                                                     Token(
                                                         TriviaList(),
                                                         SyntaxKind.InterpolatedStringTextToken,
-                                                        "FPDF_ANNOTATION: 0x",
+                                                        $"{ElementName}: 0x",
                                                         string.Empty,
                                                         TriviaList())),
                                             Interpolation(IdentifierName("_pointer"))

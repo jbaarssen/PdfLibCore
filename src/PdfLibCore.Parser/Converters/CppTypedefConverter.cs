@@ -27,7 +27,7 @@ public sealed class CppTypedefConverter : CppClassConverter
     }
 
     public CppTypedefConverter(CppTypedef cppElement)
-        : base(DetermineElement(cppElement))
+        : base(cppElement.Name, DetermineElement(cppElement))
     {
     }
 }

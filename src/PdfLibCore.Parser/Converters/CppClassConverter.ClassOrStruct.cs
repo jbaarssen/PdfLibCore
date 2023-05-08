@@ -13,10 +13,14 @@ public partial class CppClassConverter
 {
     private CompilationUnitSyntax CreateClassOrStruct(CompilationUnitSyntax compilationUnitSyntax)
     {
+        compilationUnitSyntax = compilationUnitSyntax.AddUsings(AddUsingDirectives(
+            "System",
+            "System.Runtime.InteropServices"));
+
         var decl = CppElement.ClassKind switch
         {
-            CppClassKind.Class => ClassDeclaration(NameHelper.ToCSharp(CppElement.Name)),
-            CppClassKind.Struct => (TypeDeclarationSyntax) StructDeclaration(NameHelper.ToCSharp(CppElement.Name)),
+            CppClassKind.Class => ClassDeclaration(ElementName),
+            CppClassKind.Struct => (TypeDeclarationSyntax) StructDeclaration(ElementName),
             CppClassKind.Union => throw new NotImplementedException(),
             _ => throw new ArgumentOutOfRangeException()
         };
@@ -46,7 +50,7 @@ public partial class CppClassConverter
         }
 
         // Add fields / properties
-        var fields = CppElement.Fields.Select(CreateField).ToArray();
+        var fields = CppElement.Fields.Select(CreateProperty).ToArray();
         if (fields.Any())
         {
             decl = decl.AddMembers(fields);
@@ -62,6 +66,7 @@ public partial class CppClassConverter
         {
         }
 
-        return compilationUnitSyntax.AddMembers(decl);
+        return compilationUnitSyntax
+            .AddMembers(decl);
     }
 }

@@ -13,7 +13,7 @@ namespace PdfLibCore.Parser.Converters;
 public sealed class CppFunctionConverter : BaseCppConverter<CppFunction>
 {
     public CppFunctionConverter(CppFunction cppElement)
-        : base(cppElement)
+        : base(cppElement.Name, cppElement)
     {
     }
 

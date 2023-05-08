@@ -45,7 +45,6 @@ public static class Program
             foreach (var c in converted)
             {
                 await File.WriteAllTextAsync(Path.Combine(ProjectDir, "Generated", $"{c.Filename}"), c.ToString());
-                await File.WriteAllTextAsync(Path.Combine("c:", "temp", $"{c.Filename}-h"), c.ToString());
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿using System;
 using CppAst;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using PdfLibCore.Parser.Helpers;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace PdfLibCore.Parser.Converters;
@@ -11,10 +11,12 @@ public abstract class BaseCppConverter<T> : ICppConverter
     where T : ICppElement, ICppMemberWithVisibility
 {
     protected T CppElement { get; }
+    protected string ElementName { get; }
 
-    protected BaseCppConverter(T cppElement)
+    protected BaseCppConverter(string name, T cppElement)
     {
         CppElement = cppElement;
+        ElementName = NameHelper.ToCSharp(name);
     }
 
     public abstract CompilationUnitSyntax Convert(CompilationUnitSyntax compilationUnit);

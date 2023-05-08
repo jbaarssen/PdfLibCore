@@ -24,9 +24,12 @@ public static class CppTypeExtensions
         _ => throw new NotSupportedException($"{cppType.TypeKind} not supported")
     };
 
-    private static PredefinedTypeSyntax Primitive(this CppPrimitiveType type) => type.Kind switch
+    private static TypeSyntax Primitive(this CppPrimitiveType type) =>
+        type.Kind.Primitive();
+
+    private static TypeSyntax Primitive(this CppPrimitiveKind kind) => kind switch
     {
-        CppPrimitiveKind.Void => PredefinedType(Token(SyntaxKind.VoidKeyword)),
+        CppPrimitiveKind.Void => IdentifierName(nameof(IntPtr)),
         CppPrimitiveKind.Bool => PredefinedType(Token(SyntaxKind.BoolKeyword)),
         CppPrimitiveKind.WChar => PredefinedType(Token(SyntaxKind.StringKeyword)),
         CppPrimitiveKind.Char => PredefinedType(Token(SyntaxKind.CharKeyword)),
@@ -40,12 +43,19 @@ public static class CppTypeExtensions
         CppPrimitiveKind.Float => PredefinedType(Token(SyntaxKind.FloatKeyword)),
         CppPrimitiveKind.Double => PredefinedType(Token(SyntaxKind.DoubleKeyword)),
         CppPrimitiveKind.LongDouble => PredefinedType(Token(SyntaxKind.DecimalKeyword)),
-        _ => throw new NotSupportedException($"{type.Kind} not supported")
+        _ => throw new NotSupportedException($"{kind} not supported")
     };
 
-    private static PointerTypeSyntax Pointer(this CppPointerType type)
+    private static TypeSyntax Pointer(this CppPointerType type)
     {
-        return PointerType(type.ElementType.ToCSharp());
+        var elementType = type.ElementType.ToCSharp();
+        elementType = type.ElementType switch
+        {
+            CppPrimitiveType { Kind: CppPrimitiveKind.Char } => CppPrimitiveKind.WChar.Primitive(),
+            CppPrimitiveType { Kind: CppPrimitiveKind.Void } => IdentifierName(nameof(IntPtr)),
+            _ => elementType
+        };
+        return elementType;
     }
 
     private static TypeSyntax Qualified(this CppQualifiedType type)
