@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PdfLibCore.Parser.Helpers;
+﻿namespace PdfLibCore.CppParser.Helpers;
 
 public static class NameHelper
 {

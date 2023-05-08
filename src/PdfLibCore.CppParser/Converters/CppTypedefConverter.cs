@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using CppAst;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace PdfLibCore.Parser.Converters;
+﻿namespace PdfLibCore.CppParser.Converters;
 
 public sealed class CppTypedefConverter : CppClassConverter
 {

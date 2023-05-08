@@ -1,4 +1,6 @@
-﻿using CppAst;
+﻿using System;
+using CppAst;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -13,22 +15,35 @@ public partial class CppClassConverter : BaseCppConverter<CppClass>
 
     public override CompilationUnitSyntax Convert(CompilationUnitSyntax compilationUnit)
     {
-        return compilationUnit.AddMembers(CppElement.IsDefinition
-            ? CreateClassOrStruct()
-            : CreatePointerStruct());
+        return CppElement.IsDefinition
+            ? CreateClassOrStruct(compilationUnit)
+            : CreatePointerStruct(compilationUnit);
     }
 
-    private static MemberDeclarationSyntax CreateField(CppField cppField)
+    private static FieldDeclarationSyntax CreateField(CppField cppField)
     {
-        // Determine type
-        var type = cppField.Type.ToCSharp();
+        return CreateField(cppField.Type.ToCSharp().ToString(), cppField.Name, cppField.Visibility);
+    }
 
-        // Determine property/field
-        var variable = VariableDeclaration(type).AddVariables(VariableDeclarator(cppField.Name));
+    private static FieldDeclarationSyntax CreateField(string type, string variable, CppVisibility visibility)
+    {
+        return FieldDeclaration(VariableDeclaration(IdentifierName(type))
+                .AddVariables(VariableDeclarator(Identifier(variable))))
+            .AddModifiers(visibility.ToCSharp());
+    }
 
-        var field = FieldDeclaration(variable)
-            .WithModifiers(cppField.Visibility.ToCSharp());
+    private static PropertyDeclarationSyntax CreateProperty(string type, string name, CppVisibility visibility, Func<ArrowExpressionClauseSyntax> func)
+    {
+        return PropertyDeclaration(
+                IdentifierName(type),
+                Identifier(name))
+            .AddModifiers(visibility.ToCSharp())
+            .WithExpressionBody(func())
+            .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+    }
 
-        return field;
+    private object CreateConstructor()
+    {
+        throw new System.NotImplementedException();
     }
 }

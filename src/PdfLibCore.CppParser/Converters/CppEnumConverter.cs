@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CppAst;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace PdfLibCore.Parser.Converters;
+namespace PdfLibCore.CppParser.Converters;
 
 public sealed class CppEnumConverter : BaseCppConverter<CppEnum>
 {
@@ -33,7 +30,7 @@ public sealed class CppEnumConverter : BaseCppConverter<CppEnum>
         return compilationUnit
             .AddMembers(
                 EnumDeclaration(CppElement.Name)
-                    .AddModifiers(CppElement.Visibility.ToCSharp())
+                    .WithModifiers(CppElement.Visibility.ToCSharp())
                     .WithMembers(SeparatedList<EnumMemberDeclarationSyntax>(list)));
     }
 }

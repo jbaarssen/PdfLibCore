@@ -1,7 +1,4 @@
-﻿using System;
-using CppAst;
-
-namespace PdfLibCore.Parser.Converters;
+﻿namespace PdfLibCore.CppParser.Converters;
 
 public static class CppConverterFactory
 {

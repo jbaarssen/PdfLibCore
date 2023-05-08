@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.CodeAnalysis.CSharp;
+﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
@@ -28,7 +27,7 @@ public static class CppTypeExtensions
     {
         CppPrimitiveKind.Void => PredefinedType(Token(SyntaxKind.VoidKeyword)),
         CppPrimitiveKind.Bool => PredefinedType(Token(SyntaxKind.BoolKeyword)),
-        CppPrimitiveKind.WChar => PredefinedType(Token(SyntaxKind.StringKeyword)),
+        CppPrimitiveKind.WChar => PredefinedType(Token(SyntaxKind.CharKeyword)),
         CppPrimitiveKind.Char => PredefinedType(Token(SyntaxKind.CharKeyword)),
         CppPrimitiveKind.Short => PredefinedType(Token(SyntaxKind.ShortKeyword)),
         CppPrimitiveKind.Int => PredefinedType(Token(SyntaxKind.IntKeyword)),

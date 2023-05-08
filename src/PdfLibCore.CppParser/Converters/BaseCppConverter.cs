@@ -1,11 +1,8 @@
-﻿using System;
-using CppAst;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace PdfLibCore.Parser.Converters;
+namespace PdfLibCore.CppParser.Converters;
 
 public abstract class BaseCppConverter<T> : ICppConverter
     where T : ICppElement, ICppMemberWithVisibility

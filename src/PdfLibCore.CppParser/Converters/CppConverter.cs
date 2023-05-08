@@ -1,25 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CppAst;
+﻿using CppSharp;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
+using ClangParser = CppSharp.Parser.ClangParser;
+using LanguageVersion = CppSharp.Parser.LanguageVersion;
 
-namespace PdfLibCore.Parser.Converters;
+namespace PdfLibCore.CppParser.Converters;
 
 public sealed class CppConverter
 {
     private readonly CppCompilation _compilation;
     private readonly List<CompiledSource> _compilationUnits = new();
+    private readonly ParserOptions _options;
     private const string PdfLibCoreNamespace = "PdfLibCore";
-
-    public CppDiagnosticBag Diagnostics => _compilation.Diagnostics;
 
     public CppConverter(List<string> files)
     {
-        _compilation = CppParser.ParseFiles(files);
+        _options = new ParserOptions
+        {
+            LanguageVersion = LanguageVersion.CPP17,
+            Verbose = true
+        };
+        _options.Setup(TargetPlatform.Windows);
+        var p = new ClangParser();
+        ClangParser.
+        _parseResult = p.ParseHeader
     }
 
     public IEnumerable<CompiledSource> Convert()
@@ -30,7 +36,6 @@ public sealed class CppConverter
             _compilationUnits.Add(new CompiledSource(element.Name, converter.Convert(GetCompilationUnit())));
         }
 
-        _compilationUnits.Add(CreateIHandleInterface());
         _compilationUnits.Add(CreatePlatformInvoke());
 
         return _compilationUnits;
@@ -115,28 +120,5 @@ License: Microsoft Reciprocal License (MS-RL)
             .NormalizeWhitespace();
 
         return new CompiledSource("PlatformInvoke", unit);
-    }
-
-    private CompiledSource CreateIHandleInterface()
-    {
-        var unit = GetCompilationUnit()
-            .AddMembers(
-                InterfaceDeclaration("IHandle")
-                    .AddModifiers(CppVisibility.Public.ToCSharp())
-                    .AddTypeParameterListParameters(TypeParameter(Identifier("T")).WithVarianceKeyword(Token(SyntaxKind.OutKeyword)))
-                    .AddMembers(
-                        PropertyDeclaration(
-                                PredefinedType(Token(SyntaxKind.BoolKeyword)),
-                                Identifier("IsNull"))
-                            .AddAccessorListAccessors(
-                                AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
-                                    .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))),
-                        MethodDeclaration(
-                                IdentifierName("T"),
-                                Identifier("SetToNull"))
-                            .WithSemicolonToken(Token(SyntaxKind.SemicolonToken))
-                    ));
-
-        return new CompiledSource("IHandle", unit);
     }
 }

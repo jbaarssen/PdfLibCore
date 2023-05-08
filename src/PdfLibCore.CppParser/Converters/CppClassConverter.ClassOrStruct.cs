@@ -1,17 +1,14 @@
-﻿using System;
-using System.Linq;
-using CppAst;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using PdfLibCore.Parser.Helpers;
+using PdfLibCore.CppParser.Helpers;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace PdfLibCore.Parser.Converters;
+namespace PdfLibCore.CppParser.Converters;
 
 public partial class CppClassConverter
 {
-    private CompilationUnitSyntax CreateClassOrStruct(CompilationUnitSyntax compilationUnitSyntax)
+    private TypeDeclarationSyntax CreateClassOrStruct()
     {
         var decl = CppElement.ClassKind switch
         {
@@ -21,7 +18,7 @@ public partial class CppClassConverter
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        decl = decl.AddModifiers(CppElement.Visibility.ToCSharp());
+        decl = decl.WithModifiers(CppElement.Visibility.ToCSharp());
 
         //[StructLayout(LayoutKind.Sequential)]
         decl = decl
@@ -62,6 +59,6 @@ public partial class CppClassConverter
         {
         }
 
-        return compilationUnitSyntax.AddMembers(decl);
+        return decl;
     }
 }

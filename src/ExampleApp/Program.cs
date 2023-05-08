@@ -62,7 +62,7 @@ namespace ExampleApp
 
         private static async IAsyncEnumerable<(int i, Stream)> GetImagesFromPdf(string name)
         {
-            var input = DataProvider.GetEmbeddedResource(name);
+            using var input = await DataProvider.GetEmbeddedResourceAsStreamAsync(name);
             using var pdfDocument = new PdfDocument(input);
 
             Console.WriteLine($"Getting {pdfDocument.Pages.Count} images for {name}");
@@ -82,11 +82,10 @@ namespace ExampleApp
 
         private static async Task<byte[]> ResizeAndSaveToJpeg(Image image)
         {
-            var isPortrait = image.Width <= image.Height;
             using var clone = image.Clone(src => src.Resize(new ResizeOptions
             {
                 Mode = ResizeMode.Max,
-                Size = isPortrait
+                Size = src.GetCurrentSize().Width <=  src.GetCurrentSize().Height
                     ? new Size(Max, 0)
                     : new Size(0, Max),
                 Sampler = KnownResamplers.Lanczos3,

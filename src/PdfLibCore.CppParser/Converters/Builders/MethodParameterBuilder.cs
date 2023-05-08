@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CppAst;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace PdfLibCore.Parser.Converters.Builders;
+namespace PdfLibCore.CppParser.Converters.Builders;
 
 public sealed class MethodParameterBuilder
 {

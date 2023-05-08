@@ -1,52 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using System.Threading.Tasks;
-using PdfLibCore.Parser.Converters;
+using PdfLibCore.CppParser.Converters;
 
-namespace PdfLibCore.Parser;
+namespace PdfLibCore.CppParser;
 
 [ExcludeFromCodeCoverage]
 public static class Program
 {
     private static readonly string ProjectDir = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.Parent!.FullName;
+
     private static readonly string HeaderPath = Path.Combine(ProjectDir, "Headers");
 
+    // https://pdfium.googlesource.com/pdfium/+/refs/heads/main/public/fpdfview.h
     public static async Task Main(params string[] args)
     {
-         // Clear generated
+        var files = new List<string>();
+        await foreach (var file in GetFiles(true))
+        {
+            files.Add(file);
+        }
+
+        // Clear generated
         var generatedFiles = Directory.GetFiles(Path.Combine(ProjectDir, "Generated"));
         foreach (var generated in generatedFiles)
         {
             File.Delete(generated);
         }
 
-        var files = new List<string>();
-        await foreach (var file in GetFiles(false))
-        {
-            files.Add(file);
-        }
-
         var cppConverter = new CppConverter(files);
-
-        if (cppConverter.Diagnostics.HasErrors)
+        var converted = cppConverter.Convert();
+        foreach (var c in converted)
         {
-            foreach (var x in cppConverter.Diagnostics.Messages)
-            {
-                Console.WriteLine(x.Text);
-            }
-        }
-        else
-        {
-            var converted = cppConverter.Convert();
-            foreach (var c in converted)
-            {
-                await File.WriteAllTextAsync(Path.Combine(ProjectDir, "Generated", $"{c.Filename}"), c.ToString());
-                await File.WriteAllTextAsync(Path.Combine("c:", "temp", $"{c.Filename}-h"), c.ToString());
-            }
+            await File.WriteAllTextAsync(Path.Combine(ProjectDir, "Generated", $"{c.Filename}-h"), c.ToString());
+            await File.WriteAllTextAsync(Path.Combine("c:", "temp", $"{c.Filename}-h"), c.ToString());
         }
     }
 
