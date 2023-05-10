@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <PlatformTarget>any</PlatformTarget>
+        <PlatformTarget>AnyCpu</PlatformTarget>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Authors>Jan Baarssen, Jan Kokenberg</Authors>
         <Product>PdfLib.Core</Product>
@@ -26,14 +26,6 @@
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <PlatformTarget>AnyCPU</PlatformTarget>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <PlatformTarget>AnyCPU</PlatformTarget>
-    </PropertyGroup>
-    
     <ItemGroup>
         <PackageReference Include="SixLabors.ImageSharp" Version="2.1.4" />
     </ItemGroup>

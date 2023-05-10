@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <PlatformTarget>x64</PlatformTarget>
+        <PlatformTarget>AnyCpu</PlatformTarget>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Authors>Jan Baarssen, Jan Kokenberg</Authors>
         <Product>PdfLib.Core</Product>
@@ -24,14 +24,6 @@
         <FileVersion>$(ClientVersion)</FileVersion>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <PlatformTarget>AnyCPU</PlatformTarget>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 
     <ItemGroup>

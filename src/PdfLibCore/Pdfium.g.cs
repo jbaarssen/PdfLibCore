@@ -4,8 +4,9 @@ using System.Runtime.InteropServices;
 using System.Runtime.ExceptionServices;
 using System.Security;
 using System.Threading;
-using PdfLibCore.Types;
 using PdfLibCore.Enums;
+using PdfLibCore.Generated;
+using PdfLibCore.Generated.Types;
 
 /*
 This file is part of PdfLibCore, a wrapper around the PDFium library for the .NET.

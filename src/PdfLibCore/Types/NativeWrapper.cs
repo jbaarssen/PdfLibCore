@@ -1,4 +1,5 @@
 using System;
+using PdfLibCore.Generated.Interfaces;
 
 namespace PdfLibCore.Types;
 

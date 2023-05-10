@@ -7,7 +7,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using PdfLibCore.Enums;
+using PdfLibCore.Generated.Types;
 using PdfLibCore.Types;
+using FPDF_FILEWRITE = PdfLibCore.Types.FPDF_FILEWRITE;
 
 // ReSharper disable UnusedMember.Local
 namespace PdfLibCore;
@@ -302,8 +304,8 @@ public static partial class Pdfium
 	/// The new PDF file version of the saved file.
 	/// 14 for 1.4, 15 for 1.5, etc. Values smaller than 10 are ignored.
 	/// </param>
-	/// <seealso cref="Pdfium.FPDF_SaveAsCopy(FPDF_DOCUMENT, FPDF_FILEWRITE, SaveFlags)"/>
-	/// <seealso cref="Pdfium.FPDF_SaveWithVersion(FPDF_DOCUMENT, FPDF_FILEWRITE, SaveFlags, int)"/>
+	/// <seealso cref="Pdfium.FPDF_SaveAsCopy(FPDF_DOCUMENT, Types.FPDF_FILEWRITE, SaveFlags)"/>
+	/// <seealso cref="Pdfium.FPDF_SaveWithVersion(FPDF_DOCUMENT, Types.FPDF_FILEWRITE, SaveFlags, int)"/>
 	public static bool FPDF_SaveAsCopy(FPDF_DOCUMENT document, Stream stream, SaveFlags flags, int version = 0)
 	{
 		byte[] buffer = null;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using PdfLibCore.Generated.Types;
 
 
 // ReSharper disable UnusedMember.Global
@@ -65,7 +66,7 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
     /// <summary>
     /// Imports pages of <paramref name="sourceDocument"/> into the current <see cref="PdfDocument"/>.
     /// </summary>
-    /// <seealso cref="Pdfium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
+    /// <seealso cref="Pdfium.FPDF_ImportPages(FPDF_DOCUMENT, FPDF_DOCUMENT, int, int[])"/>
     public bool Add(PdfDocument sourceDocument, params int[] srcPageIndices) =>
         Insert(Count, sourceDocument, srcPageIndices);
 
@@ -78,7 +79,7 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
     /// <summary>
     /// Imports pages of <paramref name="sourceDocument"/> into the current <see cref="PdfDocument"/>.
     /// </summary>
-    /// <seealso cref="Pdfium.FPDF_ImportPages(Types.FPDF_DOCUMENT, Types.FPDF_DOCUMENT, int, int[])"/>
+    /// <seealso cref="Pdfium.FPDF_ImportPages(FPDF_DOCUMENT, FPDF_DOCUMENT, int, int[])"/>
     public bool Insert(int index, PdfDocument sourceDocument, params int[] srcPageIndices)
     {
         if (index <= Count)

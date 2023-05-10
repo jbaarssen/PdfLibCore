@@ -1,5 +1,6 @@
 using System;
 using PdfLibCore.Enums;
+using PdfLibCore.Generated.Types;
 using PdfLibCore.Types;
 
 namespace PdfLibCore;

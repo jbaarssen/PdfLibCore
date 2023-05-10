@@ -4,7 +4,12 @@ using System.Runtime.InteropServices;
 using System.Runtime.ExceptionServices;
 using System.Security;
 using PdfLibCore.Enums;
+using PdfLibCore.Generated;
+using PdfLibCore.Generated.Structs;
+using PdfLibCore.Generated.Types;
 using PdfLibCore.Types;
+using FPDF_FILEWRITE = PdfLibCore.Types.FPDF_FILEWRITE;
+using IFSDK_PAUSE = PdfLibCore.Types.IFSDK_PAUSE;
 
 /*
 This file is part of PdfLibCore, a wrapper around the PDFium library for the .NET.

@@ -3,6 +3,7 @@ using CppAst;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using PdfLibCore.Parser.Helpers;
+using Serilog;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace PdfLibCore.Parser.Converters;
@@ -11,17 +12,25 @@ public abstract class BaseCppConverter<T> : ICppConverter
     where T : ICppElement, ICppMemberWithVisibility
 {
     protected T CppElement { get; }
+    protected ILogger Logger { get; }
     protected string ElementName { get; }
 
-    protected BaseCppConverter(string name, T cppElement)
+    protected BaseCppConverter(T cppElement, ILogger logger)
     {
         CppElement = cppElement;
-        ElementName = NameHelper.ToCSharp(name);
+        Logger = logger;
+        ElementName = NameHelper.ToCSharp(cppElement.Name);
     }
 
-    public abstract CompilationUnitSyntax Convert(CompilationUnitSyntax compilationUnit);
+    public CompilationUnitSyntax Convert(CompilationUnitSyntax compilationUnit)
+    {
+        Logger.Information("Converting {Name} ({Type})", CppElement.Name, typeof(T).Name);
+        return OnConvert(compilationUnit);
+    }
 
-    protected static ExpressionSyntax? ToExpressionSyntax(CppExpression? expression) => expression == null
+    protected abstract CompilationUnitSyntax OnConvert(CompilationUnitSyntax compilationUnit);
+
+    protected ExpressionSyntax? ToExpressionSyntax(CppExpression? expression) => expression == null
         ? null
         : expression.Kind switch
         {
@@ -40,7 +49,7 @@ public abstract class BaseCppConverter<T> : ICppConverter
             CppExpressionKind.Paren => throw new NotImplementedException(nameof(CppExpressionKind.Paren)),
             CppExpressionKind.UnaryOperator => LiteralExpression(SyntaxKind.NumericLiteralExpression, Literal(ChangeType<int>(expression))),
             CppExpressionKind.ArraySubscript => throw new NotImplementedException(nameof(CppExpressionKind.ArraySubscript)),
-            CppExpressionKind.BinaryOperator => throw new NotImplementedException(nameof(CppExpressionKind.BinaryOperator)),
+            CppExpressionKind.BinaryOperator => IdentifierName(expression.ToString()!),
             CppExpressionKind.CompoundAssignOperator => throw new NotImplementedException(nameof(CppExpressionKind.CompoundAssignOperator)),
             CppExpressionKind.ConditionalOperator => throw new NotImplementedException(nameof(CppExpressionKind.ConditionalOperator)),
             CppExpressionKind.CStyleCast => throw new NotImplementedException(nameof(CppExpressionKind.CStyleCast)),
@@ -78,6 +87,6 @@ public abstract class BaseCppConverter<T> : ICppConverter
             _ => throw new ArgumentException(expression.Kind.ToString())
         };
 
-    private static TType ChangeType<TType>(CppExpression value) =>
+    protected TType ChangeType<TType>(CppExpression value) =>
         (TType) System.Convert.ChangeType(value.ToString(), typeof(TType))!;
 }

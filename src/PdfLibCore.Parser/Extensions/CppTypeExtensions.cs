@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using PdfLibCore.Parser.Helpers;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 // ReSharper disable once CheckNamespace
@@ -8,24 +9,44 @@ namespace CppAst;
 
 public static class CppTypeExtensions
 {
-    public static TypeSyntax ToCSharp(this CppType cppType) => cppType switch
+    public static TypeSyntax? ToCSharp(this CppType cppType) => cppType switch
     {
-        CppPrimitiveType t => t.Primitive(),
-        CppPointerType t => t.Pointer(),
-        CppArrayType t => throw new NotImplementedException(),
-        CppFunctionType t => t.Function(),
-        CppQualifiedType t => t.Qualified(),
-        CppReferenceType t => throw new NotImplementedException(),
-        CppTemplateParameterType t => throw new NotImplementedException(),
-        CppTemplateParameterNonType t => throw new NotImplementedException(),
+        CppPrimitiveType t => t.Kind.Primitive(),
+        CppClass t => IdentifierName(NameHelper.ToCSharp(t.Name)),
+        CppEnum t => IdentifierName(NameHelper.ToCSharp(t.Name)),
+        CppPointerType t => t.WithElementType(),
+        CppArrayType => null,
+        CppFunctionType => null,
+        CppQualifiedType t => t.WithElementType(),
+        CppReferenceType => null,
+        CppTemplateParameterType => null,
+        CppTemplateParameterNonType => null,
         CppTypedef t => t.Typedef(),
-        CppTypeDeclaration t => throw new NotImplementedException(),
-        CppUnexposedType t => throw new NotImplementedException(),
+        CppTypeDeclaration => null,
+        CppUnexposedType => null,
         _ => throw new NotSupportedException($"{cppType.TypeKind} not supported")
     };
 
-    private static TypeSyntax Primitive(this CppPrimitiveType type) =>
-        type.Kind.Primitive();
+    private static TypeSyntax? WithElementType(this CppTypeWithElementType type)
+    {
+        var elementType = type.ElementType switch
+        {
+            CppPrimitiveType { Kind: CppPrimitiveKind.Char } => CppPrimitiveKind.WChar.Primitive(),
+            CppPrimitiveType { Kind: CppPrimitiveKind.Void } => IdentifierName(nameof(IntPtr)),
+            CppQualifiedType q => q.WithElementType(),
+            _ => type.ElementType.ToCSharp()
+        };
+        return elementType;
+    }
+
+    private static TypeSyntax? Typedef(this CppTypedef type)
+    {
+        return type.ElementType switch
+        {
+            CppPointerType { ElementType: CppQualifiedType or CppClass } => IdentifierName(type.GetDisplayName()),
+            _ => type.ElementType.ToCSharp()
+        };
+    }
 
     private static TypeSyntax Primitive(this CppPrimitiveKind kind) => kind switch
     {
@@ -45,32 +66,4 @@ public static class CppTypeExtensions
         CppPrimitiveKind.LongDouble => PredefinedType(Token(SyntaxKind.DecimalKeyword)),
         _ => throw new NotSupportedException($"{kind} not supported")
     };
-
-    private static TypeSyntax Pointer(this CppPointerType type)
-    {
-        var elementType = type.ElementType.ToCSharp();
-        elementType = type.ElementType switch
-        {
-            CppPrimitiveType { Kind: CppPrimitiveKind.Char } => CppPrimitiveKind.WChar.Primitive(),
-            CppPrimitiveType { Kind: CppPrimitiveKind.Void } => IdentifierName(nameof(IntPtr)),
-            _ => elementType
-        };
-        return elementType;
-    }
-
-    private static TypeSyntax Qualified(this CppQualifiedType type)
-    {
-        return type.ElementType.ToCSharp();
-    }
-
-    private static TypeSyntax Function(this CppFunctionType type)
-    {
-        return type.ReturnType.ToCSharp();
-    }
-
-    private static TypeSyntax Typedef(this CppTypedef type)
-    {
-        return type.ElementType.ToCSharp();
-    }
-
 }

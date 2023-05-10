@@ -1,4 +1,5 @@
 using PdfLibCore.Enums;
+using PdfLibCore.Generated.Types;
 using PdfLibCore.Types;
 
 // ReSharper disable MemberCanBePrivate.Global

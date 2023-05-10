@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using PdfLibCore.Enums;
+using PdfLibCore.Generated.Types;
 using PdfLibCore.Types;
 
 // ReSharper disable UnusedMember.Global

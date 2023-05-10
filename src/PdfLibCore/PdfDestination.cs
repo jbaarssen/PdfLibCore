@@ -1,3 +1,4 @@
+using PdfLibCore.Generated.Types;
 using PdfLibCore.Types;
 
 namespace PdfLibCore;

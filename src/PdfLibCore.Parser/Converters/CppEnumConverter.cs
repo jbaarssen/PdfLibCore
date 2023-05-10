@@ -2,19 +2,19 @@
 using CppAst;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using PdfLibCore.Parser.Helpers;
+using Serilog;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace PdfLibCore.Parser.Converters;
 
 public sealed class CppEnumConverter : BaseCppConverter<CppEnum>
 {
-    public CppEnumConverter(CppEnum cppEnum)
-        : base(cppEnum.Name, cppEnum)
+    public CppEnumConverter(CppEnum cppEnum, ILogger logger)
+        : base(cppEnum, logger)
     {
     }
 
-    public override CompilationUnitSyntax Convert(CompilationUnitSyntax compilationUnit)
+    protected override CompilationUnitSyntax OnConvert(CompilationUnitSyntax compilationUnit)
     {
         return compilationUnit
             .AddMembers(

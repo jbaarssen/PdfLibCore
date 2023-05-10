@@ -11,18 +11,15 @@
         <PackageReference Include="CppAst" Version="0.11.0" />
         <PackageReference Include="Microsoft.CodeAnalysis" Version="4.5.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.5.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Generated\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Converters\CppClassConverter.PointerStruct.cs">
-        <DependentUpon>CppClassConverter.cs</DependentUpon>
+      <Compile Update="Converters\CppConverter.PlatformInvoke.cs">
+        <DependentUpon>CppConverter.cs</DependentUpon>
       </Compile>
-      <Compile Update="Converters\CppClassConverter.ClassOrStruct.cs">
-        <DependentUpon>CppClassConverter.cs</DependentUpon>
+      <Compile Update="Converters\CppConverter.IHandle.cs">
+        <DependentUpon>CppConverter.cs</DependentUpon>
       </Compile>
     </ItemGroup>
 

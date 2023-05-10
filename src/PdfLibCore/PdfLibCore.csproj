@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
         <LangVersion>latest</LangVersion>
-        <PlatformTarget>any</PlatformTarget>
+        <PlatformTarget>AnyCPU</PlatformTarget>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Authors>Jan Baarssen, Jan Kokenberg</Authors>
         <Product>PdfLib.Core</Product>
@@ -27,19 +27,7 @@
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <PlatformTarget>AnyCPU</PlatformTarget>
-    </PropertyGroup>
-
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-      <PlatformTarget>AnyCPU</PlatformTarget>
-    </PropertyGroup>
-
     <ItemGroup>
-        <None Update="Types\FPDF_TypeDef.tt">
-          <Generator>TextTemplatingFileGenerator</Generator>
-          <LastGenOutput>FPDF_TypeDef.cs</LastGenOutput>
-        </None>
         <None Update="Pdfium.tt">
           <Generator>TextTemplatingFileGenerator</Generator>
           <LastGenOutput>Pdfium.g.cs</LastGenOutput>
@@ -59,6 +47,10 @@
           <Generator>TextTemplatingFileGenerator</Generator>
           <LastGenOutput>PlatformInvoke.g.cs</LastGenOutput>
         </None>
+        <None Update="Types\FPDF_TypeDef.tt">
+          <Generator>TextTemplatingFileGenerator</Generator>
+          <LastGenOutput>FPDF_TypeDef.cs</LastGenOutput>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -66,11 +58,6 @@
         <AutoGen>True</AutoGen>
         <DesignTime>True</DesignTime>
         <DependentUpon>Pdfium.tt</DependentUpon>
-      </Compile>
-      <Compile Update="Types\FPDF_TypeDef.cs">
-        <AutoGen>True</AutoGen>
-        <DesignTime>True</DesignTime>
-        <DependentUpon>FPDF_TypeDef.tt</DependentUpon>
       </Compile>
       <Compile Update="PlatformInvoke.g.cs">
         <AutoGen>True</AutoGen>
@@ -80,13 +67,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="bblanchon.PDFium.Linux" Version="114.*" />
-      <PackageReference Include="bblanchon.PDFium.macOS" Version="114.*" />
-      <PackageReference Include="bblanchon.PDFium.Win32" Version="114.*" />
+      <PackageReference Include="bblanchon.PDFium.Linux" Version="115.*" />
+      <PackageReference Include="bblanchon.PDFium.macOS" Version="115.*" />
+      <PackageReference Include="bblanchon.PDFium.Win32" Version="115.*" />
       <PackageReference Include="MinVer" Version="4.3.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PdfLibCore.Generated\PdfLibCore.Generated.csproj" />
     </ItemGroup>
 
 </Project>
