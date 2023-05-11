@@ -43,14 +43,6 @@
         <None Update="Pdfium.xml">
           <DependentUpon>Pdfium.tt</DependentUpon>
         </None>
-        <None Update="PlatformInvoke.tt">
-          <Generator>TextTemplatingFileGenerator</Generator>
-          <LastGenOutput>PlatformInvoke.g.cs</LastGenOutput>
-        </None>
-        <None Update="Types\FPDF_TypeDef.tt">
-          <Generator>TextTemplatingFileGenerator</Generator>
-          <LastGenOutput>FPDF_TypeDef.cs</LastGenOutput>
-        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -58,11 +50,6 @@
         <AutoGen>True</AutoGen>
         <DesignTime>True</DesignTime>
         <DependentUpon>Pdfium.tt</DependentUpon>
-      </Compile>
-      <Compile Update="PlatformInvoke.g.cs">
-        <AutoGen>True</AutoGen>
-        <DesignTime>True</DesignTime>
-        <DependentUpon>PlatformInvoke.tt</DependentUpon>
       </Compile>
     </ItemGroup>
 

@@ -6,7 +6,11 @@ using System.Security;
 using System.Threading;
 using PdfLibCore.Enums;
 using PdfLibCore.Generated;
+using PdfLibCore.Generated.Enums;
+using PdfLibCore.Generated.Structs;
 using PdfLibCore.Generated.Types;
+using PdfLibCore.Types;
+using FPDF_FILEWRITE = PdfLibCore.Generated.Structs.FPDF_FILEWRITE;
 
 /*
 This file is part of PdfLibCore, a wrapper around the PDFium library for the .NET.

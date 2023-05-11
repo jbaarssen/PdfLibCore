@@ -6,6 +6,23 @@ using System.Runtime.InteropServices;
 namespace PdfLibCore.Types;
 
 [StructLayout(LayoutKind.Explicit)]
+public readonly struct FPDF_BOOL
+{
+    [field: FieldOffset(0)]
+    public int Value { get; }
+
+    private FPDF_BOOL(int value)
+    {
+    }
+
+    public static implicit operator FPDF_BOOL(int value) => new(value);
+    public static implicit operator FPDF_BOOL(uint value) => new((int)value);
+    public static implicit operator bool(FPDF_BOOL boolean) => boolean.Value == 1;
+    public static implicit operator int(FPDF_BOOL boolean) => boolean.Value == 1 ? 1 : 0;
+    public static implicit operator uint(FPDF_BOOL boolean) => boolean.Value == 1 ? (uint)1 : 0;
+}
+
+[StructLayout(LayoutKind.Explicit)]
 public readonly struct FPDF_COLOR
 {
     [field: FieldOffset(0)]
@@ -42,4 +59,5 @@ public readonly struct FPDF_COLOR
     }
 
     public static implicit operator FPDF_COLOR(uint argb) => new(argb);
+    public static implicit operator uint(FPDF_COLOR color) => color.ARGB;
 }

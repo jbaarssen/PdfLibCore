@@ -4,7 +4,7 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace PdfLibCore.Parser.Converters;
 
-public sealed partial class CppConverter
+public sealed partial class Converter
 {
     private CompiledSource CreateIHandleInterface()
     {

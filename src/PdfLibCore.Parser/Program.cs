@@ -71,7 +71,7 @@ public static class Program
         Log.Information("Saved {Count} header files", result.Length);
 
         Log.Information("Start C++ parsing");
-        var cppConverter = new CppConverter(Log.Logger, result);
+        var cppConverter = new Converter(Log.Logger, result);
         Log.Information("Created C++ AST Context");
 
         if (cppConverter.Diagnostics.HasErrors)

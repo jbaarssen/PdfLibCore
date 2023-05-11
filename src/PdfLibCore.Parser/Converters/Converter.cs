@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using CppAst;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using PdfLibCore.Parser.Helpers;
 using Serilog;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace PdfLibCore.Parser.Converters;
 
-public sealed partial class CppConverter
+public sealed partial class Converter
 {
     private readonly ILogger _logger;
     private readonly CppCompilation _compilation;
@@ -19,7 +21,7 @@ public sealed partial class CppConverter
 
     public CppDiagnosticBag Diagnostics => _compilation.Diagnostics;
 
-    public CppConverter(ILogger logger, IEnumerable<Source> files)
+    public Converter(ILogger logger, IEnumerable<Source> files)
     {
         _logger = logger;
         _compilation = CppParser.ParseFiles(files.Select(f => f.FullPath).ToList(), new CppParserOptions
@@ -31,8 +33,6 @@ public sealed partial class CppConverter
 
     public IEnumerable<CompiledSource> Convert()
     {
-        yield return CreateIHandleInterface();
-
         foreach (var element in GetElements())
         {
             var converter = CppConverterFactory.GetCppConverter(element, _logger);
@@ -42,7 +42,10 @@ public sealed partial class CppConverter
             }
         }
 
-        yield return CreatePlatformInvoke();
+        foreach(var file in CreatePdfium())
+        {
+            yield return file;
+        }
     }
 
     private IEnumerable<SourceElement> GetElements()
@@ -59,9 +62,20 @@ public sealed partial class CppConverter
         {
             yield return new SourceElement(cppTypedef.Name, cppTypedef, "Types");
         }
+
+        var sorter = new MacroSorter(_compilation.Macros);
+        foreach (var macroGroup in sorter.GetGroups())
+        {
+            if (macroGroup.All(i => int.TryParse(i.Value.Value, out _)))
+            {
+                var cppEnum = new CppEnum(macroGroup.Name);
+                cppEnum.Items.AddRange(macroGroup.Select(i => new CppEnumItem(i.Value.Name, string.IsNullOrEmpty(i.Value.Value) ? 0 : int.Parse(i.Value.Value))));
+                yield return new SourceElement(macroGroup.Name, cppEnum, "Enums");
+            }
+        }
     }
 
-    private CompilationUnitSyntax GetCompilationUnit(SourceElement? element = null)
+    private static CompilationUnitSyntax GetCompilationUnit(SourceElement? element = null)
     {
         var now = DateTime.UtcNow;
         var trivia = new List<SyntaxTrivia>
@@ -79,7 +93,7 @@ License: Microsoft Reciprocal License (MS-RL)
         };
         if (element?.Element != null)
         {
-            trivia.Add(Comment($"// Sourcefile: {Path.GetFileName(element.Element.SourceFile)}{Environment.NewLine}"));
+            trivia.Add(Comment($"// Sourcefile: https://pdfium.googlesource.com/pdfium/+/master/public/{Path.GetFileName(element.Element.SourceFile)}{Environment.NewLine}"));
         }
 
         var ns = element?.Path != null ? $"{PdfLibCoreNamespace}.{element.Path}" : PdfLibCoreNamespace;

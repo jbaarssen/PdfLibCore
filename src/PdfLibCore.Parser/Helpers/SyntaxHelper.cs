@@ -18,11 +18,6 @@ public static class SyntaxHelper
             .ToArray();
     }
 
-    public static FieldDeclarationSyntax CreateField(CppField cppField)
-    {
-        return CreateField(cppField.Type.ToCSharp().ToString(), NameHelper.Field.ToCSharp(cppField.Name), cppField.Visibility);
-    }
-
     public static FieldDeclarationSyntax CreateField(string type, string variable, CppVisibility visibility)
     {
         return FieldDeclaration(VariableDeclaration(IdentifierName(type))
@@ -63,10 +58,5 @@ public static class SyntaxHelper
                 AccessorDeclaration(SyntaxKind.SetAccessorDeclaration).WithSemicolonToken(Token(SyntaxKind.SemicolonToken)));
         }
         return decl;
-    }
-
-    public static object CreateConstructor()
-    {
-        throw new System.NotImplementedException();
     }
 }
