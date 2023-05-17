@@ -36,17 +36,12 @@ public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
 
             var size = 0;
             Pdfium.FPDF_GetNamedDest(_doc.Handle, index, IntPtr.Zero, ref size);
-            var buffer = GCHandle.Alloc(new byte[size], GCHandleType.Pinned);
-            try
+            return Unmanaged.WithHandle(new byte[size], (ptr, target) =>
             {
-                var destination = Pdfium.FPDF_GetNamedDest(_doc.Handle, index, buffer.AddrOfPinnedObject(), ref size);
-                var name =  Encoding.Unicode.GetString((byte[])buffer.Target, 0, size);
+                var destination = Pdfium.FPDF_GetNamedDest(_doc.Handle, index, ptr, ref size);
+                var name = Encoding.Unicode.GetString(target, 0, size);
                 return destination.IsNull() ? null : new PdfDestination(_doc, destination, name);
-            }
-            finally
-            {
-                buffer.Free();
-            }
+            });
         }
     }
 

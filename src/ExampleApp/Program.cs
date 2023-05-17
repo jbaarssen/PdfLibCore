@@ -28,7 +28,7 @@ namespace ExampleApp
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            if (false)
+            if (true)
             {
                 foreach (var resource in DataProvider.GetManifestResourceNames())
                 {
@@ -93,6 +93,12 @@ namespace ExampleApp
             Console.WriteLine($"FileVersion: {pdfDocument.FileVersion}");
             Console.WriteLine($"PageMode: {pdfDocument.PageMode}");
             Console.WriteLine($"Destinations: {pdfDocument.Destinations.Count}");
+            foreach (var destination in pdfDocument.Destinations)
+            {
+                Console.WriteLine($"Destination name: {destination.Name}");
+                Console.WriteLine($"Destination pageIndex: {destination.PageIndex}");
+                Console.WriteLine($"Destination locationInPage: {destination.LocationInPage}");
+            }
             Console.WriteLine($"Bookmarks: {pdfDocument.Bookmarks.Count()}");
 
             void BookmarkLister(IEnumerable<PdfBookmark> bookmarks, int level)

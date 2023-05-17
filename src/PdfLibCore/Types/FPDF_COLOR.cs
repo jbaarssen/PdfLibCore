@@ -29,16 +29,12 @@ public readonly struct FPDF_COLOR
         R = r;
         G = g;
         B = b;
-        ARGB = a;
+        ARGB = (uint)((a << 24) | (r << 16) | (g << 8) | b);
     }
 
     public FPDF_COLOR(uint argb)
+        : this((byte) ((argb >> 16) & 0xff), (byte) ((argb >> 8) & 0xff), (byte) (argb & 0xff), (byte) ((argb >> 24) & 0xff))
     {
-        A = 0;
-        R = 0;
-        G = 0; 
-        B = 0;
-        ARGB = argb;
     }
 
     public static implicit operator FPDF_COLOR(uint argb) => new(argb);

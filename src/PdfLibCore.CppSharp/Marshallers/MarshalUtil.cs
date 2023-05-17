@@ -13,8 +13,9 @@ public unsafe static class MarshalUtil
         var buffer = GCHandle.Alloc(Array.Empty<byte>(), GCHandleType.Pinned);
         try
         {
-            action(buffer.AddrOfPinnedObject());
-            return GetString(encoding ?? Encoding.UTF8, buffer.AddrOfPinnedObject());
+            var ptr = buffer.AddrOfPinnedObject();
+            action(ptr);
+            return GetString(encoding ?? Encoding.UTF8, ptr);
         }
         finally
         {

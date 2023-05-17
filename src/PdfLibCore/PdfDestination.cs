@@ -13,16 +13,15 @@ public sealed class PdfDestination : NativeDocumentWrapper<FPDF_Dest>
     {
         get
         {
-            FPDF_BOOL hasX = 0;
-            FPDF_BOOL hasY = 0;
-            FPDF_BOOL hasZ = 0;
-            float x = 0;
-            float y = 0;
-            float z = 0;
-            var x2 =  Pdfium.FPDFDest_GetLocationInPage(Handle, ref hasX, ref hasY, ref hasZ, ref x, ref y, ref z)
+            var hasX = FPDF_BOOL.False;
+            var hasY = FPDF_BOOL.False;
+            var hasZ = FPDF_BOOL.False;
+            var x = 0f;
+            var y = 0f;
+            var z = 0f;
+            return Pdfium.FPDFDest_GetLocationInPage(Handle, ref hasX, ref hasY, ref hasZ, ref x, ref y, ref z)
                 ? new PdfPageLocation(hasX ? x : float.NaN, hasY ? y : float.NaN, hasZ ? z : float.NaN)
                 : PdfPageLocation.Unknown;
-            return x2;
         }
     }
 

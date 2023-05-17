@@ -98,7 +98,7 @@ public class PdfDocument : NativeWrapper<FPDF_Document>
     /// <param name="data">Byte array containing the bytes of the PDF document to load.</param>
     /// <param name="password"></param>
     public PdfDocument(byte[] data, string? password = null)
-        : this(Pointer(data, ptr => Pdfium.FPDF_LoadMemDocument64(ptr, (ulong) data.Length, password)))
+        : this(Unmanaged.WithHandle(data, (ptr, target) => Pdfium.FPDF_LoadMemDocument64(ptr, (ulong) target.Length, password)))
     {
     }
 

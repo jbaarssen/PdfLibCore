@@ -5,16 +5,6 @@ using PdfLibCore.Generated;
 
 namespace PdfLibCore.Types;
 
-public abstract class NativeDocumentWrapper<T> : NativeWrapper<T>
-    where T : class, ISafePointer
-{
-    protected PdfDocument Document { get; }
-
-    protected NativeDocumentWrapper(PdfDocument document, T handle)
-        : base(handle) =>
-        Document = document ?? throw new PdfiumException();
-}
-
 public abstract class NativeWrapper<T> : IDisposable
     where T : class, ISafePointer
 {
@@ -47,19 +37,6 @@ public abstract class NativeWrapper<T> : IDisposable
         if (disposing && !_handle.IsNull())
         {
             OnDispose(_handle);
-        }
-    }
-
-    protected static TReturn Pointer<TInput, TReturn>(TInput obj, Func<IntPtr, TReturn> func)
-    {
-        var buffer = GCHandle.Alloc(obj, GCHandleType.Pinned);
-        try
-        {
-            return func(buffer.AddrOfPinnedObject());
-        }
-        finally
-        {
-            buffer.Free();
         }
     }
 
