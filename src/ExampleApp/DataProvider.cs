@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -13,6 +15,9 @@ namespace ExampleApp
         // This file is only here to resolve the assembly from the integration test projects
         // you can find the references by running Shift + F12 on the class
         // Please do not delete this file as long as there are references to it
+
+        public static IEnumerable<string> GetManifestResourceNames() =>
+            Assembly.GetAssembly(typeof(DataProvider))?.GetManifestResourceNames().Select(n => n[(Name.Length + 1)..]);
 
         /// <summary>
         /// Retrieves one of the embedded test files which can be used for various purposes

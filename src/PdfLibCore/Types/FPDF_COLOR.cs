@@ -42,4 +42,5 @@ public readonly struct FPDF_COLOR
     }
 
     public static implicit operator FPDF_COLOR(uint argb) => new(argb);
+    public static implicit operator long(FPDF_COLOR color) => color.ARGB;
 }

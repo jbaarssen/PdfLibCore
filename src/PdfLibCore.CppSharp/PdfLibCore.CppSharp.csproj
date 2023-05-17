@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CppSharp" Version="1.0.45.22293">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+        <PackageReference Include="SharpZipLib" Version="1.4.2" />
+        <PackageReference Include="System.Memory.Data" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Marshallers\MarshalUtil.cs" />
+        <EmbeddedResource Include="Marshallers\MarshalUtil.cs" />
+        
+        <Compile Remove="Marshallers\UTF8Marshaller.cs" />
+        <EmbeddedResource Include="Marshallers\UTF8Marshaller.cs" />
+        
+        <Content Include="Types\FPDF_BOOL.cs" />
+        <EmbeddedResource Include="Types\FPDF_BOOL.cs" />
+        
+        <Content Include="Types\FPDF_ERR.cs" />
+        <EmbeddedResource Include="Types\FPDF_ERR.cs" />
+        
+        <Content Include="Interfaces\IHandle.cs" />
+        <EmbeddedResource Include="Interfaces\IHandle.cs" />
+        
+        <Content Include="Interfaces\ISafePointer.cs" />
+        <EmbeddedResource Include="Interfaces\ISafePointer.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="C\pdflibcore.h">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+</Project>

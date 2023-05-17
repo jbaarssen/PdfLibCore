@@ -1,17 +1,18 @@
-using System.Collections.Generic;
-using PdfLibCore.Generated.Types;
+﻿using System.Collections.Generic;
+using PdfLibCore.Generated;
+using PdfLibCore.Helpers;
 using PdfLibCore.Types;
 
 namespace PdfLibCore;
 
-public sealed class PdfBookmark : NativeDocumentWrapper<FPDF_BOOKMARK>
+public sealed class PdfBookmark : NativeDocumentWrapper<FPDF_Bookmark>
 {
     public IEnumerable<PdfBookmark> Children
     {
         get
         {
             var handle = Pdfium.FPDFBookmark_GetFirstChild(Document.Handle, Handle);
-            while (!handle.IsNull)
+            while (!handle.IsNull())
             {
                 yield return new PdfBookmark(Document, handle);
                 handle = Pdfium.FPDFBookmark_GetNextSibling(Document.Handle, handle);
@@ -19,13 +20,20 @@ public sealed class PdfBookmark : NativeDocumentWrapper<FPDF_BOOKMARK>
         }
     }
 
-    public string Title => Pdfium.FPDFBookmark_GetTitle(Handle);
+    public string Title => Helper.GetString((ptr, len) => Pdfium.FPDFBookmark_GetTitle(Handle, ptr, len));
 
     public PdfDestination Destination => new(Document, Pdfium.FPDFBookmark_GetDest(Document.Handle, Handle), null);
 
-    public PdfAction Action => new(Document, Pdfium.FPDFBookmark_GetAction(Handle));
+    public PdfAction? Action
+    {
+        get
+        {
+            var handle = Pdfium.FPDFBookmark_GetAction(Handle);
+            return handle != null ? new PdfAction(Document, handle) : null;
+        }
+    }
 
-    internal PdfBookmark(PdfDocument doc, FPDF_BOOKMARK handle)
+    internal PdfBookmark(PdfDocument doc, FPDF_Bookmark handle)
         : base(doc, handle)
     {
     }

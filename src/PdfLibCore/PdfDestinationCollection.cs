@@ -1,6 +1,9 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
+using PdfLibCore.Generated;
 
 namespace PdfLibCore;
 
@@ -8,21 +11,21 @@ public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
 {
     private readonly PdfDocument _doc;
 
-    public int Count => Pdfium.FPDF_CountNamedDests(_doc.Handle);
+    public int Count => (int) Pdfium.FPDF_CountNamedDests(_doc.Handle);
 
-    internal PdfDestinationCollection(PdfDocument doc) => 
+    internal PdfDestinationCollection(PdfDocument doc) =>
         _doc = doc;
 
-    public PdfDestination this[string name]
+    public PdfDestination? this[string name]
     {
         get
         {
             var handle = Pdfium.FPDF_GetNamedDestByName(_doc.Handle, name);
-            return handle.IsNull ? null : new PdfDestination(_doc, handle, name);
+            return handle.IsNull() ? null : new PdfDestination(_doc, handle, name);
         }
     }
 
-    public PdfDestination this[int index]
+    public PdfDestination? this[int index]
     {
         get
         {
@@ -30,8 +33,20 @@ public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
-            var (handle, name) = Pdfium.FPDF_GetNamedDest(_doc.Handle, index);
-            return handle.IsNull ? null : new PdfDestination(_doc, handle, name);
+
+            var size = 0;
+            Pdfium.FPDF_GetNamedDest(_doc.Handle, index, IntPtr.Zero, ref size);
+            var buffer = GCHandle.Alloc(new byte[size], GCHandleType.Pinned);
+            try
+            {
+                var destination = Pdfium.FPDF_GetNamedDest(_doc.Handle, index, buffer.AddrOfPinnedObject(), ref size);
+                var name =  Encoding.Unicode.GetString((byte[])buffer.Target, 0, size);
+                return destination.IsNull() ? null : new PdfDestination(_doc, destination, name);
+            }
+            finally
+            {
+                buffer.Free();
+            }
         }
     }
 

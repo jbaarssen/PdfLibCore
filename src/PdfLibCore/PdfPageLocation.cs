@@ -14,4 +14,10 @@ public readonly struct PdfPageLocation
         Y = y;
         Zoom = zoom;
     }
+
+    public override string ToString() =>
+        this;
+
+    public static implicit operator string(PdfPageLocation location) =>
+        $"(x: {location.X}, y: {location.Y}, zoom: {location.Zoom})";
 }

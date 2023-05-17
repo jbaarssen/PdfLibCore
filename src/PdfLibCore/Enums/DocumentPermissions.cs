@@ -1,5 +1,8 @@
 using System;
-using PdfLibCore.Generated.Types;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using PdfLibCore.Generated;
 
 namespace PdfLibCore.Enums;
 
@@ -7,7 +10,7 @@ namespace PdfLibCore.Enums;
 /// Flags specifying document permissions.
 /// </summary>
 /// <seealso cref="PdfDocument.SecurityHandlerRevision"/>
-/// <seealso cref="Pdfium.FPDF_GetSecurityHandlerRevision(FPDF_DOCUMENT)"/>
+/// <seealso cref="Pdfium.FPDF_GetSecurityHandlerRevision(FPDF_Document)"/>
 /// <seealso href="http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/pdf/pdfs/PDF32000_2008.pdf">PDF Reference: Table 22</seealso>
 [Flags]
 public enum DocumentPermissions : uint
@@ -15,7 +18,7 @@ public enum DocumentPermissions : uint
 	/// <summary>
 	/// For <see cref="PdfDocument.SecurityHandlerRevision"/> of 2: Print the document.
 	/// For <see cref="PdfDocument.SecurityHandlerRevision"/> of 3 or greater: Print the document
-	/// (possibly not at the highest quality level, depending on whether <see cref="PrintHighQuality"/> is also set). 
+	/// (possibly not at the highest quality level, depending on whether <see cref="PrintHighQuality"/> is also set).
 	/// </summary>
 	Print = 1 << 2,
 
@@ -29,13 +32,13 @@ public enum DocumentPermissions : uint
 	/// For <see cref="PdfDocument.SecurityHandlerRevision"/> of 2: Copy or otherwise extract text and graphics from the document,
 	/// including extracting text and graphics (in support of accessibility to users with disabilities or for other purposes).
 	/// For <see cref="PdfDocument.SecurityHandlerRevision"/> of 3 or greater: Copy or otherwise extract text and graphics from
-	/// the document by operations other than that controlled by <see cref="ExtractTextAndGraphics2"/>. 
+	/// the document by operations other than that controlled by <see cref="ExtractTextAndGraphics2"/>.
 	/// </summary>
 	ExtractTextAndGraphics = 1 << 4,
 
 	/// <summary>
 	/// Add or modify text annotations, fill in interactive form fields, and, if <see cref="Modify"/> is also set,
-	/// create or modify interactive form fields (including signature fields). 
+	/// create or modify interactive form fields (including signature fields).
 	/// </summary>
 	ModfiyAnnotations = 1 << 5,
 
@@ -63,4 +66,12 @@ public enum DocumentPermissions : uint
 	/// (and <see cref="Print"/> is set), printing is limited to a low-level representation of the appearance, possibly of degraded quality.
 	/// </summary>
 	PrintHighQuality = 1 << 11
+}
+
+public static class DocumentPermissionsExtensions
+{
+	public static string GetValues(this DocumentPermissions permissions) =>
+		string.Join(", ", Enum.GetValues(typeof(DocumentPermissions))
+			.Cast<Enum>()
+			.Where(permissions.HasFlag));
 }

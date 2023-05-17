@@ -1,10 +1,12 @@
 using System;
-using PdfLibCore.Generated.Interfaces;
+using System.Runtime.InteropServices;
+using System.Text;
+using PdfLibCore.Generated;
 
 namespace PdfLibCore.Types;
 
-public class NativeDocumentWrapper<T> : NativeWrapper<T>
-    where T : struct, IHandle<T>
+public abstract class NativeDocumentWrapper<T> : NativeWrapper<T>
+    where T : class, ISafePointer
 {
     protected PdfDocument Document { get; }
 
@@ -13,13 +15,13 @@ public class NativeDocumentWrapper<T> : NativeWrapper<T>
         Document = document ?? throw new PdfiumException();
 }
 
-public class NativeWrapper<T> : IDisposable
-    where T : struct, IHandle<T>
+public abstract class NativeWrapper<T> : IDisposable
+    where T : class, ISafePointer
 {
-    private T _handle;
+    private readonly T _handle;
 
     /// <summary>
-    /// Handle which can be used with the native <see cref="Pdfium"/> functions.
+    /// Handle which can be used with the native <see cref="Generated.Pdfium"/> functions.
     /// </summary>
     public T Handle => IsDisposed ? throw new ObjectDisposedException(GetType().FullName) : _handle;
 
@@ -27,24 +29,43 @@ public class NativeWrapper<T> : IDisposable
     /// Gets a value indicating whether <see cref="IDisposable.Dispose"/> was already
     /// called on this instance.
     /// </summary>
-    public bool IsDisposed => _handle.IsNull;
+    public bool IsDisposed => _handle.IsNull();
 
     protected NativeWrapper(T handle) =>
-        _handle = handle.IsNull ? throw new PdfiumException() : handle;
+        _handle = handle.IsNull() ? throw new PdfiumException() : handle;
 
     /// <summary>
     /// Implementors should clean up here. This method is guaranteed to only be called once.
     /// </summary>
-    protected virtual void Dispose(T handle)
+    protected virtual void OnDispose(T handle)
     {
     }
 
-    void IDisposable.Dispose()
+    // ReSharper disable once VirtualMemberNeverOverridden.Global
+    protected virtual void Dispose(bool disposing)
     {
-        var oldHandle = _handle.SetToNull();
-        if (!oldHandle.IsNull)
+        if (disposing && !_handle.IsNull())
         {
-            Dispose(oldHandle);
+            OnDispose(_handle);
         }
+    }
+
+    protected static TReturn Pointer<TInput, TReturn>(TInput obj, Func<IntPtr, TReturn> func)
+    {
+        var buffer = GCHandle.Alloc(obj, GCHandleType.Pinned);
+        try
+        {
+            return func(buffer.AddrOfPinnedObject());
+        }
+        finally
+        {
+            buffer.Free();
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

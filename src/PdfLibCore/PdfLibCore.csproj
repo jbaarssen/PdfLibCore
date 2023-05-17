@@ -4,7 +4,7 @@
         <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <PlatformTarget>AnyCPU</PlatformTarget>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
         <Authors>Jan Baarssen, Jan Kokenberg</Authors>
         <Product>PdfLib.Core</Product>
         <Description>PdfLib CORE is a fast library for reading PDF documents for modern .NET core applications.</Description>
@@ -25,13 +25,10 @@
         <FileVersion>$(ClientVersion)</FileVersion>
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="Pdfium.tt">
-          <Generator>TextTemplatingFileGenerator</Generator>
-          <LastGenOutput>Pdfium.g.cs</LastGenOutput>
-        </None>
         <Content Include="..\..\LICENSE.txt">
             <PackagePath>LICENSE.txt</PackagePath>
           <Link>LICENSE.txt</Link>
@@ -40,30 +37,6 @@
             <PackagePath>icon.png</PackagePath>
             <Link>icon.png</Link>
         </Content>
-        <None Update="Pdfium.xml">
-          <DependentUpon>Pdfium.tt</DependentUpon>
-        </None>
-        <None Update="PlatformInvoke.tt">
-          <Generator>TextTemplatingFileGenerator</Generator>
-          <LastGenOutput>PlatformInvoke.g.cs</LastGenOutput>
-        </None>
-        <None Update="Types\FPDF_TypeDef.tt">
-          <Generator>TextTemplatingFileGenerator</Generator>
-          <LastGenOutput>FPDF_TypeDef.cs</LastGenOutput>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Pdfium.g.cs">
-        <AutoGen>True</AutoGen>
-        <DesignTime>True</DesignTime>
-        <DependentUpon>Pdfium.tt</DependentUpon>
-      </Compile>
-      <Compile Update="PlatformInvoke.g.cs">
-        <AutoGen>True</AutoGen>
-        <DesignTime>True</DesignTime>
-        <DependentUpon>PlatformInvoke.tt</DependentUpon>
-      </Compile>
     </ItemGroup>
 
     <ItemGroup>
@@ -74,6 +47,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="System.Memory.Data" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,5 @@
 using System;
-using PdfLibCore.Types;
+using PdfLibCore.Generated;
 
 namespace PdfLibCore;
 
@@ -11,7 +11,7 @@ public sealed class PdfiumException : Exception
     }
 
     public PdfiumException()
-        : base($"PDFium Error: {Pdfium.FPDF_GetLastError().GetDescription()}")
+        : base($"PDFium Error: {Pdfium.FPDF_GetLastError()}")
     {
     }
 }

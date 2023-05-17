@@ -1,13 +1,13 @@
-﻿using PdfLibCore.Generated.Types;
+﻿using PdfLibCore.Generated;
 using PdfLibCore.Types;
 
 namespace PdfLibCore;
 
-public class PdfPageRange : NativeDocumentWrapper<FPDF_PAGERANGE>
+public class PdfPageRange : NativeDocumentWrapper<FPDF_Pagerange>
 {
-    public uint PrintPageRangeCount => Pdfium.FPDF_VIEWERREF_GetPrintPageRangeCount(Handle);
+    public ulong PrintPageRangeCount => Pdfium.FPDF_VIEWERREF_GetPrintPageRangeCount(Handle);
 
-    public PdfPageRange(PdfDocument document, FPDF_PAGERANGE handle) 
+    public PdfPageRange(PdfDocument document, FPDF_Pagerange handle)
         : base(document, handle)
     {
     }

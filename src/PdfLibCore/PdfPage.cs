@@ -1,12 +1,13 @@
-using PdfLibCore.Enums;
-using PdfLibCore.Generated.Types;
+﻿using PdfLibCore.Enums;
+using PdfLibCore.Generated;
+using PdfLibCore.Helpers;
 using PdfLibCore.Types;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 namespace PdfLibCore;
 
-public sealed class PdfPage : NativeDocumentWrapper<FPDF_PAGE>
+public sealed class PdfPage : NativeDocumentWrapper<FPDF_Page>
 {
 	/// <summary>
 	/// Gets the page width (excluding non-displayable area) measured in points.
@@ -24,16 +25,22 @@ public sealed class PdfPage : NativeDocumentWrapper<FPDF_PAGE>
 	/// Gets the page width and height (excluding non-displayable area) measured in points.
 	/// One point is 1/72 inch(around 0.3528 mm).
 	/// </summary>
-	public (double Width, double Height) Size => 
-		Pdfium.FPDF_GetPageSizeByIndex(Document.Handle, Index, out var width, out var height) ? (width, height) : throw new PdfiumException();
+	public (double Width, double Height) Size
+	{
+		get
+		{
+			FS_SIZEF_ size = new();
+			return Pdfium.FPDF_GetPageSizeByIndexF(Document.Handle, Index, size) ? (size.Width, size.Height) : throw new PdfiumException();
+		}
+	}
 
 	/// <summary>
 	/// Gets the page orientation.
 	/// </summary>
 	public PageOrientations Orientation
 	{
-		get => Pdfium.FPDFPage_GetRotation(Handle);
-		set => Pdfium.FPDFPage_SetRotation(Handle, value);
+		get => (PageOrientations)Pdfium.FPDFPage_GetRotation(Handle);
+		set => Pdfium.FPDFPage_SetRotation(Handle, (int)value);
 	}
 
 	/// <summary>
@@ -46,17 +53,19 @@ public sealed class PdfPage : NativeDocumentWrapper<FPDF_PAGE>
 	/// </summary>
 	public int Index { get; internal set; }
 
-	public string Label => Pdfium.FPDF_GetPageLabel(Document.Handle, Index);
+	public string Label => Helper.GetString((buffer, length) => Pdfium.FPDF_GetPageLabel(Document.Handle, Index, buffer, length));
 
-	private PdfPage(PdfDocument doc, FPDF_PAGE page, int index)
+	private PdfPage(PdfDocument doc, FPDF_Page page, int index)
 		: base(doc, page)
 	{
 		Index = index;
 	}
 
-	internal static PdfPage Load(PdfDocument doc, int index) => new(doc, Pdfium.FPDF_LoadPage(doc.Handle, index), index);
+	internal static PdfPage Load(PdfDocument doc, int index) =>
+		new(doc, Pdfium.FPDF_LoadPage(doc.Handle, index), index);
 
-	internal static PdfPage New(PdfDocument doc, int index, double width, double height) => new(doc, Pdfium.FPDFPage_New(doc.Handle, index, width, height), index);
+	internal static PdfPage New(PdfDocument doc, int index, double width, double height) =>
+		new(doc, Pdfium.FPDFPage_New(doc.Handle, index, width, height), index);
 
 	/// <summary>
 	/// Renders the page to a <see cref="PdfiumBitmap"/>
@@ -75,25 +84,29 @@ public sealed class PdfPage : NativeDocumentWrapper<FPDF_PAGE>
 	/// <param name="orientation">The orientation at which the page is to be rendered.</param>
 	/// <param name="flags">The flags specifying how the page is to be rendered.</param>
 	public void Render(PdfiumBitmap renderTarget, (int left, int top, int width, int height) rectDest, PageOrientations orientation = PageOrientations.Normal, RenderingFlags flags = RenderingFlags.None) => 
-		Pdfium.FPDF_RenderPageBitmap(renderTarget.Handle, Handle, rectDest.left, rectDest.top, rectDest.width, rectDest.height, orientation, flags);
+		Pdfium.FPDF_RenderPageBitmap(renderTarget.Handle, Handle, rectDest.left, rectDest.top, rectDest.width, rectDest.height, (int)orientation, (int)flags);
 		
 	public (double X, double Y) DeviceToPage((int left, int top, int width, int height) displayArea, int deviceX, int deviceY, PageOrientations orientation = PageOrientations.Normal)
 	{
 		var (left, top, width, height) = displayArea;
-		Pdfium.FPDF_DeviceToPage(Handle, left, top, width, height, orientation, deviceX, deviceY, out var x, out var y);
+		var x = 0d;
+		var y = 0d;
+		Pdfium.FPDF_DeviceToPage(Handle, left, top, width, height, (int)orientation, deviceX, deviceY, ref x, ref y);
 		return (x, y);
 	}
 
 	public (int X, int Y) PageToDevice((int left, int top, int width, int height) displayArea, double pageX, double pageY, PageOrientations orientation = PageOrientations.Normal)
 	{
 		var (left, top, width, height) = displayArea;
-		Pdfium.FPDF_PageToDevice(Handle, left, top, width, height, orientation, pageX, pageY, out var x, out var y);
+		var x = 0;
+		var y = 0;
+		Pdfium.FPDF_PageToDevice(Handle, left, top, width, height, (int)orientation, pageX, pageY, ref x, ref y);
 		return (x, y);
 	}
 
 	public FlattenResults Flatten(FlattenFlags flags) => 
-		Pdfium.FPDFPage_Flatten(Handle, flags);
+		(FlattenResults)Pdfium.FPDFPage_Flatten(Handle, (int)flags);
 
-	protected override void Dispose(FPDF_PAGE handle) => 
+	protected override void OnDispose(FPDF_Page handle) =>
 		Pdfium.FPDF_ClosePage(handle);
 }

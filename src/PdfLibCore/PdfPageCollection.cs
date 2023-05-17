@@ -1,15 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using PdfLibCore.Generated.Types;
+using PdfLibCore.Generated;
+using PdfLibCore.Types;
 
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 namespace PdfLibCore;
 
-public sealed class PdfPageCollection : List<PdfPage>, IDisposable
+public sealed class PdfPageCollection : List<PdfPage?>, IDisposable
 {
     private readonly PdfDocument _doc;
     private readonly SemaphoreSlim _semaphore = new(1, 1);
@@ -36,7 +37,7 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
     /// <summary>
     /// Gets the <see cref="PdfPage"/> at the zero-based <paramref name="index"/> in the <see cref="PdfDocument"/>.
     /// </summary>
-    public new PdfPage this[int index]
+    public new PdfPage? this[int index]
     {
         get
         {
@@ -45,7 +46,7 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            if (base[index] == null || base[index].IsDisposed)
+            if (base[index] == null || base[index]!.IsDisposed)
             {
                 base[index] = PdfPage.Load(_doc, index);
             }
@@ -56,7 +57,7 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
 
     public void Dispose()
     {
-        foreach (IDisposable page in this)
+        foreach (var page in this)
         {
             page?.Dispose();
         }
@@ -66,7 +67,7 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
     /// <summary>
     /// Imports pages of <paramref name="sourceDocument"/> into the current <see cref="PdfDocument"/>.
     /// </summary>
-    /// <seealso cref="Pdfium.FPDF_ImportPages(FPDF_DOCUMENT, FPDF_DOCUMENT, int, int[])"/>
+    /// <seealso cref="Generated.Pdfium.FPDF_ImportPages(FPDF_Document, FPDF_Document, string, int)"/>
     public bool Add(PdfDocument sourceDocument, params int[] srcPageIndices) =>
         Insert(Count, sourceDocument, srcPageIndices);
 
@@ -79,22 +80,22 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
     /// <summary>
     /// Imports pages of <paramref name="sourceDocument"/> into the current <see cref="PdfDocument"/>.
     /// </summary>
-    /// <seealso cref="Pdfium.FPDF_ImportPages(FPDF_DOCUMENT, FPDF_DOCUMENT, int, int[])"/>
+    /// <seealso cref="Generated.Pdfium.FPDF_ImportPages(FPDF_Document, FPDF_Document, string, int)"/>
     public bool Insert(int index, PdfDocument sourceDocument, params int[] srcPageIndices)
     {
         if (index <= Count)
         {
-            var result = Pdfium.FPDF_ImportPages(_doc.Handle, sourceDocument.Handle, index, srcPageIndices);
-            if (!result)
+            var result = Pdfium.FPDF_ImportPages(_doc.Handle, sourceDocument.Handle, string.Join(",", srcPageIndices), index);
+            if (result!= FPDF_BOOL.True)
             {
                 return false;
             }
-            InsertRange(index, Enumerable.Repeat<PdfPage>(null, srcPageIndices.Length));
+            InsertRange(index, Enumerable.Repeat<PdfPage?>(null, srcPageIndices.Length));
             for (var i = index; i < Count; i++)
             {
                 if (this[i] != null)
                 {
-                    this[i].Index = i;
+                    this[i]!.Index = i;
                 }
             }
         }
@@ -120,7 +121,7 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
             {
                 if (this[i] != null)
                 {
-                    this[i].Index = i;
+                    this[i]!.Index = i;
                 }
             }
         }
@@ -144,12 +145,12 @@ public sealed class PdfPageCollection : List<PdfPage>, IDisposable
     {
         if (index < Count)
         {
-            ((IDisposable) this[index])?.Dispose();
+            ((IDisposable?) this[index])?.Dispose();
             for (var i = index; i < Count; i++)
             {
                 if (this[i] != null)
                 {
-                    this[i].Index = i;
+                    this[i]!.Index = i;
                 }
             }
         }
