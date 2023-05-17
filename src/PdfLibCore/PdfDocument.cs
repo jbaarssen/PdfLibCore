@@ -17,21 +17,14 @@ public class PdfDocument : NativeWrapper<FPDF_Document>
     /// <summary>
     /// Gets the pages in the current <see cref="PdfDocument"/>.
     /// </summary>
-    public PdfPageCollection Pages { get; }
+    public PdfPageCollection Pages => new(this);
 
-    public PdfDestinationCollection Destinations { get; }
+    public PdfDestinationCollection Destinations => new(this);
 
     /// <summary>
     /// Gets the PDF file version. File version: 14 for 1.4, 15 for 1.5, ...
     /// </summary>
-    public int FileVersion
-    {
-        get
-        {
-            var fileVersion = 1;
-            return Pdfium.FPDF_GetFileVersion(Handle, ref fileVersion) ? fileVersion : 1;
-        }
-    }
+    public int FileVersion => Pdfium.FPDF_GetFileVersion(Handle, out var fileVersion) ? fileVersion : 1;
 
     /// <summary>
     /// Gets the revision of the security handler.
@@ -67,8 +60,6 @@ public class PdfDocument : NativeWrapper<FPDF_Document>
     private PdfDocument(FPDF_Document doc)
         : base(doc)
     {
-        Pages = new PdfPageCollection(this);
-        Destinations = new PdfDestinationCollection(this);
     }
 
     /// <summary>
@@ -162,13 +153,10 @@ public class PdfDocument : NativeWrapper<FPDF_Document>
         return Save(stream, flags, version);
     }
 
-    public PdfBookmark? FindBookmark(string title)
-    {
-        var handle = Pdfium.FPDFBookmark_Find(Handle, ref title);
-        return handle.IsNull() ? null : new PdfBookmark(this, handle);
-    }
+    public PdfBookmark? FindBookmark(string title) =>
+        PdfBookmark.Create(this, Pdfium.FPDFBookmark_Find(Handle, title));
 
-    public string GetMetaText(MetadataTags tag) =>
+    public string? GetMetaText(MetadataTags tag) =>
         Helper.GetString((ptr, len) => Pdfium.FPDF_GetMetaText(Handle, tag.ToString(), ptr, len));
 
     public void CopyViewerPreferencesFrom(PdfDocument srcDoc) =>

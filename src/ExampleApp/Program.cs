@@ -82,7 +82,7 @@ namespace ExampleApp
             Console.WriteLine($"Done with {name}");
         }
 
-        private static async IAsyncEnumerable<(int i, Stream?)> GetImagesFromPdf(string name)
+        private static async IAsyncEnumerable<(int i, Stream)> GetImagesFromPdf(string name)
         {
             using var input = await DataProvider.GetEmbeddedResourceAsStreamAsync(name);
             using var pdfDocument = new PdfDocument(input);

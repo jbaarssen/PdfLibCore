@@ -1,7 +1,7 @@
 // Built from precompiled binaries at https://github.com/bblanchon/pdfium-binaries/releases/tag/chromium/5772
 // Github release api https://api.github.com/repos/bblanchon/pdfium-binaries/releases/102934879
 // PDFium version v115.0.5772.0 chromium/5772 [master]
-// Built on: Wed, 17 May 2023 14:53:09 GMT
+// Built on: Wed, 17 May 2023 18:47:10 GMT
 
 // ReSharper disable all
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
@@ -151,7 +151,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Generated.FPDF_Bookmark FPDFBookmark_Find(global::PdfLibCore.Generated.FPDF_Document document, ref string title)
+        public static global::PdfLibCore.Generated.FPDF_Bookmark FPDFBookmark_Find(global::PdfLibCore.Generated.FPDF_Document document, string title)
         {
             var __arg0 = document is null ? __IntPtr.Zero : document.__Instance;
             var ___ret = __Internal.FPDFBookmark_Find(__arg0, title);
@@ -223,7 +223,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static uint FPDFDest_GetView(global::PdfLibCore.Generated.FPDF_Dest dest, ref uint pNumParams, ref float pParams)
+        public static uint FPDFDest_GetView(global::PdfLibCore.Generated.FPDF_Dest dest, out uint pNumParams, ref float pParams)
         {
             var __arg0 = dest is null ? __IntPtr.Zero : dest.__Instance;
             fixed (uint* __pNumParams1 = &pNumParams)
@@ -239,7 +239,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFDest_GetLocationInPage(global::PdfLibCore.Generated.FPDF_Dest dest, ref global::PdfLibCore.Types.FPDF_BOOL hasXVal, ref global::PdfLibCore.Types.FPDF_BOOL hasYVal, ref global::PdfLibCore.Types.FPDF_BOOL hasZoomVal, ref float x, ref float y, ref float zoom)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFDest_GetLocationInPage(global::PdfLibCore.Generated.FPDF_Dest dest, out global::PdfLibCore.Types.FPDF_BOOL hasXVal, out global::PdfLibCore.Types.FPDF_BOOL hasYVal, out global::PdfLibCore.Types.FPDF_BOOL hasZoomVal, out float x, out float y, out float zoom)
         {
             var __arg0 = dest is null ? __IntPtr.Zero : dest.__Instance;
             fixed (global::PdfLibCore.Types.FPDF_BOOL* __hasXVal1 = &hasXVal)
@@ -331,9 +331,10 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFLink_GetAnnotRect(global::PdfLibCore.Generated.FPDF_Link link_annot, global::PdfLibCore.Generated.FS_RECTF_ rect)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFLink_GetAnnotRect(global::PdfLibCore.Generated.FPDF_Link link_annot, out global::PdfLibCore.Generated.FS_RECTF_ rect)
         {
             var __arg0 = link_annot is null ? __IntPtr.Zero : link_annot.__Instance;
+            rect = new global::PdfLibCore.Generated.FS_RECTF_();
             var __arg1 = rect is null ? __IntPtr.Zero : rect.__Instance;
             var ___ret = __Internal.FPDFLink_GetAnnotRect(__arg0, __arg1);
             return ___ret;

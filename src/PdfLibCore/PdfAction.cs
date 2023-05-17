@@ -12,7 +12,7 @@ public sealed class PdfAction : NativeDocumentWrapper<FPDF_Action>
 
     public PdfDestination Destination => new(Document, Pdfium.FPDFAction_GetDest(Document.Handle, Handle), null);
 
-    public string FilePath => Helper.GetString((ptr, len) => Pdfium.FPDFAction_GetFilePath(Handle, ptr, len));
+    public string FilePath => Helper.GetString((ptr, len) => Pdfium.FPDFAction_GetFilePath(Handle, ptr, len)) ?? string.Empty;
 
     public Uri? Uri
     {

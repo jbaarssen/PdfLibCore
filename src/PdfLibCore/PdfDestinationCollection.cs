@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using PdfLibCore.Generated;
+using PdfLibCore.Helpers;
 
 namespace PdfLibCore;
 
@@ -12,9 +12,6 @@ public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
     private readonly PdfDocument _doc;
 
     public int Count => (int) Pdfium.FPDF_CountNamedDests(_doc.Handle);
-
-    internal PdfDestinationCollection(PdfDocument doc) =>
-        _doc = doc;
 
     public PdfDestination? this[string name]
     {
@@ -34,15 +31,20 @@ public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            var size = 0;
-            Pdfium.FPDF_GetNamedDest(_doc.Handle, index, IntPtr.Zero, ref size);
+            Pdfium.FPDF_GetNamedDest(_doc.Handle, index, IntPtr.Zero, out var size);
             return Unmanaged.WithHandle(new byte[size], (ptr, target) =>
             {
-                var destination = Pdfium.FPDF_GetNamedDest(_doc.Handle, index, ptr, ref size);
-                var name = Encoding.Unicode.GetString(target, 0, size);
-                return destination.IsNull() ? null : new PdfDestination(_doc, destination, name);
+                var destination = Pdfium.FPDF_GetNamedDest(_doc.Handle, index, ptr, out size);
+                return destination.IsNull()
+                    ? null
+                    : new PdfDestination(_doc, destination, Helper.GetString(target, size));
             });
         }
+    }
+
+    internal PdfDestinationCollection(PdfDocument doc)
+    {
+        _doc = doc;
     }
 
     IEnumerator<PdfDestination> IEnumerable<PdfDestination>.GetEnumerator()

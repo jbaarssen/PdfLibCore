@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using CppSharp;
 using CppSharp.AST;
 using CppSharp.Generators;
 using CppSharp.Parser;
-using CppSharp.Passes;
 using PdfLibCore.CppSharp.Models;
 using PdfLibCore.CppSharp.Passes;
-using Module = CppSharp.AST.Module;
+using YamlDotNet.Serialization;
 
 namespace PdfLibCore.CppSharp;
 
@@ -18,11 +15,17 @@ internal class Library : ILibrary
 {
     private readonly string _directoryName;
     private readonly RunnerOptions _options;
+    private readonly Dictionary<string, Dictionary<string, ParameterUsage>> _configuration;
 
     public Library(string directoryName, RunnerOptions options)
     {
         _directoryName = directoryName;
         _options = options;
+
+        var configStream = GetType().Assembly.GetManifestResourceStream("PdfLibCore.CppSharp.config.yml")!;
+        var sr = new StreamReader(configStream);
+        var deserializer = new DeserializerBuilder().Build();
+        _configuration = deserializer.Deserialize<Dictionary<string, Dictionary<string, ParameterUsage>>>(sr);
     }
 
     public void Preprocess(Driver driver, ASTContext ctx)
@@ -35,6 +38,7 @@ internal class Library : ILibrary
         foreach (var function in ctx.TranslationUnits.SelectMany(t => t.Functions))
         {
             function.Name = function.LogicalOriginalName;
+            CheckParameters(function);
         }
 
         // Fix for generating code which will not compile.
@@ -42,6 +46,19 @@ internal class Library : ILibrary
             .Properties
             .First(f => f.OriginalName == "m_pUserFontPaths")
             .Ignore = true;
+    }
+
+    private void CheckParameters(Function function)
+    {
+        if (!_configuration.TryGetValue(function.Name, out var parameters))
+        {
+            return;
+        }
+
+        foreach (var parameter in function.Parameters.Where(p => parameters.ContainsKey(p.Name)))
+        {
+            parameter.Usage = parameters[parameter.Name];
+        }
     }
 
     public void Setup(Driver driver)

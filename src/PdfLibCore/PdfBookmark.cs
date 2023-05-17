@@ -7,6 +7,10 @@ namespace PdfLibCore;
 
 public sealed class PdfBookmark : NativeDocumentWrapper<FPDF_Bookmark>
 {
+    public string Title => Helper.GetString((ptr, len) => Pdfium.FPDFBookmark_GetTitle(Handle, ptr, len)) ?? string.Empty;
+
+    public PdfDestination Destination => new(Document, Pdfium.FPDFBookmark_GetDest(Document.Handle, Handle), null);
+
     public IEnumerable<PdfBookmark> Children
     {
         get
@@ -19,10 +23,6 @@ public sealed class PdfBookmark : NativeDocumentWrapper<FPDF_Bookmark>
             }
         }
     }
-
-    public string Title => Helper.GetString((ptr, len) => Pdfium.FPDFBookmark_GetTitle(Handle, ptr, len));
-
-    public PdfDestination Destination => new(Document, Pdfium.FPDFBookmark_GetDest(Document.Handle, Handle), null);
 
     public PdfAction? Action
     {
@@ -37,4 +37,6 @@ public sealed class PdfBookmark : NativeDocumentWrapper<FPDF_Bookmark>
         : base(doc, handle)
     {
     }
+
+    public static PdfBookmark? Create(PdfDocument doc, FPDF_Bookmark handle) => handle.IsNull() ? null : new PdfBookmark(doc, handle);
 }

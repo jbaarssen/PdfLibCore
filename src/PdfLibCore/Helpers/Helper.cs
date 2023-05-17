@@ -6,7 +6,10 @@ namespace PdfLibCore.Helpers;
 
 internal  static class Helper
 {
-    internal static string GetString(Func<IntPtr, uint, uint> func, int lengthUnit = 1, bool lengthIncludesTerminator = true)
+    public static string? GetString(byte[] target, int size) =>
+        size <= 0 ? Encoding.Unicode.GetString(target, 0, size) : null;
+
+    internal static string? GetString(Func<IntPtr, uint, uint> func, int lengthUnit = 1, bool lengthIncludesTerminator = true)
     {
         var buffer = GetBuffer(func, out var length, Array.Empty<byte>());
         length *= lengthUnit;
@@ -14,7 +17,7 @@ internal  static class Helper
         {
             length -= 2;
         }
-        return Encoding.Unicode.GetString(buffer, 0, length > 0 ? length : 0);
+        return GetString(buffer, length > 0 ? length : 0);
     }
 
     private static T GetBuffer<T>(Func<IntPtr, uint, uint> func, out int length, T defaultValue)

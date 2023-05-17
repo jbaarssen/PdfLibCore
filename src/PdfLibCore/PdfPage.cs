@@ -53,7 +53,7 @@ public sealed class PdfPage : NativeDocumentWrapper<FPDF_Page>
 	/// </summary>
 	public int Index { get; internal set; }
 
-	public string Label => Helper.GetString((buffer, length) => Pdfium.FPDF_GetPageLabel(Document.Handle, Index, buffer, length));
+	public string Label => Helper.GetString((buffer, length) => Pdfium.FPDF_GetPageLabel(Document.Handle, Index, buffer, length)) ?? string.Empty;
 
 	private PdfPage(PdfDocument doc, FPDF_Page page, int index)
 		: base(doc, page)
@@ -89,22 +89,18 @@ public sealed class PdfPage : NativeDocumentWrapper<FPDF_Page>
 	public (double X, double Y) DeviceToPage((int left, int top, int width, int height) displayArea, int deviceX, int deviceY, PageOrientations orientation = PageOrientations.Normal)
 	{
 		var (left, top, width, height) = displayArea;
-		var x = 0d;
-		var y = 0d;
-		Pdfium.FPDF_DeviceToPage(Handle, left, top, width, height, (int)orientation, deviceX, deviceY, ref x, ref y);
+		Pdfium.FPDF_DeviceToPage(Handle, left, top, width, height, (int)orientation, deviceX, deviceY, out var x, out var y);
 		return (x, y);
 	}
 
 	public (int X, int Y) PageToDevice((int left, int top, int width, int height) displayArea, double pageX, double pageY, PageOrientations orientation = PageOrientations.Normal)
 	{
 		var (left, top, width, height) = displayArea;
-		var x = 0;
-		var y = 0;
-		Pdfium.FPDF_PageToDevice(Handle, left, top, width, height, (int)orientation, pageX, pageY, ref x, ref y);
+		Pdfium.FPDF_PageToDevice(Handle, left, top, width, height, (int)orientation, pageX, pageY, out var x, out var y);
 		return (x, y);
 	}
 
-	public FlattenResults Flatten(FlattenFlags flags) => 
+	public FlattenResults Flatten(FlattenFlags flags) =>
 		(FlattenResults)Pdfium.FPDFPage_Flatten(Handle, (int)flags);
 
 	protected override void OnDispose(FPDF_Page handle) =>

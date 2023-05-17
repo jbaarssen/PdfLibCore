@@ -1,7 +1,7 @@
 // Built from precompiled binaries at https://github.com/bblanchon/pdfium-binaries/releases/tag/chromium/5772
 // Github release api https://api.github.com/repos/bblanchon/pdfium-binaries/releases/102934879
 // PDFium version v115.0.5772.0 chromium/5772 [master]
-// Built on: Wed, 17 May 2023 14:53:10 GMT
+// Built on: Wed, 17 May 2023 18:47:10 GMT
 
 // ReSharper disable all
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
@@ -120,7 +120,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetMediaBox(global::PdfLibCore.Generated.FPDF_Page page, ref float left, ref float bottom, ref float right, ref float top)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetMediaBox(global::PdfLibCore.Generated.FPDF_Page page, out float left, out float bottom, out float right, out float top)
         {
             var __arg0 = page is null ? __IntPtr.Zero : page.__Instance;
             fixed (float* __left1 = &left)
@@ -144,7 +144,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetCropBox(global::PdfLibCore.Generated.FPDF_Page page, ref float left, ref float bottom, ref float right, ref float top)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetCropBox(global::PdfLibCore.Generated.FPDF_Page page, out float left, out float bottom, out float right, out float top)
         {
             var __arg0 = page is null ? __IntPtr.Zero : page.__Instance;
             fixed (float* __left1 = &left)
@@ -168,7 +168,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetBleedBox(global::PdfLibCore.Generated.FPDF_Page page, ref float left, ref float bottom, ref float right, ref float top)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetBleedBox(global::PdfLibCore.Generated.FPDF_Page page, out float left, out float bottom, out float right, out float top)
         {
             var __arg0 = page is null ? __IntPtr.Zero : page.__Instance;
             fixed (float* __left1 = &left)
@@ -192,7 +192,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetTrimBox(global::PdfLibCore.Generated.FPDF_Page page, ref float left, ref float bottom, ref float right, ref float top)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetTrimBox(global::PdfLibCore.Generated.FPDF_Page page, out float left, out float bottom, out float right, out float top)
         {
             var __arg0 = page is null ? __IntPtr.Zero : page.__Instance;
             fixed (float* __left1 = &left)
@@ -216,7 +216,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetArtBox(global::PdfLibCore.Generated.FPDF_Page page, ref float left, ref float bottom, ref float right, ref float top)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPage_GetArtBox(global::PdfLibCore.Generated.FPDF_Page page, out float left, out float bottom, out float right, out float top)
         {
             var __arg0 = page is null ? __IntPtr.Zero : page.__Instance;
             fixed (float* __left1 = &left)

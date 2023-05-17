@@ -14,6 +14,7 @@
         <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
         <PackageReference Include="SharpZipLib" Version="1.4.2" />
         <PackageReference Include="System.Memory.Data" Version="7.0.0" />
+        <PackageReference Include="YamlDotNet" Version="13.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -34,6 +35,8 @@
         
         <Content Include="Interfaces\ISafePointer.cs" />
         <EmbeddedResource Include="Interfaces\ISafePointer.cs" />
+        <None Remove="config.yml" />
+        <EmbeddedResource Include="config.yml" />
     </ItemGroup>
 
     <ItemGroup>

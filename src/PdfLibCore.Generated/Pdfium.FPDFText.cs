@@ -1,7 +1,7 @@
 // Built from precompiled binaries at https://github.com/bblanchon/pdfium-binaries/releases/tag/chromium/5772
 // Github release api https://api.github.com/repos/bblanchon/pdfium-binaries/releases/102934879
 // PDFium version v115.0.5772.0 chromium/5772 [master]
-// Built on: Wed, 17 May 2023 14:53:10 GMT
+// Built on: Wed, 17 May 2023 18:47:10 GMT
 
 // ReSharper disable all
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
@@ -251,7 +251,7 @@ namespace PdfLibCore.Generated
         /// set to the font flags. |buffer| is in UTF-8 encoding. Return 0 on
         /// failure.
         /// </returns>
-        public static uint FPDFText_GetFontInfo(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, __IntPtr buffer, uint buflen, ref int flags)
+        public static uint FPDFText_GetFontInfo(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, __IntPtr buffer, uint buflen, out int flags)
         {
             var __arg0 = text_page is null ? __IntPtr.Zero : text_page.__Instance;
             fixed (int* __flags4 = &flags)
@@ -301,7 +301,7 @@ namespace PdfLibCore.Generated
         /// <param name="B">Pointer to an unsigned int number receiving the blue value of the fill color.</param>
         /// <param name="A">Pointer to an unsigned int number receiving the alpha value of the fill color.</param>
         /// <returns>Whether the call succeeded. If false, |R|, |G|, |B| and |A| are unchanged.</returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetFillColor(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, ref uint R, ref uint G, ref uint B, ref uint A)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetFillColor(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, out uint R, out uint G, out uint B, out uint A)
         {
             var __arg0 = text_page is null ? __IntPtr.Zero : text_page.__Instance;
             fixed (uint* __R2 = &R)
@@ -332,7 +332,7 @@ namespace PdfLibCore.Generated
         /// <param name="B">Pointer to an unsigned int number receiving the blue value of the stroke color.</param>
         /// <param name="A">Pointer to an unsigned int number receiving the alpha value of the stroke color.</param>
         /// <returns>Whether the call succeeded. If false, |R|, |G|, |B| and |A| are unchanged.</returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetStrokeColor(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, ref uint R, ref uint G, ref uint B, ref uint A)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetStrokeColor(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, out uint R, out uint G, out uint B, out uint A)
         {
             var __arg0 = text_page is null ? __IntPtr.Zero : text_page.__Instance;
             fixed (uint* __R2 = &R)
@@ -383,7 +383,7 @@ namespace PdfLibCore.Generated
         /// |top|. If |text_page| is invalid, or if |index| is out of bounds,
         /// then return FALSE, and the out parameters remain unmodified.
         /// </returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetCharBox(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, ref double left, ref double right, ref double bottom, ref double top)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetCharBox(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, out double left, out double right, out double bottom, out double top)
         {
             var __arg0 = text_page is null ? __IntPtr.Zero : text_page.__Instance;
             fixed (double* __left2 = &left)
@@ -452,7 +452,7 @@ namespace PdfLibCore.Generated
         /// <param name="y">Pointer to a double number receiving y coordinate of the character origin.</param>
         /// <remarks>All positions are measured in PDF &quot;user space&quot;.</remarks>
         /// <returns>Whether the call succeeded. If false, x and y are unchanged.</returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetCharOrigin(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, ref double x, ref double y)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetCharOrigin(global::PdfLibCore.Generated.FPDF_Textpage text_page, int index, out double x, out double y)
         {
             var __arg0 = text_page is null ? __IntPtr.Zero : text_page.__Instance;
             fixed (double* __x2 = &x)
@@ -550,7 +550,7 @@ namespace PdfLibCore.Generated
         /// |rect_index| is out of bounds, then return FALSE and set the out
         /// parameters to 0.
         /// </returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetRect(global::PdfLibCore.Generated.FPDF_Textpage text_page, int rect_index, ref double left, ref double top, ref double right, ref double bottom)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFText_GetRect(global::PdfLibCore.Generated.FPDF_Textpage text_page, int rect_index, out double left, out double top, out double right, out double bottom)
         {
             var __arg0 = text_page is null ? __IntPtr.Zero : text_page.__Instance;
             fixed (double* __left2 = &left)
@@ -752,7 +752,7 @@ namespace PdfLibCore.Generated
         /// correspond to a valid link, then return FALSE, and the out
         /// parameters remain unmodified.
         /// </returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFLink_GetRect(global::PdfLibCore.Generated.FPDF_Pagelink link_page, int link_index, int rect_index, ref double left, ref double top, ref double right, ref double bottom)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFLink_GetRect(global::PdfLibCore.Generated.FPDF_Pagelink link_page, int link_index, int rect_index, out double left, out double top, out double right, out double bottom)
         {
             var __arg0 = link_page is null ? __IntPtr.Zero : link_page.__Instance;
             fixed (double* __left3 = &left)
@@ -786,7 +786,7 @@ namespace PdfLibCore.Generated
         /// not correspond to a valid link, then return FALSE and the out
         /// parameters remain unmodified.
         /// </returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFLink_GetTextRange(global::PdfLibCore.Generated.FPDF_Pagelink link_page, int link_index, ref int start_char_index, ref int char_count)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFLink_GetTextRange(global::PdfLibCore.Generated.FPDF_Pagelink link_page, int link_index, out int start_char_index, out int char_count)
         {
             var __arg0 = link_page is null ? __IntPtr.Zero : link_page.__Instance;
             fixed (int* __start_char_index2 = &start_char_index)

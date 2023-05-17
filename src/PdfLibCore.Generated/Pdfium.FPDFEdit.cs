@@ -1,7 +1,7 @@
 // Built from precompiled binaries at https://github.com/bblanchon/pdfium-binaries/releases/tag/chromium/5772
 // Github release api https://api.github.com/repos/bblanchon/pdfium-binaries/releases/102934879
 // PDFium version v115.0.5772.0 chromium/5772 [master]
-// Built on: Wed, 17 May 2023 14:53:09 GMT
+// Built on: Wed, 17 May 2023 18:47:10 GMT
 
 // ReSharper disable all
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
@@ -707,7 +707,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObjMark_GetName(global::PdfLibCore.Generated.FPDF_Pageobjectmark mark, __IntPtr buffer, uint buflen, ref uint out_buflen)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObjMark_GetName(global::PdfLibCore.Generated.FPDF_Pageobjectmark mark, __IntPtr buffer, uint buflen, out uint out_buflen)
         {
             var __arg0 = mark is null ? __IntPtr.Zero : mark.__Instance;
             fixed (uint* __out_buflen3 = &out_buflen)
@@ -727,7 +727,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObjMark_GetParamKey(global::PdfLibCore.Generated.FPDF_Pageobjectmark mark, uint index, __IntPtr buffer, uint buflen, ref uint out_buflen)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObjMark_GetParamKey(global::PdfLibCore.Generated.FPDF_Pageobjectmark mark, uint index, __IntPtr buffer, uint buflen, out uint out_buflen)
         {
             var __arg0 = mark is null ? __IntPtr.Zero : mark.__Instance;
             fixed (uint* __out_buflen4 = &out_buflen)
@@ -759,7 +759,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObjMark_GetParamStringValue(global::PdfLibCore.Generated.FPDF_Pageobjectmark mark, string key, __IntPtr buffer, uint buflen, ref uint out_buflen)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObjMark_GetParamStringValue(global::PdfLibCore.Generated.FPDF_Pageobjectmark mark, string key, __IntPtr buffer, uint buflen, out uint out_buflen)
         {
             var __arg0 = mark is null ? __IntPtr.Zero : mark.__Instance;
             fixed (uint* __out_buflen4 = &out_buflen)
@@ -771,7 +771,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObjMark_GetParamBlobValue(global::PdfLibCore.Generated.FPDF_Pageobjectmark mark, string key, __IntPtr buffer, uint buflen, ref uint out_buflen)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObjMark_GetParamBlobValue(global::PdfLibCore.Generated.FPDF_Pageobjectmark mark, string key, __IntPtr buffer, uint buflen, out uint out_buflen)
         {
             var __arg0 = mark is null ? __IntPtr.Zero : mark.__Instance;
             fixed (uint* __out_buflen4 = &out_buflen)
@@ -915,10 +915,11 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFImageObj_GetImageMetadata(global::PdfLibCore.Generated.FPDF_Pageobject image_object, global::PdfLibCore.Generated.FPDF_Page page, global::PdfLibCore.Generated.FPDF_IMAGEOBJ_METADATA metadata)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFImageObj_GetImageMetadata(global::PdfLibCore.Generated.FPDF_Pageobject image_object, global::PdfLibCore.Generated.FPDF_Page page, out global::PdfLibCore.Generated.FPDF_IMAGEOBJ_METADATA metadata)
         {
             var __arg0 = image_object is null ? __IntPtr.Zero : image_object.__Instance;
             var __arg1 = page is null ? __IntPtr.Zero : page.__Instance;
+            metadata = new global::PdfLibCore.Generated.FPDF_IMAGEOBJ_METADATA();
             var __arg2 = metadata is null ? __IntPtr.Zero : metadata.__Instance;
             var ___ret = __Internal.FPDFImageObj_GetImageMetadata(__arg0, __arg1, __arg2);
             return ___ret;
@@ -957,7 +958,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObj_GetBounds(global::PdfLibCore.Generated.FPDF_Pageobject page_object, ref float left, ref float bottom, ref float right, ref float top)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObj_GetBounds(global::PdfLibCore.Generated.FPDF_Pageobject page_object, out float left, out float bottom, out float right, out float top)
         {
             var __arg0 = page_object is null ? __IntPtr.Zero : page_object.__Instance;
             fixed (float* __left1 = &left)
@@ -1005,7 +1006,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObj_GetStrokeColor(global::PdfLibCore.Generated.FPDF_Pageobject page_object, ref uint R, ref uint G, ref uint B, ref uint A)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObj_GetStrokeColor(global::PdfLibCore.Generated.FPDF_Pageobject page_object, out uint R, out uint G, out uint B, out uint A)
         {
             var __arg0 = page_object is null ? __IntPtr.Zero : page_object.__Instance;
             fixed (uint* __R1 = &R)
@@ -1037,7 +1038,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObj_GetStrokeWidth(global::PdfLibCore.Generated.FPDF_Pageobject page_object, ref float width)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObj_GetStrokeWidth(global::PdfLibCore.Generated.FPDF_Pageobject page_object, out float width)
         {
             var __arg0 = page_object is null ? __IntPtr.Zero : page_object.__Instance;
             fixed (float* __width1 = &width)
@@ -1089,7 +1090,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObj_GetFillColor(global::PdfLibCore.Generated.FPDF_Pageobject page_object, ref uint R, ref uint G, ref uint B, ref uint A)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPageObj_GetFillColor(global::PdfLibCore.Generated.FPDF_Pageobject page_object, out uint R, out uint G, out uint B, out uint A)
         {
             var __arg0 = page_object is null ? __IntPtr.Zero : page_object.__Instance;
             fixed (uint* __R1 = &R)
@@ -1182,7 +1183,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPathSegment_GetPoint(global::PdfLibCore.Generated.FpdfPathsegmentT segment, ref float x, ref float y)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPathSegment_GetPoint(global::PdfLibCore.Generated.FpdfPathsegmentT segment, out float x, out float y)
         {
             var __arg0 = segment is null ? __IntPtr.Zero : segment.__Instance;
             fixed (float* __x1 = &x)
@@ -1254,7 +1255,7 @@ namespace PdfLibCore.Generated
         }
 
 
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPath_GetDrawMode(global::PdfLibCore.Generated.FPDF_Pageobject path, ref int fillmode, ref global::PdfLibCore.Types.FPDF_BOOL stroke)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDFPath_GetDrawMode(global::PdfLibCore.Generated.FPDF_Pageobject path, ref int fillmode, out global::PdfLibCore.Types.FPDF_BOOL stroke)
         {
             var __arg0 = path is null ? __IntPtr.Zero : path.__Instance;
             fixed (int* __fillmode1 = &fillmode)

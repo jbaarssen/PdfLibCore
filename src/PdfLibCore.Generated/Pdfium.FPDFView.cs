@@ -1,7 +1,7 @@
 // Built from precompiled binaries at https://github.com/bblanchon/pdfium-binaries/releases/tag/chromium/5772
 // Github release api https://api.github.com/repos/bblanchon/pdfium-binaries/releases/102934879
 // PDFium version v115.0.5772.0 chromium/5772 [master]
-// Built on: Wed, 17 May 2023 14:53:09 GMT
+// Built on: Wed, 17 May 2023 18:47:09 GMT
 
 // ReSharper disable all
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
@@ -2975,7 +2975,7 @@ namespace PdfLibCore.Generated
         /// <param name="fileVersion">The PDF file version. File version: 14 for 1.4, 15 for 1.5, ...</param>
         /// <remarks>If the document was created by FPDF_CreateNewDocument, then this function will always fail.</remarks>
         /// <returns>True if succeeds, false otherwise.</returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDF_GetFileVersion(global::PdfLibCore.Generated.FPDF_Document doc, ref int fileVersion)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDF_GetFileVersion(global::PdfLibCore.Generated.FPDF_Document doc, out int fileVersion)
         {
             var __arg0 = doc is null ? __IntPtr.Zero : doc.__Instance;
             fixed (int* __fileVersion1 = &fileVersion)
@@ -3184,7 +3184,7 @@ namespace PdfLibCore.Generated
         /// Prefer FPDF_GetPageSizeByIndexF() above. This will be deprecated in
         /// the future.
         /// </returns>
-        public static int FPDF_GetPageSizeByIndex(global::PdfLibCore.Generated.FPDF_Document document, int page_index, ref double width, ref double height)
+        public static int FPDF_GetPageSizeByIndex(global::PdfLibCore.Generated.FPDF_Document document, int page_index, out double width, out double height)
         {
             var __arg0 = document is null ? __IntPtr.Zero : document.__Instance;
             fixed (double* __width2 = &width)
@@ -3310,7 +3310,7 @@ namespace PdfLibCore.Generated
         /// Returns true if the conversion succeeds, and |page_x| and |page_y|
         /// successfully receives the converted coordinates.
         /// </returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDF_DeviceToPage(global::PdfLibCore.Generated.FPDF_Page page, int start_x, int start_y, int size_x, int size_y, int rotate, int device_x, int device_y, ref double page_x, ref double page_y)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDF_DeviceToPage(global::PdfLibCore.Generated.FPDF_Page page, int start_x, int start_y, int size_x, int size_y, int rotate, int device_x, int device_y, out double page_x, out double page_y)
         {
             var __arg0 = page is null ? __IntPtr.Zero : page.__Instance;
             fixed (double* __page_x8 = &page_x)
@@ -3347,7 +3347,7 @@ namespace PdfLibCore.Generated
         /// Returns true if the conversion succeeds, and |device_x| and
         /// |device_y| successfully receives the converted coordinates.
         /// </returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDF_PageToDevice(global::PdfLibCore.Generated.FPDF_Page page, int start_x, int start_y, int size_x, int size_y, int rotate, double page_x, double page_y, ref int device_x, ref int device_y)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDF_PageToDevice(global::PdfLibCore.Generated.FPDF_Page page, int start_x, int start_y, int size_x, int size_y, int rotate, double page_x, double page_y, out int device_x, out int device_y)
         {
             var __arg0 = page is null ? __IntPtr.Zero : page.__Instance;
             fixed (int* __device_x8 = &device_x)
@@ -3641,7 +3641,7 @@ namespace PdfLibCore.Generated
         /// The destination handle for a given index, or NULL if there is no
         /// named destination corresponding to |index|.
         /// </returns>
-        public static global::PdfLibCore.Generated.FPDF_Dest FPDF_GetNamedDest(global::PdfLibCore.Generated.FPDF_Document document, int index, __IntPtr buffer, ref int buflen)
+        public static global::PdfLibCore.Generated.FPDF_Dest FPDF_GetNamedDest(global::PdfLibCore.Generated.FPDF_Document document, int index, __IntPtr buffer, out int buflen)
         {
             var __arg0 = document is null ? __IntPtr.Zero : document.__Instance;
             fixed (int* __buflen3 = &buflen)

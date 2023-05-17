@@ -1,0 +1,166 @@
+﻿FPDF_GetFileVersion:
+  fileVersion: Out
+
+FPDF_GetPageSizeByIndex:
+  width: Out
+  height: Out
+
+FPDF_DeviceToPage:
+  page_x: Out
+  page_y: Out
+
+FPDF_PageToDevice:
+  device_x: Out
+  device_y: Out
+
+FPDF_GetNamedDest:
+  buflen: Out
+
+FPDFDest_GetView:
+  pNumParams: Out
+
+FPDFDest_GetLocationInPage:
+  hasXVal: Out
+  hasYVal: Out
+  hasZoomVal: Out
+  x: Out
+  y: Out
+  zoom: Out
+
+FPDFLink_Enumerate:
+  linkAnnot: Out
+
+FPDFLink_GetAnnotRect:
+  rect: Out
+
+FPDFLink_GetQuadPoints:
+  quadPoints: Out
+
+FPDFPageObjMark_GetName:
+  out_buflen: Out
+
+FPDFPageObjMark_GetParamKey:
+  out_buflen: Out
+
+FPDFPageObjMark_GetParamIntValue:
+  out_buflen: Out
+
+FPDFPageObjMark_GetParamStringValue:
+  out_buflen: Out
+
+FPDFPageObjMark_GetParamBlobValue:
+  out_buflen: Out
+
+FPDFImageObj_GetMatrix:
+  a: Out
+  b: Out
+  c: Out
+  d: Out
+  e: Out
+  f: Out
+
+FPDFImageObj_GetImageMetadata:
+  metadata: Out
+
+FPDFPageObj_GetBounds:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFPageObj_GetStrokeColor:
+  R: Out
+  G: Out
+  B: Out
+  A: Out
+
+FPDFPageObj_GetStrokeWidth:
+  width: Out
+
+FPDFPageObj_GetFillColor:
+  R: Out
+  G: Out
+  B: Out
+  A: Out
+
+FPDFPathSegment_GetPoint:
+  x: Out
+  y: Out
+
+FPDFPath_GetDrawMode:
+  fillMode: Out
+  stroke: Out
+
+FPDFText_GetFontInfo:
+  flags: Out
+
+FPDFText_GetFillColor:
+  R: Out
+  G: Out
+  B: Out
+  A: Out
+
+FPDFText_GetStrokeColor:
+  R: Out
+  G: Out
+  B: Out
+  A: Out
+
+FPDFText_GetCharBox:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFText_GetCharOrigin:
+  x: Out
+  y: Out
+
+FPDFText_GetRect:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFLink_GetRect:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFLink_GetTextRange:
+  start_char_index: Out
+  char_count: Out
+
+FPDFPage_GetMediaBox:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFPage_GetCropBox:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFPage_GetBleedBox:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFPage_GetTrimBox:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFPage_GetArtBox:
+  left: Out
+  bottom: Out
+  right: Out
+  top: Out
+
+FPDFBookmark_Find:
+  title: Unknown
