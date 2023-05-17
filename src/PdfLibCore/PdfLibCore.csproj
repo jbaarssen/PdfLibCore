@@ -37,20 +37,6 @@
             <PackagePath>icon.png</PackagePath>
             <Link>icon.png</Link>
         </Content>
-<<<<<<< HEAD
-=======
-        <None Update="Pdfium.xml">
-          <DependentUpon>Pdfium.tt</DependentUpon>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="Pdfium.g.cs">
-        <AutoGen>True</AutoGen>
-        <DesignTime>True</DesignTime>
-        <DependentUpon>Pdfium.tt</DependentUpon>
-      </Compile>
->>>>>>> 9334cd4692b2ec674ef94a8dfaf1d40bf65023a3
     </ItemGroup>
 
     <ItemGroup>
