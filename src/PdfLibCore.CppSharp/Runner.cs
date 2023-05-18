@@ -87,45 +87,11 @@ public partial class Runner
             }
             Directory.CreateDirectory(_options.PdfiumGeneratedProjectDir);
 
-            await CopyAsync("Marshallers", "Types", "Interfaces");
-
-            await CreateAsync("Pdfium.cs", $@"// ReSharper disable once CheckNamespace
-namespace PdfLibCore.Generated;
-
-public static partial class {_options.SharedLibraryName}
-{{
-    public static bool IsAvailable {{ get; }}
-
-	static {_options.SharedLibraryName}()
-	{{
-		IsAvailable = Initialize();
-	}}
-
-	private static bool Initialize()
-	{{
-		try
-		{{
-			FPDF_InitLibrary();
-		}}
-		catch
-		{{
-			return false;
-		}}
-		return true;
-	}}
-}}");
+            await CopyResourcesAsync("Marshalers", "Types", "Interfaces");
 
             var generatedCsPaths = Directory.GetFiles(win64Info.ExtractedLibBaseDirectory, "fpdf*.cs");
             foreach (var generatedCsPath in generatedCsPaths)
             {
-                // Add the additional build information in the header.
-                var fileContents = await File.ReadAllTextAsync(generatedCsPath);
-
-                fileContents = CommentHelper.Replace(fileContents);
-                fileContents = fileContents.Replace(
-                    $"public unsafe partial class {_options.SharedLibraryName}",
-                    $"public static unsafe partial class {_options.SharedLibraryName}");
-
                 var fileName = Path.GetFileName(generatedCsPath);
                 _logger.Information("Copying '{File}'", fileName);
                 fileName = fileName.Replace("fpdf", "FPDF").Replace("_", string.Empty);
@@ -141,35 +107,33 @@ public static partial class {_options.SharedLibraryName}
                 await sw.WriteLineAsync("// ReSharper disable all");
                 await sw.WriteLineAsync("#pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type");
                 await sw.WriteLineAsync(string.Empty);
-                await sw.WriteAsync(fileContents);
+                await sw.WriteAsync(CommentHelper.Replace(await File.ReadAllTextAsync(generatedCsPath)));
+                await sw.WriteLineAsync("#pragma warning restore");
             }
         }
 
         _logger.Information("Done");
     }
 
-    private async Task CreateAsync(string filename, string content)
-    {
-        Directory.CreateDirectory(_options.PdfiumGeneratedProjectDir);
-        await File.WriteAllTextAsync(Path.Combine(_options.PdfiumGeneratedProjectDir, filename), content);
-    }
-
-    private async Task CopyAsync(params string[] namespaces)
+    private async Task CopyResourcesAsync(params string[] namespaces)
     {
         foreach (var ns in namespaces)
         {
             Directory.CreateDirectory(Path.Combine(_options.PdfiumGeneratedProjectDir, ns));
+        }
 
-            var names = GetType().Assembly.GetManifestResourceNames().Where(name => name.Contains(ns));
-            foreach (var fullName in names)
-            {
-                var file = string.Join('.', fullName.Split('.').Reverse().Take(2).Reverse());
+        var assm = GetType().Assembly;
+        foreach (var fullName in assm.GetManifestResourceNames().Where(n => n.Contains("Resources")))
+        {
+            var parts = fullName.Split('.').Reverse().ToList();
+            var file = string.Join('.', parts.Take(2).Reverse());
+            var folder = parts.Skip(2).Take(1).ToList()[0];
+            folder = "Resources".Equals(folder) ? string.Empty : folder;
 
-                _logger.Information("Copying {File}", Path.GetFileName(fullName));
+            _logger.Information("Copying {File}", Path.GetFileName(fullName));
 
-                var data = await BinaryData.FromStreamAsync(GetType().Assembly.GetManifestResourceStream(fullName)!);
-                await File.WriteAllBytesAsync(Path.Combine(_options.PdfiumGeneratedProjectDir, ns, file), data.ToArray());
-            }
+            var data = await BinaryData.FromStreamAsync(assm.GetManifestResourceStream(fullName)!);
+            await File.WriteAllBytesAsync(Path.Combine(_options.PdfiumGeneratedProjectDir, folder, file), data.ToArray());
         }
     }
 

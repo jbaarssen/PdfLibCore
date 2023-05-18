@@ -25,14 +25,9 @@ public sealed class PdfPage : NativeDocumentWrapper<FPDF_Page>
 	/// Gets the page width and height (excluding non-displayable area) measured in points.
 	/// One point is 1/72 inch(around 0.3528 mm).
 	/// </summary>
-	public (double Width, double Height) Size
-	{
-		get
-		{
-			FS_SIZEF_ size = new();
-			return Pdfium.FPDF_GetPageSizeByIndexF(Document.Handle, Index, size) ? (size.Width, size.Height) : throw new PdfiumException();
-		}
-	}
+	public (double Width, double Height) Size => Pdfium.FPDF_GetPageSizeByIndexF(Document.Handle, Index, out var size)
+		? (size.Width, size.Height)
+		: throw new PdfiumException();
 
 	/// <summary>
 	/// Gets the page orientation.

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using CppSharp.AST;
-using CppSharp.Parser.AST;
 using CppSharp.Types;
 using PdfLibCore.Types;
 using Type = CppSharp.AST.Type;
-using TypedefType = CppSharp.AST.TypedefType;
 
 namespace PdfLibCore.CppSharp;
 
@@ -17,6 +13,7 @@ public class PdfTypeMap : TypeMap
     {
         { nameof(FPDF_ERR), () => typeof(FPDF_ERR) },
         { nameof(FPDF_BOOL), () => typeof(FPDF_BOOL) },
+        { nameof(FPDF_COLOR), () => typeof(FPDF_COLOR) },
         { "FPDF_WIDESTRING", () => typeof(string) },
         { "FPDF_WCHAR", () => typeof(string) },
         { "FPDF_BYTESTRING", () => typeof(string) },
@@ -25,11 +22,11 @@ public class PdfTypeMap : TypeMap
         { "FPDF_RESULT", () => typeof(int) }
     };
 
-    public static void Register(IDictionary<string, TypeMap> typeMaps)
+    public static void Register(TypeMapDatabase typeMap)
     {
         foreach (var type in Types.Keys)
         {
-            typeMaps.TryAdd(type, new PdfTypeMap(type));
+            typeMap.TypeMaps.TryAdd(type, new PdfTypeMap(type));
         }
     }
 
@@ -40,6 +37,7 @@ public class PdfTypeMap : TypeMap
     {
         _name = name;
         _type = new CILType(Types[_name]());
+        Type = _type;
     }
 
     public override Type CSharpSignatureType(TypePrinterContext ctx) => _type;

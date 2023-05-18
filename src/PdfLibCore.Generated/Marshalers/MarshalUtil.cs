@@ -38,7 +38,7 @@ public unsafe static class MarshalUtil
             _ => CountBytes<byte>((byte*) str)
         };
 
-        return encoding.GetString((byte*) str, byteCount);
+        return (encoding ?? Encoding.UTF8).GetString((byte*) str, byteCount);
     }
 
     public static T[] GetArray<T>(void* array, int size) where T : unmanaged

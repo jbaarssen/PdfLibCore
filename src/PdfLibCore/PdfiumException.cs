@@ -11,7 +11,12 @@ public sealed class PdfiumException : Exception
     }
 
     public PdfiumException()
-        : base($"PDFium Error: {Pdfium.FPDF_GetLastError()}")
+        : this($"PDFium Error: {Pdfium.FPDF_GetLastError()}")
+    {
+    }
+
+    public PdfiumException(string message)
+        : base(message)
     {
     }
 }

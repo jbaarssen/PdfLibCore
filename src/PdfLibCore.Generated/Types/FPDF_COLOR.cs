@@ -1,12 +1,12 @@
 using System.Runtime.InteropServices;
 
-// ReSharper disable InconsistentNaming
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable all
 namespace PdfLibCore.Types;
 
 [StructLayout(LayoutKind.Explicit)]
+#pragma warning disable S101
 public readonly struct FPDF_COLOR
+#pragma warning restore
 {
     [field: FieldOffset(0)]
     public byte A { get; }

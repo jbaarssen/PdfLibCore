@@ -1,7 +1,7 @@
 // Built from precompiled binaries at https://github.com/bblanchon/pdfium-binaries/releases/tag/chromium/5772
 // Github release api https://api.github.com/repos/bblanchon/pdfium-binaries/releases/102934879
 // PDFium version v115.0.5772.0 chromium/5772 [master]
-// Built on: Wed, 17 May 2023 18:47:09 GMT
+// Built on: Thu, 18 May 2023 14:08:48 GMT
 
 // ReSharper disable all
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
@@ -2674,7 +2674,7 @@ namespace PdfLibCore.Generated
         }
     }
 
-    public static unsafe partial class Pdfium
+    public unsafe partial class Pdfium
     {
         public partial struct __Internal
         {
@@ -2775,7 +2775,7 @@ namespace PdfLibCore.Generated
             internal static extern int FPDFBitmap_GetFormat(__IntPtr bitmap);
 
             [SuppressUnmanagedCodeSecurity, DllImport("Pdfium", EntryPoint = "FPDFBitmap_FillRect", CallingConvention = __CallingConvention.Cdecl)]
-            internal static extern void FPDFBitmap_FillRect(__IntPtr bitmap, int left, int top, int width, int height, long color);
+            internal static extern void FPDFBitmap_FillRect(__IntPtr bitmap, int left, int top, int width, int height, global::PdfLibCore.Types.FPDF_COLOR color);
 
             [SuppressUnmanagedCodeSecurity, DllImport("Pdfium", EntryPoint = "FPDFBitmap_GetBuffer", CallingConvention = __CallingConvention.Cdecl)]
             internal static extern __IntPtr FPDFBitmap_GetBuffer(__IntPtr bitmap);
@@ -3165,9 +3165,10 @@ namespace PdfLibCore.Generated
         /// <param name="page_index">Page index, zero for the first page.</param>
         /// <param name="size">Pointer to a FS_SIZEF to receive the page size. (in points).</param>
         /// <returns>Non-zero for success. 0 for error (document or page not found).</returns>
-        public static global::PdfLibCore.Types.FPDF_BOOL FPDF_GetPageSizeByIndexF(global::PdfLibCore.Generated.FPDF_Document document, int page_index, global::PdfLibCore.Generated.FS_SIZEF_ size)
+        public static global::PdfLibCore.Types.FPDF_BOOL FPDF_GetPageSizeByIndexF(global::PdfLibCore.Generated.FPDF_Document document, int page_index, out global::PdfLibCore.Generated.FS_SIZEF_ size)
         {
             var __arg0 = document is null ? __IntPtr.Zero : document.__Instance;
+            size = new global::PdfLibCore.Generated.FS_SIZEF_();
             var __arg2 = size is null ? __IntPtr.Zero : size.__Instance;
             var ___ret = __Internal.FPDF_GetPageSizeByIndexF(__arg0, page_index, __arg2);
             return ___ret;
@@ -3455,7 +3456,7 @@ namespace PdfLibCore.Generated
         /// background will be replaced by the source color and the alpha.
         /// If the alpha channel is not used, the alpha parameter is ignored.
         /// </remarks>
-        public static void FPDFBitmap_FillRect(global::PdfLibCore.Generated.FPDF_Bitmap bitmap, int left, int top, int width, int height, long color)
+        public static void FPDFBitmap_FillRect(global::PdfLibCore.Generated.FPDF_Bitmap bitmap, int left, int top, int width, int height, global::PdfLibCore.Types.FPDF_COLOR color)
         {
             var __arg0 = bitmap is null ? __IntPtr.Zero : bitmap.__Instance;
             __Internal.FPDFBitmap_FillRect(__arg0, left, top, width, height, color);
@@ -3715,3 +3716,4 @@ namespace PdfLibCore.Generated
         }
     }
 }
+#pragma warning restore

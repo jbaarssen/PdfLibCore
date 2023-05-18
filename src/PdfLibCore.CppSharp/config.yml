@@ -1,166 +1,316 @@
-﻿FPDF_GetFileVersion:
-  fileVersion: Out
+﻿Classes:
+  FPDF_LIBRARY_CONFIG_:
+    Properties:
+      m_pUserFontPaths:
+        Ignore: true
 
-FPDF_GetPageSizeByIndex:
-  width: Out
-  height: Out
+Methods:
+  FPDF_GetFileVersion:
+    Parameters:
+      fileVersion:
+        Usage: Out
 
-FPDF_DeviceToPage:
-  page_x: Out
-  page_y: Out
+  FPDF_GetPageSizeByIndex:
+    Parameters:
+      width:
+        Usage: Out
+      height:
+        Usage: Out
 
-FPDF_PageToDevice:
-  device_x: Out
-  device_y: Out
+  FPDF_DeviceToPage:
+    Parameters:
+      page_x:
+        Usage: Out
+      page_y:
+        Usage: Out
 
-FPDF_GetNamedDest:
-  buflen: Out
+  FPDF_PageToDevice:
+    Parameters:
+      device_x:
+        Usage: Out
+      device_y:
+        Usage: Out
 
-FPDFDest_GetView:
-  pNumParams: Out
+  FPDF_GetNamedDest:
+    Parameters:
+      buflen:
+        Usage: Out
 
-FPDFDest_GetLocationInPage:
-  hasXVal: Out
-  hasYVal: Out
-  hasZoomVal: Out
-  x: Out
-  y: Out
-  zoom: Out
+  FPDFDest_GetView:
+    Parameters:
+      pNumParams:
+        Usage: Out
 
-FPDFLink_Enumerate:
-  linkAnnot: Out
+  FPDFDest_GetLocationInPage:
+    Parameters:
+      hasXVal:
+        Usage: Out
+      hasYVal:
+        Usage: Out
+      hasZoomVal:
+        Usage: Out
+      x:
+        Usage: Out
+      y:
+        Usage: Out
+      zoom:
+        Usage: Out
 
-FPDFLink_GetAnnotRect:
-  rect: Out
+  FPDFLink_Enumerate:
+    Parameters:
+      linkAnnot:
+        Usage: Out
 
-FPDFLink_GetQuadPoints:
-  quadPoints: Out
+  FPDFLink_GetAnnotRect:
+    Parameters:
+      rect:
+        Usage: Out
 
-FPDFPageObjMark_GetName:
-  out_buflen: Out
+  FPDFLink_GetQuadPoints:
+    Parameters:
+      quadPoints:
+        Usage: Out
 
-FPDFPageObjMark_GetParamKey:
-  out_buflen: Out
+  FPDFPageObjMark_GetName:
+    Parameters:
+      out_buflen:
+        Usage: Out
 
-FPDFPageObjMark_GetParamIntValue:
-  out_buflen: Out
+  FPDFPageObjMark_GetParamKey:
+    Parameters:
+      out_buflen:
+        Usage: Out
 
-FPDFPageObjMark_GetParamStringValue:
-  out_buflen: Out
+  FPDFPageObjMark_GetParamIntValue:
+    Parameters:
+      out_buflen:
+        Usage: Out
 
-FPDFPageObjMark_GetParamBlobValue:
-  out_buflen: Out
+  FPDFPageObjMark_GetParamStringValue:
+    Parameters:
+      out_buflen:
+        Usage: Out
 
-FPDFImageObj_GetMatrix:
-  a: Out
-  b: Out
-  c: Out
-  d: Out
-  e: Out
-  f: Out
+  FPDFPageObjMark_GetParamBlobValue:
+    Parameters:
+      out_buflen:
+        Usage: Out
 
-FPDFImageObj_GetImageMetadata:
-  metadata: Out
+  FPDFImageObj_GetMatrix:
+    Parameters:
+      a:
+        Usage: Out
+      b:
+        Usage: Out
+      c:
+        Usage: Out
+      d:
+        Usage: Out
+      e:
+        Usage: Out
+      f:
+        Usage: Out
 
-FPDFPageObj_GetBounds:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFImageObj_GetImageMetadata:
+    Parameters:
+      metadata:
+        Usage: Out
 
-FPDFPageObj_GetStrokeColor:
-  R: Out
-  G: Out
-  B: Out
-  A: Out
+  FPDFPageObj_GetBounds:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
 
-FPDFPageObj_GetStrokeWidth:
-  width: Out
+  FPDFPageObj_GetStrokeColor:
+    Parameters:
+      R:
+        Usage: Out
+      G:
+        Usage: Out
+      B:
+        Usage: Out
+      A:
+        Usage: Out
 
-FPDFPageObj_GetFillColor:
-  R: Out
-  G: Out
-  B: Out
-  A: Out
+  FPDFPageObj_GetStrokeWidth:
+    Parameters:
+      width:
+        Usage: Out
 
-FPDFPathSegment_GetPoint:
-  x: Out
-  y: Out
+  FPDFPageObj_GetFillColor:
+    Parameters:
+      R:
+        Usage: Out
+      G:
+        Usage: Out
+      B:
+        Usage: Out
+      A:
+        Usage: Out
 
-FPDFPath_GetDrawMode:
-  fillMode: Out
-  stroke: Out
+  FPDFPathSegment_GetPoint:
+    Parameters:
+      x:
+        Usage: Out
+      y:
+        Usage: Out
 
-FPDFText_GetFontInfo:
-  flags: Out
+  FPDFPath_GetDrawMode:
+    Parameters:
+      fillMode:
+        Usage: Out
+      stroke:
+        Usage: Out
 
-FPDFText_GetFillColor:
-  R: Out
-  G: Out
-  B: Out
-  A: Out
+  FPDFText_GetFontInfo:
+    Parameters:
+      flags:
+        Usage: Out
 
-FPDFText_GetStrokeColor:
-  R: Out
-  G: Out
-  B: Out
-  A: Out
+  FPDFText_GetFillColor:
+    Parameters:
+      R:
+        Usage: Out
+      G:
+        Usage: Out
+      B:
+        Usage: Out
+      A:
+        Usage: Out
 
-FPDFText_GetCharBox:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFText_GetStrokeColor:
+    Parameters:
+      R:
+        Usage: Out
+      G:
+        Usage: Out
+      B:
+        Usage: Out
+      A:
+        Usage: Out
 
-FPDFText_GetCharOrigin:
-  x: Out
-  y: Out
+  FPDFText_GetCharBox:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
 
-FPDFText_GetRect:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFText_GetCharOrigin:
+    Parameters:
+      x:
+        Usage: Out
+      y:
+        Usage: Out
 
-FPDFLink_GetRect:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFText_GetRect:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
 
-FPDFLink_GetTextRange:
-  start_char_index: Out
-  char_count: Out
+  FPDFLink_GetRect:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
 
-FPDFPage_GetMediaBox:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFLink_GetTextRange:
+    Parameters:
+      start_char_index:
+        Usage: Out
+      char_count:
+        Usage: Out
 
-FPDFPage_GetCropBox:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFPage_GetMediaBox:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
 
-FPDFPage_GetBleedBox:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFPage_GetCropBox:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
 
-FPDFPage_GetTrimBox:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFPage_GetBleedBox:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
 
-FPDFPage_GetArtBox:
-  left: Out
-  bottom: Out
-  right: Out
-  top: Out
+  FPDFPage_GetTrimBox:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
 
-FPDFBookmark_Find:
-  title: Unknown
+  FPDFPage_GetArtBox:
+    Parameters:
+      left:
+        Usage: Out
+      bottom:
+        Usage: Out
+      right:
+        Usage: Out
+      top:
+        Usage: Out
+
+  FPDFBitmap_FillRect:
+    Parameters:
+      color:
+        Type: FPDF_COLOR
+
+  FPDFBookmark_Find:
+    Parameters:
+      title:
+        Usage: In
+
+  FPDF_GetLastError:
+    ReturnType: FPDF_ERR
+
+  FPDF_GetPageSizeByIndexF:
+    Parameters:
+      size:
+        Usage: Out

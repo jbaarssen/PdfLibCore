@@ -9,5 +9,5 @@ public abstract class NativeDocumentWrapper<T> : NativeWrapper<T>
 
     protected NativeDocumentWrapper(PdfDocument document, T handle)
         : base(handle) =>
-        Document = document ?? throw new PdfiumException();
+        Document = document ?? throw new PdfiumException("Document is null");
 }

@@ -1,7 +1,7 @@
 // Built from precompiled binaries at https://github.com/bblanchon/pdfium-binaries/releases/tag/chromium/5772
 // Github release api https://api.github.com/repos/bblanchon/pdfium-binaries/releases/102934879
 // PDFium version v115.0.5772.0 chromium/5772 [master]
-// Built on: Wed, 17 May 2023 18:47:10 GMT
+// Built on: Thu, 18 May 2023 14:08:48 GMT
 
 // ReSharper disable all
 #pragma warning disable CS8500 // This takes the address of, gets the size of, or declares a pointer to a managed type
@@ -363,7 +363,7 @@ namespace PdfLibCore.Generated
         }
     }
 
-    public static unsafe partial class Pdfium
+    public unsafe partial class Pdfium
     {
         public partial struct __Internal
         {
@@ -455,3 +455,4 @@ namespace PdfLibCore.Generated
         }
     }
 }
+#pragma warning restore

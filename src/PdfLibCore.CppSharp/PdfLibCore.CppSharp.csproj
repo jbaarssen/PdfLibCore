@@ -18,31 +18,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Marshallers\MarshalUtil.cs" />
-        <EmbeddedResource Include="Marshallers\MarshalUtil.cs" />
+        <Compile Remove="Resources\Marshalers\MarshalUtil.cs" />
+        <Compile Remove="Resources\Marshalers\UTF8Marshaler.cs" />
+        <Compile Remove="Resources\Pdfium.cs" />
         
-        <Compile Remove="Marshallers\UTF8Marshaller.cs" />
-        <EmbeddedResource Include="Marshallers\UTF8Marshaller.cs" />
-        
-        <Content Include="Types\FPDF_BOOL.cs" />
-        <EmbeddedResource Include="Types\FPDF_BOOL.cs" />
-        
-        <Content Include="Types\FPDF_ERR.cs" />
-        <EmbeddedResource Include="Types\FPDF_ERR.cs" />
-        
-        <Content Include="Interfaces\IHandle.cs" />
-        <EmbeddedResource Include="Interfaces\IHandle.cs" />
-        
-        <Content Include="Interfaces\ISafePointer.cs" />
-        <EmbeddedResource Include="Interfaces\ISafePointer.cs" />
-        <None Remove="config.yml" />
         <EmbeddedResource Include="config.yml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="C\pdflibcore.h">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <EmbeddedResource Include="Resources\Interfaces\ISafePointer.cs" />
+        <EmbeddedResource Include="Resources\Marshalers\MarshalUtil.cs" />
+        <EmbeddedResource Include="Resources\Marshalers\UTF8Marshaler.cs" />
+        <EmbeddedResource Include="Resources\Types\FPDF_BOOL.cs" />
+        <EmbeddedResource Include="Resources\Types\FPDF_COLOR.cs" />
+        <EmbeddedResource Include="Resources\Types\FPDF_ERR.cs" />
+        <EmbeddedResource Include="Resources\Pdfium.cs" />
     </ItemGroup>
 
 </Project>

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using CppSharp;
 using CppSharp.AST;
 using CppSharp.Generators;
 using CppSharp.Parser;
+using CppSharp.Types;
+using PdfLibCore.CppSharp.Config;
 using PdfLibCore.CppSharp.Models;
 using PdfLibCore.CppSharp.Passes;
 using YamlDotNet.Serialization;
@@ -15,22 +16,22 @@ internal class Library : ILibrary
 {
     private readonly string _directoryName;
     private readonly RunnerOptions _options;
-    private readonly Dictionary<string, Dictionary<string, ParameterUsage>> _configuration;
+    private readonly Configuration _configuration;
 
     public Library(string directoryName, RunnerOptions options)
     {
         _directoryName = directoryName;
         _options = options;
 
-        var configStream = GetType().Assembly.GetManifestResourceStream("PdfLibCore.CppSharp.config.yml")!;
-        var sr = new StreamReader(configStream);
+        var configStream = GetType().Assembly.GetManifestResourceStream($"{typeof(Runner).Namespace}.config.yml")!;
+        using var sr = new StreamReader(configStream);
         var deserializer = new DeserializerBuilder().Build();
-        _configuration = deserializer.Deserialize<Dictionary<string, Dictionary<string, ParameterUsage>>>(sr);
+        _configuration = deserializer.Deserialize<Configuration>(sr);
     }
 
     public void Preprocess(Driver driver, ASTContext ctx)
     {
-        PdfTypeMap.Register(driver.Context.TypeMaps.TypeMaps);
+        PdfTypeMap.Register(driver.Context.TypeMaps);
     }
 
     public void Postprocess(Driver driver, ASTContext ctx)
@@ -38,27 +39,10 @@ internal class Library : ILibrary
         foreach (var function in ctx.TranslationUnits.SelectMany(t => t.Functions))
         {
             function.Name = function.LogicalOriginalName;
-            CheckParameters(function);
+            CheckParameters(function, driver.Context.TypeMaps);
         }
 
-        // Fix for generating code which will not compile.
-        ctx.FindCompleteClass("FPDF_LIBRARY_CONFIG_")
-            .Properties
-            .First(f => f.OriginalName == "m_pUserFontPaths")
-            .Ignore = true;
-    }
-
-    private void CheckParameters(Function function)
-    {
-        if (!_configuration.TryGetValue(function.Name, out var parameters))
-        {
-            return;
-        }
-
-        foreach (var parameter in function.Parameters.Where(p => parameters.ContainsKey(p.Name)))
-        {
-            parameter.Usage = parameters[parameter.Name];
-        }
+        CheckClasses(ctx);
     }
 
     public void Setup(Driver driver)
@@ -93,9 +77,50 @@ internal class Library : ILibrary
     {
         driver.AddTranslationUnitPass(new PrepareCommentsPass());
         driver.AddTranslationUnitPass(new RenameClasses());
-        driver.AddTranslationUnitPass(new FixMethods());
 
         driver.AddGeneratorOutputPass(new RenameGeneratedClasses(_options));
         driver.AddGeneratorOutputPass(new AddSafePointerInterface());
+    }
+
+     private void CheckParameters(Function function, TypeMapDatabase typeMaps)
+    {
+        if (!_configuration.Methods.TryGetValue(function.Name, out var method))
+        {
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(method.ReturnType) && typeMaps.FindTypeMap(method.ReturnType, out var returnType))
+        {
+            function.ReturnType = new QualifiedType(returnType.Type);
+        }
+
+        foreach (var funcParam in function.Parameters.Where(p => method.Parameters.ContainsKey(p.Name)))
+        {
+            var param = method.Parameters[funcParam.Name];
+
+            funcParam.Usage = param.Usage;
+            funcParam.QualifiedType = typeMaps.FindTypeMap(param.Type ?? string.Empty, out var map)
+                ? new QualifiedType(map.Type)
+                : funcParam.QualifiedType;
+        }
+    }
+
+    private void CheckClasses(ASTContext ctx)
+    {
+        foreach (var @class in ctx.TranslationUnits.SelectMany(t => t.Classes))
+        {
+            if (!_configuration.Classes.TryGetValue(@class.Name, out var foundClass))
+            {
+                continue;
+            }
+
+            foreach (var property in @class.Properties)
+            {
+                if (foundClass.Properties.TryGetValue(property.OriginalName, out var foundProperty))
+                {
+                    property.Ignore = foundProperty.Ignore;
+                }
+            }
+        }
     }
 }
