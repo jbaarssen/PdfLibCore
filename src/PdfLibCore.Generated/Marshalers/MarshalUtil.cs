@@ -8,20 +8,19 @@ namespace CppSharp.Runtime;
 
 public unsafe static class MarshalUtil
 {
-    public static string GetString(Action<IntPtr> action, Encoding encoding = null)
+    public static string GetString(Func<IntPtr, uint, uint> func, int lengthUnit = 1, bool lengthIncludesTerminator = true)
     {
-        var buffer = GCHandle.Alloc(Array.Empty<byte>(), GCHandleType.Pinned);
-        try
+        var buffer = GetBuffer(func, out var length);
+        length *= lengthUnit;
+        if (lengthIncludesTerminator)
         {
-            var ptr = buffer.AddrOfPinnedObject();
-            action(ptr);
-            return GetString(encoding ?? Encoding.UTF8, ptr);
+            length -= 2;
         }
-        finally
-        {
-            buffer.Free();
-        }
+        return GetString(buffer, length);
     }
+
+    public static string GetString(byte[] target, int size) =>
+        size > 0 ? Encoding.Unicode.GetString(target, 0, size) : null;
 
     public static string GetString(Encoding encoding, IntPtr str)
     {
@@ -30,52 +29,33 @@ public unsafe static class MarshalUtil
             return null;
         }
 
-        var byteCount = encoding switch
+        var bytes = Marshal.PtrToStructure<byte[]>(str);
+
+        return (encoding ?? Encoding.UTF8).GetString((byte*) str, encoding switch
         {
             { } when Encoding.UTF32.Equals(encoding) => CountBytes<int>((int*) str),
             { } when Encoding.Unicode.Equals(encoding) => CountBytes<short>((short*) str),
             { } when Encoding.BigEndianUnicode.Equals(encoding) => CountBytes<short>((short*) str),
             _ => CountBytes<byte>((byte*) str)
-        };
-
-        return (encoding ?? Encoding.UTF8).GetString((byte*) str, byteCount);
+        });
     }
 
-    public static T[] GetArray<T>(void* array, int size) where T : unmanaged
+    private unsafe static byte[] GetBuffer(Func<IntPtr, uint, uint> func, out int length)
     {
-        if (array == null)
+        fixed (byte* bufferPointer = Array.Empty<byte>())
         {
-            return Array.Empty<T>();
+            length = (int) func(new IntPtr(bufferPointer), 0);
         }
-        var result = new T[size];
-        fixed (void* fixedResult = result)
+
+        var buffer = new byte[length];
+        fixed (byte* pointer = buffer)
         {
-            Buffer.MemoryCopy(array, fixedResult, sizeof(T) * size, sizeof(T) * size);
+            length = (int) func(new IntPtr(pointer), (uint) buffer.Length);
         }
-        return result;
+        return buffer;
     }
 
-    public static char[] GetCharArray(sbyte* array, int size)
-    {
-        if (array == null)
-        {
-            return Array.Empty<char>();
-        }
-        var result = new char[size];
-        for (var i = 0; i < size; ++i)
-        {
-            result[i] = Convert.ToChar(array[i]);
-        }
-        return result;
-    }
-
-    public static IntPtr[] GetIntPtrArray(IntPtr* array, int size) =>
-        GetArray<IntPtr>(array, size);
-
-    public static T GetDelegate<T>(IntPtr[] vtables, short table, int i) where T : class =>
-        Marshal.GetDelegateForFunctionPointer<T>(*(IntPtr*) (vtables[table] + i * sizeof(IntPtr)));
-
-    public static unsafe int CountBytes<T>(T* str) where T : unmanaged
+    private static unsafe int CountBytes<T>(T* str) where T : unmanaged
     {
         int byteCount = 0;
         T nullValue = default(T);

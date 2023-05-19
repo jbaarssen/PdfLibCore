@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Text.RegularExpressions;
 using CppSharp.AST;
 using CppSharp.Passes;

@@ -1,6 +1,6 @@
-﻿using PdfLibCore.Enums;
+﻿using CppSharp.Runtime;
+using PdfLibCore.Enums;
 using PdfLibCore.Generated;
-using PdfLibCore.Helpers;
 using PdfLibCore.Types;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -48,7 +48,7 @@ public sealed class PdfPage : NativeDocumentWrapper<FPDF_Page>
 	/// </summary>
 	public int Index { get; internal set; }
 
-	public string Label => Helper.GetString((buffer, length) => Pdfium.FPDF_GetPageLabel(Document.Handle, Index, buffer, length)) ?? string.Empty;
+	public string Label => MarshalUtil.GetString((buffer, length) => Pdfium.FPDF_GetPageLabel(Document.Handle, Index, buffer, length)) ?? string.Empty;
 
 	private PdfPage(PdfDocument doc, FPDF_Page page, int index)
 		: base(doc, page)
@@ -83,15 +83,13 @@ public sealed class PdfPage : NativeDocumentWrapper<FPDF_Page>
 		
 	public (double X, double Y) DeviceToPage((int left, int top, int width, int height) displayArea, int deviceX, int deviceY, PageOrientations orientation = PageOrientations.Normal)
 	{
-		var (left, top, width, height) = displayArea;
-		Pdfium.FPDF_DeviceToPage(Handle, left, top, width, height, (int)orientation, deviceX, deviceY, out var x, out var y);
+		Pdfium.FPDF_DeviceToPage(Handle, displayArea.left, displayArea.top, displayArea.width, displayArea.height, (int)orientation, deviceX, deviceY, out var x, out var y);
 		return (x, y);
 	}
 
 	public (int X, int Y) PageToDevice((int left, int top, int width, int height) displayArea, double pageX, double pageY, PageOrientations orientation = PageOrientations.Normal)
 	{
-		var (left, top, width, height) = displayArea;
-		Pdfium.FPDF_PageToDevice(Handle, left, top, width, height, (int)orientation, pageX, pageY, out var x, out var y);
+		Pdfium.FPDF_PageToDevice(Handle, displayArea.left, displayArea.top, displayArea.width, displayArea.height, (int)orientation, pageX, pageY, out var x, out var y);
 		return (x, y);
 	}
 

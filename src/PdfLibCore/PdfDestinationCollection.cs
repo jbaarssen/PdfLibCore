@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using CppSharp.Runtime;
 using PdfLibCore.Generated;
-using PdfLibCore.Helpers;
 
 namespace PdfLibCore;
 
@@ -37,7 +37,7 @@ public sealed class PdfDestinationCollection : IEnumerable<PdfDestination>
                 var destination = Pdfium.FPDF_GetNamedDest(_doc.Handle, index, ptr, out size);
                 return destination.IsNull()
                     ? null
-                    : new PdfDestination(_doc, destination, Helper.GetString(target, size));
+                    : new PdfDestination(_doc, destination, MarshalUtil.GetString(target, size));
             });
         }
     }

@@ -6,11 +6,10 @@ using System.Text;
 namespace CppSharp.Runtime;
 
 // HACK: .NET Standard 2.0 which we use in auto-building to support .NET Framework, lacks UnmanagedType.LPUTF8Str
-#pragma warning disable S101, S1186
+#pragma warning disable S101, S1186, CS0436
 public class UTF8Marshaller : ICustomMarshaler
-#pragma warning restore
 {
-    private static UTF8Marshaller _marshaller;
+    private static UTF8Marshaller _marshaler;
 
     public void CleanUpManagedData(object ManagedObj)
     {
@@ -42,10 +41,10 @@ public class UTF8Marshaller : ICustomMarshaler
         return buffer;
     }
 
-    public unsafe object MarshalNativeToManaged(IntPtr pNativeData) => pNativeData == IntPtr.Zero
-        ? null
-        : Encoding.UTF8.GetString((byte*) pNativeData, MarshalUtil.CountBytes<byte>((byte*) pNativeData));
+    public unsafe object MarshalNativeToManaged(IntPtr pNativeData) =>
+        MarshalUtil.GetString(Encoding.UTF8, pNativeData);
 
     public static ICustomMarshaler GetInstance(string pstrCookie) =>
-        _marshaller ??= new UTF8Marshaller();
+        _marshaler ??= new UTF8Marshaller();
 }
+#pragma warning restore

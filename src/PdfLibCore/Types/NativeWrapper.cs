@@ -19,8 +19,10 @@ public abstract class NativeWrapper<T> : IDisposable
     /// </summary>
     public bool IsDisposed => _handle.IsNull();
 
-    protected NativeWrapper(T handle) =>
+    protected NativeWrapper(T handle)
+    {
         _handle = handle.IsNull() ? throw new PdfiumException() : handle;
+    }
 
     /// <summary>
     /// Implementors should clean up here. This method is guaranteed to only be called once.

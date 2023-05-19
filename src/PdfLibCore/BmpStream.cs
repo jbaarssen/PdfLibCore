@@ -7,6 +7,7 @@ namespace PdfLibCore;
 
 internal sealed class BmpStream : Stream
 {
+    private const double MetersPerInch = 0.0254;
     private const uint BmpHeaderSize = 14;
     private const uint DibHeaderSize = 108; // BITMAPV4HEADER
     private const uint PixelArrayOffset = BmpHeaderSize + DibHeaderSize;
@@ -17,11 +18,12 @@ internal sealed class BmpStream : Stream
     private const uint MaskA = 0xFF_00_00_00;
 
     private readonly PdfiumBitmap _bitmap;
-    private readonly byte[] _header;
     private readonly uint _length;
     private readonly uint _stride;
     private readonly uint _rowLength;
     private uint _pos;
+    private readonly double _dpiX;
+    private readonly double _dpiY;
 
     public override bool CanRead => true;
 
@@ -39,22 +41,19 @@ internal sealed class BmpStream : Stream
 
     public BmpStream(PdfiumBitmap bitmap, double dpiX, double dpiY)
     {
-        if (bitmap.Format == BitmapFormats.Gray)
-        {
-            throw new NotSupportedException($"Bitmap format {bitmap.Format} is not yet supported.");
-        }
-
-        _bitmap = bitmap;
+        _dpiX = dpiX;
+        _dpiY = dpiY;
+        _bitmap = bitmap.Format == BitmapFormats.Gray
+            ? throw new NotSupportedException($"Bitmap format {bitmap.Format} is not yet supported.")
+            : bitmap;
         _rowLength = (uint) bitmap.BytesPerPixel * (uint) bitmap.Width;
         _stride = ((uint) bitmap.BytesPerPixel * 8 * (uint) bitmap.Width + 31) / 32 * 4;
         _length = PixelArrayOffset + _stride * (uint) bitmap.Height;
-        _header = GetHeader(_length, _bitmap, dpiX, dpiY);
         _pos = 0;
     }
 
     private static byte[] GetHeader(uint fileSize, PdfiumBitmap bitmap, double dpiX, double dpiY)
     {
-        const double metersPerInch = 0.0254;
         var header = new byte[BmpHeaderSize + DibHeaderSize];
 
         using var ms = new MemoryStream(header);
@@ -71,8 +70,8 @@ internal sealed class BmpStream : Stream
         writer.Write((ushort) (bitmap.BytesPerPixel * 8));
         writer.Write(CompressionMethod);
         writer.Write(0);
-        writer.Write((int) Math.Round(dpiX / metersPerInch));
-        writer.Write((int) Math.Round(dpiY / metersPerInch));
+        writer.Write((int) Math.Round(dpiX / MetersPerInch));
+        writer.Write((int) Math.Round(dpiY / MetersPerInch));
         writer.Write(0L);
         writer.Write(MaskR);
         writer.Write(MaskG);
@@ -95,7 +94,12 @@ internal sealed class BmpStream : Stream
         if (_pos < PixelArrayOffset)
         {
             returnValue = Math.Min(count, (int) (PixelArrayOffset - _pos));
-            Buffer.BlockCopy(_header, (int) _pos, buffer, offset, returnValue);
+            Buffer.BlockCopy(
+                GetHeader(_length, _bitmap, _dpiX, _dpiY),
+                (int) _pos,
+                buffer,
+                offset,
+                returnValue);
             _pos += (uint) returnValue;
             offset += returnValue;
             bytesToRead -= returnValue;
@@ -117,29 +121,30 @@ internal sealed class BmpStream : Stream
             return returnValue;
         }
 
+        void Handle(int read)
+        {
+            offset += read;
+            idxBuffer += (uint) read;
+            bytesToRead -= read;
+            returnValue += read;
+        }
+
         while (bytesToRead > 0)
         {
-            var idxInStride = (int) (idxBuffer / _stride);
-            var leftInRow = Math.Max(0, (int) _rowLength - idxInStride);
-            var paddingBytes = (int) (_stride - _rowLength);
-            var read = Math.Min(bytesToRead, leftInRow);
+            var read = Math.Min(
+                bytesToRead,
+                Math.Max(0, (int) _rowLength - (int) (idxBuffer / _stride)));
             if (read > 0)
             {
                 Marshal.Copy(_bitmap.Scan0 + (int) idxBuffer, buffer, offset, read);
             }
-            offset += read;
-            idxBuffer += (uint) read;
-            bytesToRead -= read;
-            returnValue += read;
-            read = Math.Min(bytesToRead, paddingBytes);
+            Handle(read);
+            read = Math.Min(bytesToRead, (int) (_stride - _rowLength));
             for (var i = 0; i < read; i++)
             {
                 buffer[offset + i] = 0;
             }
-            offset += read;
-            idxBuffer += (uint) read;
-            bytesToRead -= read;
-            returnValue += read;
+            Handle(read);
         }
         _pos = PixelArrayOffset + idxBuffer;
         return returnValue;

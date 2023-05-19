@@ -64,7 +64,7 @@ namespace PdfLibCore.UnitTests
             
             pdfDocument.PageRange.Should().NotBeNull();
             pdfDocument.PageRange.PrintRangeElement(0).Should().Be(0);
-            pdfDocument.PageRange.PrintPageRangeCount.Should().Be(1);
+            pdfDocument.PageRange.Count.Should().Be(1);
         }
         
         [Fact]

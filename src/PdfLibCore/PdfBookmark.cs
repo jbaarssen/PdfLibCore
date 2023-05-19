@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
+using CppSharp.Runtime;
 using PdfLibCore.Generated;
-using PdfLibCore.Helpers;
 using PdfLibCore.Types;
 
 namespace PdfLibCore;
 
 public sealed class PdfBookmark : NativeDocumentWrapper<FPDF_Bookmark>
 {
-    public string Title => Helper.GetString((ptr, len) => Pdfium.FPDFBookmark_GetTitle(Handle, ptr, len)) ?? string.Empty;
+    public string Title => MarshalUtil.GetString((ptr, len) => Pdfium.FPDFBookmark_GetTitle(Handle, ptr, len)) ?? string.Empty;
 
     public PdfDestination Destination => new(Document, Pdfium.FPDFBookmark_GetDest(Document.Handle, Handle), null);
 

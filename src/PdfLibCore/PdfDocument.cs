@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using CppSharp.Runtime;
 using PdfLibCore.Enums;
 using PdfLibCore.Generated;
-using PdfLibCore.Helpers;
 using PdfLibCore.Types;
 
 // ReSharper disable UnusedMember.Global
@@ -157,7 +157,7 @@ public class PdfDocument : NativeWrapper<FPDF_Document>
         PdfBookmark.Create(this, Pdfium.FPDFBookmark_Find(Handle, title));
 
     public string? GetMetaText(MetadataTags tag) =>
-        Helper.GetString((ptr, len) => Pdfium.FPDF_GetMetaText(Handle, tag.ToString(), ptr, len));
+        MarshalUtil.GetString((ptr, len) => Pdfium.FPDF_GetMetaText(Handle, tag.ToString(), ptr, len));
 
     public void CopyViewerPreferencesFrom(PdfDocument srcDoc) =>
         Pdfium.FPDF_CopyViewerPreferences(Handle, srcDoc.Handle);

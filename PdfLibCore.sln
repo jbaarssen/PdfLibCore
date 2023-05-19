@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfLibCore", "src\PdfLibCore\PdfLibCore.csproj", "{30AE626B-48CC-42F7-8FBA-C4BCC379581F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp", "src\ExampleApp\ExampleApp.csproj", "{09AC490D-E1EB-442D-B48C-42DBE6EB6948}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApp", "src\Examples\ExampleApp\ExampleApp.csproj", "{09AC490D-E1EB-442D-B48C-42DBE6EB6948}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfLibCore.ImageSharp", "src\PdfLibCore.ImageSharp\PdfLibCore.ImageSharp.csproj", "{5E0525AA-DF07-4F5A-8A80-2C54E922047D}"
 EndProject
@@ -27,6 +27,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfLibCore.Generated", "src\PdfLibCore.Generated\PdfLibCore.Generated.csproj", "{DE38AD9E-0335-4920-B756-0B8D8B847C39}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfLibCore.CppSharp", "src\PdfLibCore.CppSharp\PdfLibCore.CppSharp.csproj", "{50DC24B1-1387-47E8-BF27-260CF8C21F0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{B795117D-3B0F-436E-ADD7-77BE9D13C4BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,5 +75,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AFCCC5F8-6BB1-466E-A69F-2EE2ADC59CFC} = {820F5B9F-0B28-41E1-8D72-243F000A2C1C}
+		{09AC490D-E1EB-442D-B48C-42DBE6EB6948} = {B795117D-3B0F-436E-ADD7-77BE9D13C4BB}
 	EndGlobalSection
 EndGlobal

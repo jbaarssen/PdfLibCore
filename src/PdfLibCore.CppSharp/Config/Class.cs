@@ -5,9 +5,7 @@
 
 namespace PdfLibCore.CppSharp.Config;
 
-public class Configuration
+public class Class
 {
-    public Dictionary<string, Class> Classes { get; }
-
-    public Dictionary<string, Method> Methods { get; }
+    public Dictionary<string, Property> Properties { get; }
 }

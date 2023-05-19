@@ -83,27 +83,23 @@ public sealed class PdfPageCollection : List<PdfPage?>, IDisposable
     /// <seealso cref="Generated.Pdfium.FPDF_ImportPages(FPDF_Document, FPDF_Document, string, int)"/>
     public bool Insert(int index, PdfDocument sourceDocument, params int[] srcPageIndices)
     {
-        if (index <= Count)
-        {
-            var result = Pdfium.FPDF_ImportPages(_doc.Handle, sourceDocument.Handle, string.Join(",", srcPageIndices), index);
-            if (result!= FPDF_BOOL.True)
-            {
-                return false;
-            }
-            InsertRange(index, Enumerable.Repeat<PdfPage?>(null, srcPageIndices.Length));
-            for (var i = index; i < Count; i++)
-            {
-                if (this[i] != null)
-                {
-                    this[i]!.Index = i;
-                }
-            }
-        }
-        else
+        if (index > Count)
         {
             throw new ArgumentOutOfRangeException(nameof(index));
         }
 
+        if (Pdfium.FPDF_ImportPages(_doc.Handle, sourceDocument.Handle, string.Join(",", srcPageIndices), index) != FPDF_BOOL.True)
+        {
+            return false;
+        }
+        InsertRange(index, Enumerable.Repeat<PdfPage?>(null, srcPageIndices.Length));
+        for (var i = index; i < Count; i++)
+        {
+            if (this[i] != null)
+            {
+                this[i]!.Index = i;
+            }
+        }
         return true;
     }
 
@@ -112,24 +108,20 @@ public sealed class PdfPageCollection : List<PdfPage?>, IDisposable
     /// </summary>
     public PdfPage Insert(int index, double width, double height)
     {
-        PdfPage page;
-        if (index <= Count)
-        {
-            page = PdfPage.New(_doc, index, width, height);
-            Insert(index, page);
-            for (var i = index; i < Count; i++)
-            {
-                if (this[i] != null)
-                {
-                    this[i]!.Index = i;
-                }
-            }
-        }
-        else
+        if (index > Count)
         {
             throw new ArgumentOutOfRangeException(nameof(index));
         }
 
+        var page = PdfPage.New(_doc, index, width, height);
+        Insert(index, page);
+        for (var i = index; i < Count; i++)
+        {
+            if (this[i] != null)
+            {
+                this[i]!.Index = i;
+            }
+        }
         return page;
     }
 

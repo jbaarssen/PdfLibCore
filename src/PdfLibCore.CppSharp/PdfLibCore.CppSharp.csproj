@@ -3,8 +3,29 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>disable</ImplicitUsings>
         <LangVersion>latest</LangVersion>
+        <PlatformTarget>AnyCpu</PlatformTarget>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Authors>Jan Baarssen, Jan Kokenberg</Authors>
+        <Product>PdfLib.Core</Product>
+        <Description>PdfLib CORE is a fast library for reading PDF documents for modern .NET core applications.</Description>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>1701;1702;1591;0649</NoWarn>
+        <Copyright>MIT</Copyright>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+        <PackageProjectUrl>https://github.com/jbaarssen/PdfLibCore</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/jbaarssen/PdfLibCore</RepositoryUrl>
+        <PackageTags>PDF; Reader; netstandard; PDFium; JPEG; JPG</PackageTags>
+        <PackageIcon>icon.png</PackageIcon>
+        <ClientVersion Condition=" '$(IsPreview)' != 'true' ">$(ClientOfficialVersion)</ClientVersion>
+        <ClientVersion Condition=" '$(IsPreview)' == 'true' ">$(ClientPreviewVersion)</ClientVersion>
+        <VersionSuffix Condition=" '$(IsNightly)' == 'true' ">nightly-$(CurrentDate)</VersionSuffix>
+        <VersionSuffix Condition=" '$(IsPreview)' == 'true' ">preview</VersionSuffix>
+        <Version Condition=" '$(VersionSuffix)' == '' ">$(ClientVersion)</Version>
+        <Version Condition=" '$(VersionSuffix)' != '' ">$(ClientVersion)-$(VersionSuffix)</Version>
+        <FileVersion>$(ClientVersion)</FileVersion>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,8 +39,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Resources\Marshalers\MarshalUtil.cs" />
-        <Compile Remove="Resources\Marshalers\UTF8Marshaler.cs" />
         <Compile Remove="Resources\Pdfium.cs" />
         
         <EmbeddedResource Include="config.yml" />

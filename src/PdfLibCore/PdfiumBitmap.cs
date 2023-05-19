@@ -65,12 +65,8 @@ public sealed class PdfiumBitmap : NativeWrapper<FPDF_Bitmap>
 	/// Exposes the underlying image data directly as read-only stream in the
 	/// <see href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</see> file format.
 	/// </summary>
-	public Stream AsBmpStream(double dpiX = 72, double dpiY = 72)
-	{
-		var stream = new BmpStream(this, dpiX, dpiY);
-		stream.Position = 0;
-		return stream;
-	}
+	public Stream AsBmpStream(double dpiX = 72, double dpiY = 72) =>
+		new BmpStream(this, dpiX, dpiY);
 
 	/// <summary>
 	/// Fills the whole <see cref="PdfiumBitmap"/> with <paramref name="color"/>.
