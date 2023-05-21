@@ -3,5 +3,5 @@ namespace PdfLibCore.CppSharp.Config;
 
 public class Property
 {
-    public bool Ignore { get; set; }
+    public bool Ignore { get; private set; }
 }

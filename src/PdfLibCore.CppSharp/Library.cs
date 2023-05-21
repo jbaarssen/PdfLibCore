@@ -25,9 +25,10 @@ internal class Library : ILibrary
 
         var configStream = GetType().Assembly.GetManifestResourceStream($"{typeof(Runner).Namespace}.config.yml")!;
         using var sr = new StreamReader(configStream);
+        var x = sr.ReadToEnd();
         var deserializer = new DeserializerBuilder().Build();
-        _configuration = deserializer.Deserialize<Configuration>(sr);
-    }
+        _configuration = deserializer.Deserialize<Configuration>(x);
+        }
 
     public void Preprocess(Driver driver, ASTContext ctx)
     {

@@ -13,13 +13,11 @@ public class RunnerOptions
     public string PdfiumReleaseGithubUrl { get; set; } = "https://api.github.com/repos/bblanchon/pdfium-binaries/releases/";
     public string GitHubReleaseId { get; set; } = "latest";
     public Uri GithubDownloadUrl => new(new Uri(PdfiumReleaseGithubUrl), GitHubReleaseId);
-    public bool BuildBindings { get; set; } = true;
     public int BuildRevision { get; set; } = 0;
     public string SolutionDir { get; set; }
     public string PdfiumGeneratedProjectDir { get; set; }
     public string DestinationLibraryPath { get; set; }
     public string RootDir { get; }
-
     public string GeneratedProjectName { get; set; } = "PdfLibCore.Generated";
     public string SharedLibraryName { get; set; } = "Pdfium";
 

@@ -7,6 +7,6 @@ namespace PdfLibCore.CppSharp.Config;
 
 public class Method
 {
-    public string ReturnType { get; set; }
-    public Dictionary<string, Parameter> Parameters { get; set; }
+    public string ReturnType { get; private set; }
+    public Dictionary<string, Parameter> Parameters { get; private set; }
 }

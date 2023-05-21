@@ -138,12 +138,12 @@ namespace ExampleApp
 
                 yield return (page.Index, null);
 
-                //using var bitmap = new PdfiumBitmap(
-                //    (int) (page.Size.Width / 72 * 144D),
-                //    (int) (page.Size.Height / 72 * 144D),
-                //    true);
-                //page.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
-                //yield return (page.Index, bitmap.AsBmpStream());
+                using var bitmap = new PdfiumBitmap(
+                    (int) (page.Size.Width / 72 * 144D),
+                    (int) (page.Size.Height / 72 * 144D),
+                    true);
+                page.Render(bitmap, PageOrientations.Normal, RenderingFlags.LcdText);
+                yield return (page.Index, bitmap.AsBmpStream());
             }
 
             Console.WriteLine($"Done getting images for {name}");
