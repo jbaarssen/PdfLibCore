@@ -158,8 +158,17 @@ namespace PdfLibCore
         
         private static byte[] GetBytes(Stream stream)
         {
-            stream.Seek(0, SeekOrigin.Begin);
-            var ms = new MemoryStream();
+            if (stream.CanSeek)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+            }
+
+            if (stream is MemoryStream memoryStream)
+            {
+                return memoryStream.ToArray();
+            }
+
+            using var ms = new MemoryStream();
             stream.CopyTo(ms);
             return ms.ToArray();
         }
