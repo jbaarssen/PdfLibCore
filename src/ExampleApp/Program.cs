@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using PdfLibCore;
 using PdfLibCore.Enums;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Bmp;
 using SixLabors.ImageSharp.Processing;
 
 // ReSharper disable UnusedMember.Local
@@ -50,9 +49,9 @@ namespace ExampleApp
             Directory.CreateDirectory(destination!);
 
             Console.WriteLine($"Starting with {name}");
-            await foreach (var page in GetImagesFromPdf(name))
+            foreach (var page in GetImagesFromPdf(name))
             {
-                using var image = await Image.LoadAsync(page.Item2, new BmpDecoder());
+                using var image = await Image.LoadAsync(page.Item2);
                 var data = await ResizeAndSaveToJpeg(image);
                 await File.WriteAllBytesAsync(Path.Combine(destination, $"{page.i}.jpeg"), data);
             }
@@ -60,7 +59,7 @@ namespace ExampleApp
             Console.WriteLine($"Done with {name}");
         }
 
-        private static async IAsyncEnumerable<(int i, Stream)> GetImagesFromPdf(string name)
+        private static IEnumerable<(int i, Stream)> GetImagesFromPdf(string name)
         {
             var input = DataProvider.GetEmbeddedResource(name);
             using var pdfDocument = new PdfDocument(input);
