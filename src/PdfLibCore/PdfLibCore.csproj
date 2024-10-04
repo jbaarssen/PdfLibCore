@@ -74,10 +74,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="bblanchon.PDFium.Linux" Version="114.*" />
-      <PackageReference Include="bblanchon.PDFium.macOS" Version="114.*" />
-      <PackageReference Include="bblanchon.PDFium.Win32" Version="114.*" />
-      <PackageReference Include="MinVer" Version="4.3.0">
+      <PackageReference Include="bblanchon.PDFium.Linux" Version="130.0.6721" />
+      <PackageReference Include="bblanchon.PDFium.macOS" Version="130.0.6721" />
+      <PackageReference Include="bblanchon.PDFium.Win32" Version="130.0.6721" />
+      <PackageReference Include="MinVer" Version="6.0.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>

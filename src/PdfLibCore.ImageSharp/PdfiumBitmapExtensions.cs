@@ -7,6 +7,6 @@ namespace PdfLibCore.ImageSharp
     public static class PdfiumBitmapExtensions
     {
         public static Image AsImage(this PdfiumBitmap bitmap, double dpiX = 72, double dpiY = 72) => 
-            new BmpDecoder().Decode(Configuration.Default, bitmap.AsBmpStream(dpiX, dpiY), default);
+            BmpDecoder.Instance.Decode(new BmpDecoderOptions(), bitmap.AsBmpStream(dpiX, dpiY));
     }
 }
